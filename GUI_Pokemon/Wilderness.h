@@ -18,6 +18,9 @@ private:
 	sf::Sprite sprite_;
 
 	float W, H;
+
+	// seed random generator
+	std::mt19937 rng;
 public:
 	Wilderness(float w, float h);
 	~Wilderness();
