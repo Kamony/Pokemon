@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Pokemon_backEnd">
+      <UniqueIdentifier>{49291d5b-2b65-4de7-9ba8-18095ba32bb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pokemon_backEnd">
+      <UniqueIdentifier>{2d9cbd3b-d1d2-46e7-a499-70a0005ffb32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Divocina.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Stadion.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Trener.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Batoh.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Arena.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Obchod.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\stdafx.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Hra.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Pokemon\Pokemon\Pokemon.cpp">
+      <Filter>Source Files\Pokemon_backEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="BackPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListOfPokemon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wilderness.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuGeneric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicPokemon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Prostredi.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Stadion.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\stdafx.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\targetver.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Trener.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Arena.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Batoh.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Divocina.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Hra.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Obchod.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Pokemon\Pokemon\Pokemon.h">
+      <Filter>Header Files\Pokemon_backEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="BackPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListOfPokemon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wilderness.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuGeneric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicPokemon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
