@@ -13,14 +13,16 @@ private:
 	Pokemon *pokemon_;
 	// position coordinates
 	float x, y;
-	// seed random generator
-	std::mt19937 rng;
+	int lastDirection;
 	
 public:
-	GraphicPokemon(Pokemon* pokemon, std::mt19937 rng);
+	GraphicPokemon(Pokemon* pokemon, std::mt19937 rng, float x, float y);
 	~GraphicPokemon();
+	void refactorCoordinates();
 
-	int randomWalk(int& mRight, int mx, int my);
+	int randomWalk(int& mRight, int mx, int my, int rand);
+
+	void walk(int mRight, int mx, int my);
 
 	void setX(float x){	this->x = x; }
 
