@@ -84,7 +84,7 @@ sf::Keyboard::Key Game::movePlayer(sf::Sprite& sPlayer, float& x, float& y, int&
 bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 {
 	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
-	//return s1.getGlobalBounds().contains(s2.getOrigin());
+	//s1.getGlobalBounds().contains(s2.getOrigin());
 }
 
 void Game::Play(sf::RenderWindow& app)

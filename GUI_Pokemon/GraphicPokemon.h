@@ -3,6 +3,9 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include "../../Pokemon/Pokemon/Pokemon.h"
 #include <random>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 class GraphicPokemon : public sf::Sprite
 {
@@ -14,19 +17,26 @@ private:
 	// position coordinates
 	float x, y;
 	int lastDirection;
+	// area for colision avoidance
+	sf::CircleShape surroundings;
 	
 public:
-	GraphicPokemon(Pokemon* pokemon, std::mt19937 rng, float x, float y);
+	GraphicPokemon(Pokemon* pokemon, float x, float y);
 	~GraphicPokemon();
+	
 	void refactorCoordinates();
 
 	int randomWalk(int& mRight, int mx, int my, int rand);
 
 	void walk(int mRight, int mx, int my);
 
+	bool checkForNeighbours(int mRight, int mx, int my);
+
 	void setX(float x){	this->x = x; }
 
 	void setY(float y){	this->y = y; }
+
+	sf::String getID();
 
 	float getX()
 	{
@@ -37,5 +47,7 @@ public:
 	{
 		return y;
 	}
+
+	sf::FloatRect getSurroundings();
 };
 

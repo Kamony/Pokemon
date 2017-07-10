@@ -17,7 +17,7 @@ Wilderness::Wilderness(float w, float h) :Game(), W(w), H(h)
 	this->divocina = new Divocina();
 	for (Pokemon& pokemon : divocina->getVectorOfPokemon())
 	{
-		GraphicPokemon* item = new GraphicPokemon(&pokemon,rng, randomXcoordinate(rng), randomYcoordinate(rng));
+		GraphicPokemon* item = new GraphicPokemon(&pokemon, randomXcoordinate(rng), randomYcoordinate(rng));
 		listOfGraphicsPokemon.push_back(*item);
 		
 	}
@@ -64,12 +64,12 @@ void Wilderness::draw(sf::RenderWindow& app)
 		if (counter % 20 == 0)
 		{
 			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
-				pokemon.randomWalk(mRight, 3, 3, five(rng));
+				pokemon.randomWalk(mRight, 1, 1, five(rng));
 				
 			}
 		} else
 			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
-				pokemon.walk(mRight, 3, 3);
+				pokemon.walk(mRight, 1, 1);
 				
 			}
 		counter++;
@@ -82,9 +82,22 @@ void Wilderness::draw(sf::RenderWindow& app)
 		app.clear();
 		//app.draw(sprite_);
 		app.draw(sPlayer);
+
 		for (GraphicPokemon& pokemon : listOfGraphicsPokemon)
 		{
-			pokemon.setPosition(pokemon.getX(),pokemon.getY());
+			pokemon.setPosition(pokemon.getX(), pokemon.getY());						
+			for (GraphicPokemon& oPokemon : listOfGraphicsPokemon)
+			{
+				if (pokemon.getID() != oPokemon.getID())
+				{
+					sf::FloatRect pok1 = pokemon.getSurroundings();
+					sf::FloatRect pok2 = oPokemon.getSurroundings();
+					if (pok1.intersects(pok2))
+					{
+						oPokemon.checkForNeighbours(mRight,3,3);
+					}
+				}
+			}
 			app.draw(pokemon);
 		}
 		app.display();

@@ -1,10 +1,11 @@
 #include "GraphicPokemon.h"
 #include <ctime>
 #include <random>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 
-
-GraphicPokemon::GraphicPokemon(Pokemon* pokemon, std::mt19937 rng, float x, float y)
+GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 {
 	
 	//default position
@@ -21,8 +22,12 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, std::mt19937 rng, float x, floa
 	// sprite
 	setTexture(texture_);
 	setTextureRect(sf::IntRect(0, 0, 32, 32));
-
+	// direction of last move
 	lastDirection = 0;
+	// initialize ciscle shaped surrounding area
+	surroundings.setRadius(35);
+	surroundings.setFillColor(sf::Color::Green);
+
 }
 
 GraphicPokemon::~GraphicPokemon()
@@ -107,4 +112,48 @@ void GraphicPokemon::walk(int mRight, int mx, int my)
 		break;
 	}
 	
+	refactorCoordinates();
+}
+
+bool GraphicPokemon::checkForNeighbours(int mRight, int mx, int my)
+{
+	switch (lastDirection)
+		{
+			//up -> down
+		case 2:
+			setTextureRect(sf::IntRect(mRight, 0, 32, 32));
+			y += my;
+			break;
+			//right
+		case 3:
+			setTextureRect(sf::IntRect(mRight, 32, 32, 32));
+			x -= mx;
+			break;
+			//down
+		case 4:
+			setTextureRect(sf::IntRect(mRight, 96, 32, 32));
+			y -= my;
+			break;
+			//left
+		case 5:
+			setTextureRect(sf::IntRect(mRight, 64, 32, 32));
+			x += mx;
+			break;
+		default:
+			break;
+		}
+
+	return true;
+}
+
+sf::String GraphicPokemon::getID()
+{
+	return pokemon_->getJmeno();
+}
+
+sf::FloatRect GraphicPokemon::getSurroundings()
+{
+	// ReSharper disable once CppMsExtBindingRValueToLvalueReference
+	surroundings.setPosition(x - 24, y - 24);
+	return surroundings.getGlobalBounds();
 }
