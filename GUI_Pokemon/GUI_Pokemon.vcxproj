@@ -178,6 +178,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuGeneric.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Wilderness.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="ListOfPokemon.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuGeneric.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Wilderness.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

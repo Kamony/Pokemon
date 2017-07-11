@@ -56,22 +56,22 @@ int GraphicPokemon::randomWalk(int& mRight, int mx, int my, int randNum)
 		break;
 	//up
 	case 2:
-		setTextureRect(sf::IntRect(mRight, 96, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 96, 30, 30));
 		y += my;
 		break;
 	//right
 	case 3:
-		setTextureRect(sf::IntRect(mRight, 64, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 64, 30, 30));
 		x += mx;
 		break;
 	//down
 	case 4:
-		setTextureRect(sf::IntRect(mRight, 0, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 0, 30, 30));
 		y -= my;
 		break;
 	//left
 	case 5:
-		setTextureRect(sf::IntRect(mRight, 32, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 32, 30, 30));
 		x -= mx;
 		break;
 	default:
@@ -90,22 +90,22 @@ void GraphicPokemon::walk(int mRight, int mx, int my)
 	{
 		//up
 	case 2:
-		setTextureRect(sf::IntRect(mRight, 96, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 96, 30, 30));
 		y -= my;
 		break;
 		//right
 	case 3:
-		setTextureRect(sf::IntRect(mRight, 64, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 64, 30, 30));
 		x += mx;
 		break;
 		//down
 	case 4:
-		setTextureRect(sf::IntRect(mRight, 0, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 0, 30, 30));
 		y += my;
 		break;
 		//left
 	case 5:
-		setTextureRect(sf::IntRect(mRight, 32, 32, 32));
+		setTextureRect(sf::IntRect(mRight, 32, 30, 30));
 		x -= mx;
 		break;
 	default:
@@ -121,22 +121,22 @@ bool GraphicPokemon::checkForNeighbours(int mRight, int mx, int my)
 		{
 			//up -> down
 		case 2:
-			setTextureRect(sf::IntRect(mRight, 0, 32, 32));
+			setTextureRect(sf::IntRect(mRight, 0, 30, 30));
 			y += my;
 			break;
-			//right
+			//right -> left
 		case 3:
-			setTextureRect(sf::IntRect(mRight, 32, 32, 32));
-			x -= mx;
+			setTextureRect(sf::IntRect(mRight, 32, 30, 30));
+			x -= mx; 
 			break;
-			//down
+			//down -> up
 		case 4:
-			setTextureRect(sf::IntRect(mRight, 96, 32, 32));
+			setTextureRect(sf::IntRect(mRight, 96, 30, 30));
 			y -= my;
 			break;
-			//left
+			//left -> right
 		case 5:
-			setTextureRect(sf::IntRect(mRight, 64, 32, 32));
+			setTextureRect(sf::IntRect(mRight, 64, 30, 30));
 			x += mx;
 			break;
 		default:

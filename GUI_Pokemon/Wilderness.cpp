@@ -34,9 +34,11 @@ void Wilderness::draw(sf::RenderWindow& app)
 	float animSpeed = 0.15;
 	int frameCount = 20;
 	int mRight = 0;
+	int mRightPlayer = 0;
+	float FramePlayer = 0;
 	int counter = 0;
 	
-
+	Player player;
 	// distribution that maps 1 - 5
 	std::uniform_int_distribution<> five(1, 5);
 
@@ -53,7 +55,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}		
 		}
 
-		//sprite animation
+		//sprite animation of pokemon
 		Frame += animSpeed;
 		if (Frame>frameCount) Frame -= frameCount;
 		mRight = int(Frame) * 32;
@@ -61,6 +63,16 @@ void Wilderness::draw(sf::RenderWindow& app)
 			mRight = 0;
 			Frame = 0.3;
 		}
+
+		//sprite animation of player
+		FramePlayer += animSpeed;
+		if (FramePlayer>frameCount) FramePlayer -= frameCount;
+		mRightPlayer = int(FramePlayer) * 95;
+		if (mRightPlayer > 950) {
+			mRightPlayer = 0;
+			FramePlayer = 0.3;
+		}
+
 		if (counter % 20 == 0)
 		{
 			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
@@ -73,15 +85,16 @@ void Wilderness::draw(sf::RenderWindow& app)
 				
 			}
 		counter++;
-		movePlayer(sPlayer, x, y, mRight, 3, 3);
-			
+		
+		Game::movePlayer(player, mRightPlayer, 2, 2);
+
 		// set coordinates of sprites in main
-		sPlayer.setPosition(50, 50);
+		
 		sprite_.setPosition(0, 0);
 		//draw
 		app.clear();
 		//app.draw(sprite_);
-		app.draw(sPlayer);
+		
 
 		for (GraphicPokemon& pokemon : listOfGraphicsPokemon)
 		{
@@ -94,12 +107,15 @@ void Wilderness::draw(sf::RenderWindow& app)
 					sf::FloatRect pok2 = oPokemon.getSurroundings();
 					if (pok1.intersects(pok2))
 					{
-						oPokemon.checkForNeighbours(mRight,3,3);
+						oPokemon.checkForNeighbours(mRight, 2,2);
+						pokemon.checkForNeighbours(mRight, 2, 2);
 					}
 				}
 			}
 			app.draw(pokemon);
 		}
+		app.draw(player.getCollideArea());
+		app.draw(player);
 		app.display();
 	}
 
