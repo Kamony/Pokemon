@@ -24,13 +24,37 @@ public:
 	GraphicPokemon(Pokemon* pokemon, float x, float y);
 	~GraphicPokemon();
 	
+	/**
+	 * \brief sets coordinates not to overlap actual size of window 
+	 */
 	void refactorCoordinates();
 
+	/**
+	 * \brief walk in random direction
+	 * \param mRight 
+	 * \param mx 
+	 * \param my 
+	 * \param rand 
+	 * \return 
+	 */
 	int randomWalk(int& mRight, int mx, int my, int rand);
 
+	/**
+	 * \brief walk in direction saved in object param. lastDirection
+	 * \param mRight 
+	 * \param mx 
+	 * \param my 
+	 */
 	void walk(int mRight, int mx, int my);
 
-	bool checkForNeighbours(int mRight, int mx, int my);
+	/**
+	 * \brief revert from neighbour
+	 * \param mRight 
+	 * \param mx 
+	 * \param my 
+	 * \return 
+	 */
+	void avoidNeighbours(int mRight, int mx, int my);
 
 	void setX(float x){	this->x = x; }
 
@@ -48,6 +72,16 @@ public:
 		return y;
 	}
 
+	Pokemon getPokemon()
+	{
+		return *pokemon_;
+	}
+
+
+	/**
+	 * \brief get collision bounds
+	 * \return surrounding area's bounds
+	 */
 	sf::FloatRect getSurroundings();
 };
 

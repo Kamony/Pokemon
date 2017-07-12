@@ -9,8 +9,6 @@ private:
 	float W, H;
 public:
 
-	sf::Keyboard::Key key;
-	sf::Keyboard::Key previousKey;
 	// Textures
 	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack;
 	// Sprites

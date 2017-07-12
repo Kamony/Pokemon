@@ -95,7 +95,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 		app.clear();
 		//app.draw(sprite_);
 		
-
+		// handle collisions
 		for (GraphicPokemon& pokemon : listOfGraphicsPokemon)
 		{
 			pokemon.setPosition(pokemon.getX(), pokemon.getY());						
@@ -107,9 +107,18 @@ void Wilderness::draw(sf::RenderWindow& app)
 					sf::FloatRect pok2 = oPokemon.getSurroundings();
 					if (pok1.intersects(pok2))
 					{
-						oPokemon.checkForNeighbours(mRight, 2,2);
-						pokemon.checkForNeighbours(mRight, 2, 2);
+						oPokemon.avoidNeighbours(mRight, 2,2);
+						pokemon.avoidNeighbours(mRight, 2, 2);
 					}
+				}
+			}
+
+			if (player.getSurroundings().intersects(pokemon.getSurroundings()))
+			{
+				std::cout << "KOLIZE S " << pokemon.getPokemon().getJmeno();
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				{
+					std::cout << "Souboj!";
 				}
 			}
 			app.draw(pokemon);

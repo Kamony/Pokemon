@@ -115,7 +115,7 @@ void GraphicPokemon::walk(int mRight, int mx, int my)
 	refactorCoordinates();
 }
 
-bool GraphicPokemon::checkForNeighbours(int mRight, int mx, int my)
+void GraphicPokemon::avoidNeighbours(int mRight, int mx, int my)
 {
 	switch (lastDirection)
 		{
@@ -142,8 +142,6 @@ bool GraphicPokemon::checkForNeighbours(int mRight, int mx, int my)
 		default:
 			break;
 		}
-
-	return true;
 }
 
 sf::String GraphicPokemon::getID()
