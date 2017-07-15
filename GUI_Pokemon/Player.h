@@ -2,15 +2,21 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class Player: public sf::Sprite
 {
 private:
-	//texture
-	sf::Texture texture_;
-	// position coordinates
+	// textures
+	sf::Texture texture_, battleTexture;
+	// sprite
+	Sprite battle;
+	/// position coordinates
 	float x, y;
+	/// collision area;
 	sf::RectangleShape surroundings;
+	/// direction of player is moving
+	int direction;
 public:
 	Player();
 	~Player();
@@ -43,5 +49,6 @@ public:
 	{
 		return surroundings;
 	}
+	void catchPok(sf::RenderWindow& app, sf::Vector2f position);
 };
 

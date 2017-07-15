@@ -9,6 +9,8 @@ namespace sf {
 	class RenderWindow;
 }
 
+
+
 class Wilderness: public Game
 {
 private:
@@ -21,6 +23,7 @@ private:
 
 	// seed random generator
 	std::mt19937 rng;
+
 public:
 	Wilderness(float w, float h);
 	~Wilderness();

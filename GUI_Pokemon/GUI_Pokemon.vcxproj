@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\Pokemon\Pokemon\stdafx.cpp" />
     <ClCompile Include="..\..\Pokemon\Pokemon\Trener.cpp" />
     <ClCompile Include="BackPack.cpp" />
+    <ClCompile Include="FightAnime.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GraphicPokemon.cpp" />
     <ClCompile Include="ListOfPokemon.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuGeneric.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="pokeballG.cpp" />
     <ClCompile Include="Wilderness.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,12 +196,14 @@
     <ClInclude Include="..\..\Pokemon\Pokemon\targetver.h" />
     <ClInclude Include="..\..\Pokemon\Pokemon\Trener.h" />
     <ClInclude Include="BackPack.h" />
+    <ClInclude Include="FightAnime.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GraphicPokemon.h" />
     <ClInclude Include="ListOfPokemon.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuGeneric.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="pokeballG.h" />
     <ClInclude Include="Wilderness.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

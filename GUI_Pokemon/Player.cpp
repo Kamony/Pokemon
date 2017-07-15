@@ -17,12 +17,21 @@ Player::Player()
 	setTextureRect(sf::IntRect(0, 0, 95, 158.75));
 	scale(0.5, 0.5);
 	
-
+	
 	surroundings.setSize(sf::Vector2f(101, 42));
 	surroundings.scale(0.5, 0.5);
 	surroundings.setFillColor(sf::Color::Green);
 
 	setPosition(x, y);
+
+	// texture battle
+	if (!battleTexture.loadFromFile("../Images/playerTools/pokemonCatch.png"))
+	{
+		std::cerr << "texture not loaded";
+	}
+	battle.setTexture(battleTexture);
+	battle.setTextureRect(sf::IntRect(0, 0, 98, 125));
+
 }
 
 
@@ -68,3 +77,12 @@ sf::FloatRect Player::getSurroundings()
 {
 	return surroundings.getGlobalBounds();
 }
+
+void Player::catchPok(sf::RenderWindow& app, sf::Vector2f position)
+{
+	battle.setPosition(position);
+	battle.move(sf::Vector2f(-35, -55));
+	app.draw(battle);
+}
+
+

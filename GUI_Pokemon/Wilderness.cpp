@@ -1,5 +1,7 @@
 #include "Wilderness.h"
 #include <iostream>
+#include "pokeballG.h"
+#include "FightAnime.h"
 
 Wilderness::Wilderness(float w, float h) :Game(), W(w), H(h)
 {
@@ -37,10 +39,15 @@ void Wilderness::draw(sf::RenderWindow& app)
 	int mRightPlayer = 0;
 	float FramePlayer = 0;
 	int counter = 0;
-	
+	int pokCounter = 0;
+
 	Player player;
+	
 	// distribution that maps 1 - 5
 	std::uniform_int_distribution<> five(1, 5);
+
+	pokeballG pokeball;
+
 
 	// game loop
 	while (app.isOpen())
@@ -52,12 +59,22 @@ void Wilderness::draw(sf::RenderWindow& app)
 			if (event.type == sf::Event::Closed)
 			{
 				app.close();
-			}		
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					std::cout << "Hod";
+					pokeball.isTrown();
+					pokeball.setInitPosition(player.getPosition());
+				}
+			}
 		}
+
 
 		//sprite animation of pokemon
 		Frame += animSpeed;
-		if (Frame>frameCount) Frame -= frameCount;
+		if (Frame > frameCount) Frame -= frameCount;
 		mRight = int(Frame) * 32;
 		if (mRight > 70) {
 			mRight = 0;
@@ -66,7 +83,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 
 		//sprite animation of player
 		FramePlayer += animSpeed;
-		if (FramePlayer>frameCount) FramePlayer -= frameCount;
+		if (FramePlayer > frameCount) FramePlayer -= frameCount;
 		mRightPlayer = int(FramePlayer) * 95;
 		if (mRightPlayer > 950) {
 			mRightPlayer = 0;
@@ -77,28 +94,44 @@ void Wilderness::draw(sf::RenderWindow& app)
 		{
 			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
 				pokemon.randomWalk(mRight, 1, 1, five(rng));
-				
+
 			}
-		} else
+		}
+		else
 			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
 				pokemon.walk(mRight, 1, 1);
-				
+
 			}
 		counter++;
-		
+
 		Game::movePlayer(player, mRightPlayer, 2, 2);
 
-		// set coordinates of sprites in main
-		
 		sprite_.setPosition(0, 0);
-		//draw
+		
 		app.clear();
 		//app.draw(sprite_);
-		
+
+
+		// handle pokeball
+		if (pokeball.getState())
+		{
+			pokCounter++;
+			int xc = pokeball.getX();
+			int yc = pokeball.getYThrowCoordinate();
+			pokeball.setPosition(xc, yc);
+			app.draw(pokeball);
+
+			if (pokCounter > 100)
+			{
+				pokeball.reset();
+			}
+		}
+
+
 		// handle collisions
 		for (GraphicPokemon& pokemon : listOfGraphicsPokemon)
 		{
-			pokemon.setPosition(pokemon.getX(), pokemon.getY());						
+			pokemon.setPosition(pokemon.getX(), pokemon.getY());
 			for (GraphicPokemon& oPokemon : listOfGraphicsPokemon)
 			{
 				if (pokemon.getID() != oPokemon.getID())
@@ -107,7 +140,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 					sf::FloatRect pok2 = oPokemon.getSurroundings();
 					if (pok1.intersects(pok2))
 					{
-						oPokemon.avoidNeighbours(mRight, 2,2);
+						oPokemon.avoidNeighbours(mRight, 2, 2);
 						pokemon.avoidNeighbours(mRight, 2, 2);
 					}
 				}
@@ -119,14 +152,21 @@ void Wilderness::draw(sf::RenderWindow& app)
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					std::cout << "Souboj!";
+					player.catchPok(app, pokemon.getPosition());
+					FightAnime fight(pokemon, listOfGraphicsPokemon[0]);
+					fight.draw(app);
 				}
 			}
 			app.draw(pokemon);
 		}
 		app.draw(player.getCollideArea());
 		app.draw(player);
+
+		
+
 		app.display();
 	}
-
 }
+
+
 

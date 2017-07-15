@@ -3,6 +3,7 @@
 #include <random>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <iostream>
 
 
 GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
@@ -17,7 +18,11 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 	std::string name = pokemon_->getJmeno();
 	
 	// texture
-	texture_.loadFromFile("../Images/pokemons/" + name + ".png");
+	if (!texture_.loadFromFile("../Images/pokemons/" + name + ".png"))
+	{
+		std::cerr << "texture not loaded";
+	}
+	
 	texture_.setSmooth(true);
 	// sprite
 	setTexture(texture_);
@@ -27,6 +32,8 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 	// initialize ciscle shaped surrounding area
 	surroundings.setRadius(35);
 	surroundings.setFillColor(sf::Color::Green);
+
+	utok = 0;
 
 }
 
@@ -154,4 +161,9 @@ sf::FloatRect GraphicPokemon::getSurroundings()
 	// ReSharper disable once CppMsExtBindingRValueToLvalueReference
 	surroundings.setPosition(x - 24, y - 24);
 	return surroundings.getGlobalBounds();
+}
+
+void GraphicPokemon::setForBattle(float utok)
+{
+	this->utok = utok;
 }
