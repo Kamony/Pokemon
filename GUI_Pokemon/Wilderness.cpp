@@ -153,8 +153,8 @@ void Wilderness::draw(sf::RenderWindow& app)
 				{
 					std::cout << "Souboj!";
 					player.catchPok(app, pokemon.getPosition());
-					FightAnime fight(pokemon, listOfGraphicsPokemon[0]);
-					fight.draw(app);
+					FightAnime fight(pokemon, listOfGraphicsPokemon[0], app);
+					
 				}
 			}
 			app.draw(pokemon);

@@ -2,12 +2,15 @@
 #include <iostream>
 #include <SFML/Window/Event.hpp>
 #include <iomanip>
+#include "ResultAnime.h"
 
-FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
+
+FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon())
 {
-	// backend atributes
-	pokemon1 = pok1.getPokemon();
-	pokemon2 = pok2.getPokemon();
+	//hracuv pok
+	gPok1 = &pok1;
+	//nepritel
+	gPok2 = &pok2;
 
 	// textures
 	if (!this->pokHealthBar.loadFromFile("../Images/playerTools/healthBar.png"))
@@ -15,6 +18,10 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
 		std::cerr << "texture not loaded";
 	}
 	if (!this->hitTexture.loadFromFile("../Images/playerTools/punchs_01.png"))
+	{
+		std::cerr << "texture not loaded";
+	}
+	if (!this->battle_t.loadFromFile("../Images/playerTools/battle_01.png"))
 	{
 		std::cerr << "texture not loaded";
 	}
@@ -31,7 +38,7 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
 	healthBot.setTextureRect(sf::IntRect(13, 36, 175, 53));
 	healthBot.setScale(1, 0.35);
 
-	upperPok.setPosition(30, 50);
+	upperPok.setPosition(50, 80);
 	bottomPok.setPosition(900, 600);
 	healthUp.setPosition(upperPok.getPosition()+ sf::Vector2f(12, 6));
 	
@@ -40,6 +47,11 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
 	
 	hit.setTexture(hitTexture);
 	hit.setTextureRect(sf::IntRect(10, 17, 67, 69));
+
+	battle.setTexture(battle_t);
+	battle.setTextureRect(sf::IntRect(0, 0, 200, 150));
+	battle.setPosition(250, 150);
+	battle.setScale(3, 3);
 
 	//texts
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
@@ -51,13 +63,12 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
 	nameP1.setString(pokemon1.getJmeno());
 	nameP1.setFillColor(sf::Color::White);
 	nameP1.setPosition(upperPok.getPosition()+sf::Vector2f(0, -40));
-	//nameP1.move(sf::Vector2f(0, 15));
+	
 
 	nameP2.setFont(font);
 	nameP2.setString(pokemon2.getJmeno());
 	nameP2.setFillColor(sf::Color::White);
 	nameP2.setPosition(bottomPok.getPosition()+sf::Vector2f(0, -40));
-	//nameP2.move(sf::Vector2f(0, 15));
 
 	damage.setFont(font);
 	damage.setFillColor(sf::Color::White);
@@ -70,6 +81,8 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2)
 
 	// time init in ms
 	time = sf::milliseconds(10);
+
+	draw(app);
 	
 }
 
@@ -91,19 +104,37 @@ float FightAnime::pok2Attack()
 	return damage;
 }
 
+
+void FightAnime::animateBattle(float animSpeed, int frameCount, float& FrameB, int mRightB)
+{
+	FrameB += animSpeed;
+	if (FrameB > frameCount) FrameB -= frameCount;
+	mRightB = int(FrameB) * 200;
+
+	if (mRightB > 1800) {
+		mRightB = 0;
+		FrameB = 0.3;
+	}
+
+	battle.setTextureRect(sf::IntRect(mRightB, 0, 200, 150));
+}
+
 void FightAnime::draw(sf::RenderWindow& app)
 {
 	// start time measuring
 	sf::Clock clock;
 
 	float Frame = 0;
-	float animSpeed = 0.15;
+	float animSpeed = 0.2;
 	int frameCount = 20;
 	int mRight = 0;
 	bool animeActive = false;
 	float damageHolder = 0;
 	int counter = 0;
-
+	int mRightBatlle = 0;
+	float FrameB = 0;
+	int mRightB = 0;
+	
 	while (app.isOpen())
 	{
 		sf::Event event;
@@ -115,6 +146,13 @@ void FightAnime::draw(sf::RenderWindow& app)
 			}
 			
 		}
+
+	
+		animateBattle(animSpeed-0.05, frameCount, FrameB, mRightB);
+
+		
+
+
 		// every second do iteration
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
 		if( msec % 1000 <= 100 )
@@ -123,18 +161,20 @@ void FightAnime::draw(sf::RenderWindow& app)
 			{
 				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE";
+				ResultAnime result(pokemon1.getJmeno(), *gPok1, app);
 			}
 			else
 			{
 				counter++;
 				damageHolder = pok1Attack();
-				std::setprecision(3);
+	
 				damage.setString("-"+std::to_string(damageHolder));
 				animeActive = true;
 				while (animeActive)
 				{
 					//sprite animation of pokemon
 					Frame += animSpeed;
+					
 					if (Frame > frameCount) Frame -= frameCount;
 					mRight = int(Frame) * 83;
 					if (mRight > 300) {
@@ -143,13 +183,15 @@ void FightAnime::draw(sf::RenderWindow& app)
 						animeActive = false;
 					}
 					
+					animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
+					
 					hit.setTextureRect(sf::IntRect(mRight, 17, 67, 69));
 					hit.setPosition(bottomPok.getPosition());
 					damage.setPosition(hit.getPosition());
 					damage.move(sf::Vector2f(10, 10));
 					int newc = 175 - (counter*damageHolder*1.75);
 					healthBot.setTextureRect(sf::IntRect(13, 36, newc, 53));
-
+					//battle.setTextureRect(sf::IntRect(mRightBatlle, 0, 218, 141));
 					app.clear();
 
 					
@@ -161,6 +203,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					app.draw(bottomPok);
 					app.draw(hit);
 					app.draw(damage);
+					app.draw(battle);
 					app.display();
 					
 				}
@@ -171,13 +214,17 @@ void FightAnime::draw(sf::RenderWindow& app)
 				{
 					//sprite animation of pokemon
 					Frame += animSpeed;
+					
 					if (Frame > frameCount) Frame -= frameCount;
 					mRight = int(Frame) * 83;
+					
 					if (mRight > 300) {
 						mRight = 0;
 						Frame = 0.3;
 						animeActive = false;
 					}
+					
+					animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
 
 					hit.setTextureRect(sf::IntRect(mRight, 17, 67, 69));
 					hit.setPosition(upperPok.getPosition());
@@ -185,6 +232,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					damage.move(sf::Vector2f(10, 10));
 					int newc = 175 - (counter*damageHolder*1.75);
 					healthUp.setTextureRect(sf::IntRect(13, 36, newc, 53));
+					//battle.setTextureRect(sf::IntRect(mRightBatlle, 0, 218, 141));
 					app.clear();
 
 
@@ -196,11 +244,14 @@ void FightAnime::draw(sf::RenderWindow& app)
 					app.draw(bottomPok);
 					app.draw(hit);
 					app.draw(damage);
+					app.draw(battle);
 
 					app.display();
 				}
 			}
 		}
+
+
 
 		app.clear();
 
@@ -210,7 +261,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 		app.draw(healthBot);
 		app.draw(upperPok);
 		app.draw(bottomPok);
-		
+		app.draw(battle);
 
 		app.display();
 

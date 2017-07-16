@@ -30,7 +30,7 @@ Player::Player()
 		std::cerr << "texture not loaded";
 	}
 	battle.setTexture(battleTexture);
-	battle.setTextureRect(sf::IntRect(0, 0, 98, 125));
+	battle.setTextureRect(sf::IntRect(0, 0, 128, 124));
 
 }
 
@@ -80,9 +80,32 @@ sf::FloatRect Player::getSurroundings()
 
 void Player::catchPok(sf::RenderWindow& app, sf::Vector2f position)
 {
-	battle.setPosition(position);
-	battle.move(sf::Vector2f(-35, -55));
-	app.draw(battle);
+	sf::Clock clock;
+	float Frame = 0;
+	float animSpeed = 0.15;
+	int frameCount = 20;
+	int mRight = 0;
+
+	while (clock.getElapsedTime().asMilliseconds() < 2500)
+	{
+		//sprite animation of pokemon
+		Frame += animSpeed;
+		if (Frame > frameCount) Frame -= frameCount;
+		mRight = int(Frame) * 128;
+		if (mRight > 645) {
+			mRight = 0;
+			Frame = 0.3;
+		}
+
+		battle.setTextureRect(sf::IntRect(mRight, 0, 128, 124));
+
+		battle.setPosition(position);
+		battle.move(sf::Vector2f(-35, -55));
+		app.clear();
+		app.draw(battle);
+		app.display();
+	}
+	
 }
 
 
