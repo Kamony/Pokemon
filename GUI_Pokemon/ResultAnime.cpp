@@ -3,7 +3,7 @@
 #include "Player.h"
 
 
-ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app)
+ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app, int stav)
 {
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
 	{
@@ -14,7 +14,7 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 	winner.setFillColor(sf::Color::White);
 	winner.setCharacterSize(40);
 	winner.setString("WINNER IS");
-	winner.setPosition(550, 325);
+	winner.setPosition(400, 300);
 
 	name.setFont(font);
 	name.setFillColor(sf::Color::Green);
@@ -22,8 +22,30 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 	name.setString(nameOfWinner);
 	name.setPosition(winner.getPosition() + sf::Vector2f(10, 50));
 
+	backButton.setFont(font);
+	backButton.setFillColor(sf::Color::White);
+	backButton.setString("PRESS 'B' TO GO BACK");
+	backButton.setPosition(winner.getPosition() + sf::Vector2f(10, 50));
+
 	resultOfCatch.setFont(font);
 	
+	switch (stav)
+	{
+	case 1:
+		resultOfCatch.setFillColor(sf::Color::Green);
+		resultOfCatch.setString("YOU WON THE BATTLE!");
+		break;
+	case 2:
+		resultOfCatch.setFillColor(sf::Color::Green);
+		resultOfCatch.setString("YOU WON THE BATTLE, ALTHOUGH IT WAS a TIE.");
+		break;
+	case 3:
+		resultOfCatch.setFillColor(sf::Color::Red);
+		resultOfCatch.setString("YOU LOST!");
+		break;
+	}
+	resultOfCatch.setCharacterSize(80);
+	resultOfCatch.setPosition(winner.getPosition() + sf::Vector2f(0, -30));
 	//sprite and texture
 	if (!pokeball_t.loadFromFile("../Images/playerTools/pokeball.png"))
 	{
@@ -38,7 +60,7 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 	time = sf::milliseconds(10);
 	backNotPressed = true;
 
-	draw(app, loserPok);
+	draw(app, loserPok, stav);
 
 }
 
@@ -46,7 +68,7 @@ ResultAnime::~ResultAnime()
 {
 }
 
-void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser)
+void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 {
 	sf::Clock clock;
 	int counter = 0;
@@ -67,6 +89,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser)
 	{
 		app.clear();
 
+		app.draw(resultOfCatch);
 		app.draw(winner);
 
 		if (++counter % 30 == 0)
@@ -83,6 +106,11 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser)
 		
 	}
 
+	if (stav == 3)
+	{
+		backNotPressed = false;
+	}
+
 	clock.restart();
 	
 
@@ -90,7 +118,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser)
 	{
 		app.clear();
 
-		
+		// dodelat umisteni backbuttonu, eventy a hazeni pokebalu po stisknuti space
 
 		Frame += animSpeed;
 		if (Frame > frameCount) Frame -= frameCount;

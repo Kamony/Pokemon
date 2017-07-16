@@ -13,9 +13,16 @@ class ResultAnime
 	sf::Time time;
 	bool backNotPressed;
 public:
-	ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app);
+	/**
+	 * \brief 
+	 * \param nameOfWinner winner pokemons name
+	 * \param loserPok defeated pokemon
+	 * \param app window
+	 * \param stav 1 - player win; 2 - tie; 3 - player lost 
+	 */
+	ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app,int stav);
 	~ResultAnime();
 
-	void draw(sf::RenderWindow& app, GraphicPokemon& loser);
+	void draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav);
 };
 

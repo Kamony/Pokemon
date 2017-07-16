@@ -191,7 +191,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					damage.move(sf::Vector2f(10, 10));
 					int newc = 175 - (counter*damageHolder*1.75);
 					healthBot.setTextureRect(sf::IntRect(13, 36, newc, 53));
-					//battle.setTextureRect(sf::IntRect(mRightBatlle, 0, 218, 141));
+					
 					app.clear();
 
 					
@@ -232,7 +232,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					damage.move(sf::Vector2f(10, 10));
 					int newc = 175 - (counter*damageHolder*1.75);
 					healthUp.setTextureRect(sf::IntRect(13, 36, newc, 53));
-					//battle.setTextureRect(sf::IntRect(mRightBatlle, 0, 218, 141));
+					
 					app.clear();
 
 
