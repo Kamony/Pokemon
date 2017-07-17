@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "../../Pokemon/Pokemon/Trener.h"
 
 class Player: public sf::Sprite
 {
@@ -17,8 +18,12 @@ private:
 	sf::RectangleShape surroundings;
 	/// direction of player is moving
 	int direction;
+
+	Trener& trener;
+
 public:
 	Player();
+	Player(Trener& trener);
 	~Player();
 
 	/**
@@ -49,6 +54,6 @@ public:
 	{
 		return surroundings;
 	}
-	void catchPok(sf::RenderWindow& app, sf::Vector2f position);
+	bool catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pokemon);
 };
 

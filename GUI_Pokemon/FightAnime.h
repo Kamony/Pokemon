@@ -7,6 +7,9 @@
 #include "../../Pokemon/Pokemon/Arena.h"
 #include "GraphicPokemon.h"
 
+
+class Player;
+
 class FightAnime
 {
 	sf::Texture pokHealthBar, hitTexture, battle_t;
@@ -14,7 +17,7 @@ class FightAnime
 	sf::Sprite battle;
 
 
-	sf::Text nameP1, nameP2, damage;
+	sf::Text nameP1, nameP2, damage, Intro;
 	sf::Font font;
 
 	GraphicPokemon * gPok1;
@@ -24,11 +27,11 @@ class FightAnime
 	Pokemon& pokemon2;
 
 	Arena* souboj;
-
+	Player& player;
 	sf::Time time;
 
 public:
-	FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app);
+	FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app);
 	~FightAnime();
 
 	float pok1Attack();

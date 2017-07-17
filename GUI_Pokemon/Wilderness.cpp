@@ -3,7 +3,11 @@
 #include "pokeballG.h"
 #include "FightAnime.h"
 
-Wilderness::Wilderness(float w, float h) :Game(), W(w), H(h)
+Wilderness::Wilderness():Game(),player(Player())
+{
+}
+
+Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
 {
 	rng();
 	
@@ -41,7 +45,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 	int counter = 0;
 	int pokCounter = 0;
 
-	Player player;
+	/*Player player;*/
 	
 	// distribution that maps 1 - 5
 	std::uniform_int_distribution<> five(1, 5);
@@ -152,8 +156,8 @@ void Wilderness::draw(sf::RenderWindow& app)
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					std::cout << "Souboj!";
-					player.catchPok(app, pokemon.getPosition());
-					FightAnime fight(pokemon, listOfGraphicsPokemon[0], app);
+					//player.catchPok(app, pokemon.getPosition());
+					FightAnime fight(player,pokemon, listOfGraphicsPokemon[0], app);
 					
 				}
 			}

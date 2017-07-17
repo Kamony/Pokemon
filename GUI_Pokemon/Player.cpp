@@ -1,12 +1,18 @@
 #include "Player.h"
 #include <iostream>
+#include <SFML/Graphics/Text.hpp>
 
 
-Player::Player()
+Player::Player():trener(Trener())
+{
+	
+}
+
+Player::Player(Trener& trener):trener(trener)
 {
 	this->x = 10;
 	this->y = 400;
-
+	
 	if( !texture_.loadFromFile("../Images/Human.png") )
 	{
 		std::cerr << "Texture was not loaded";
@@ -78,7 +84,7 @@ sf::FloatRect Player::getSurroundings()
 	return surroundings.getGlobalBounds();
 }
 
-void Player::catchPok(sf::RenderWindow& app, sf::Vector2f position)
+bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pokemon)
 {
 	sf::Clock clock;
 	float Frame = 0;
@@ -92,7 +98,7 @@ void Player::catchPok(sf::RenderWindow& app, sf::Vector2f position)
 		Frame += animSpeed;
 		if (Frame > frameCount) Frame -= frameCount;
 		mRight = int(Frame) * 128;
-		if (mRight > 645) {
+		if (mRight > 673) {
 			mRight = 0;
 			Frame = 0.3;
 		}
@@ -105,7 +111,34 @@ void Player::catchPok(sf::RenderWindow& app, sf::Vector2f position)
 		app.draw(battle);
 		app.display();
 	}
-	
+
+	clock.restart();
+
+	sf::Font font;
+	font.loadFromFile("../Fonts/arial.ttf");
+	sf::Text vysledek;
+	vysledek.setFont(font);
+	vysledek.setCharacterSize(40);
+	vysledek.setPosition(350, 300);
+
+	bool result = false;
+
+	while (clock.getElapsedTime().asMilliseconds() < 2500)
+	{
+		if (trener.ChytPokemona(pokemon))
+		{
+			vysledek.setString("YOU DID IT! YOU CAUGHT " + pokemon.getJmeno() + " !");		
+			result = true;
+		} else
+		{
+			vysledek.setString("YOU DIDN'T CAUGHT " + pokemon.getJmeno());
+			result = false;
+		}
+		app.clear();
+		app.draw(vysledek);
+		app.display();
+	}
+	return result;
 }
 
 

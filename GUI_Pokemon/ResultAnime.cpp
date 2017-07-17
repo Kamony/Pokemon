@@ -1,9 +1,11 @@
 #include "ResultAnime.h"
 #include <iostream>
 #include "Player.h"
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Event.hpp>
 
 
-ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app, int stav)
+ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app, int stav):player(player)
 {
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
 	{
@@ -20,13 +22,22 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 	name.setFillColor(sf::Color::Green);
 	name.setCharacterSize(60);
 	name.setString(nameOfWinner);
-	name.setPosition(winner.getPosition() + sf::Vector2f(10, 50));
+	name.setPosition(winner.getPosition() + sf::Vector2f(5, 50));
 
 	backButton.setFont(font);
 	backButton.setFillColor(sf::Color::White);
 	backButton.setString("PRESS 'B' TO GO BACK");
-	backButton.setPosition(winner.getPosition() + sf::Vector2f(10, 50));
+	backButton.setPosition(500,750);
 
+	actionButton.setFont(font);
+	actionButton.setFillColor(sf::Color::White);
+	actionButton.setString("PRESS 'Space' TO THROW POKEBAL ");
+	actionButton.setPosition(5,10);
+
+	continueText.setFont(font);
+	continueText.setFillColor(sf::Color::White);
+	continueText.setString("PRESS 'Space' TO TRY CATCH THE POKEMON ");
+	continueText.setPosition(5, 10);
 	resultOfCatch.setFont(font);
 	
 	switch (stav)
@@ -37,15 +48,15 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 		break;
 	case 2:
 		resultOfCatch.setFillColor(sf::Color::Green);
-		resultOfCatch.setString("YOU WON THE BATTLE, ALTHOUGH IT WAS a TIE.");
+		resultOfCatch.setString("IT WAS a TIE.");
 		break;
 	case 3:
 		resultOfCatch.setFillColor(sf::Color::Red);
 		resultOfCatch.setString("YOU LOST!");
 		break;
 	}
-	resultOfCatch.setCharacterSize(80);
-	resultOfCatch.setPosition(winner.getPosition() + sf::Vector2f(0, -30));
+	resultOfCatch.setCharacterSize(65);
+	resultOfCatch.setPosition(winner.getPosition() + sf::Vector2f(0, -80));
 	//sprite and texture
 	if (!pokeball_t.loadFromFile("../Images/playerTools/pokeball.png"))
 	{
@@ -57,7 +68,6 @@ ResultAnime::ResultAnime(std::string nameOfWinner, GraphicPokemon& loserPok, sf:
 	loserPok.setScale(3, 3);
 	pokeball.setScale(2, 2);
 
-	time = sf::milliseconds(10);
 	backNotPressed = true;
 
 	draw(app, loserPok, stav);
@@ -83,60 +93,119 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 	int frameCount = 20;
 	int mRight = 0;
 
-	Player player;
-
-	while (clock.getElapsedTime().asMilliseconds() < 5000)
+	
+	bool choice = true;
+	while (choice)
 	{
+		// handle events
+		sf::Event event;
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				app.close();
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					std::cout << "Pokracovani na hod";
+					choice = false;
+				}
+				if (event.key.code == sf::Keyboard::B)
+				{
+					std::cout << "Zpet";
+					choice = false;
+					backNotPressed = false;
+				}
+			}
+		}
+
 		app.clear();
 
-		app.draw(resultOfCatch);
-		app.draw(winner);
-
-		if (++counter % 30 == 0)
+		if (stav != 3)
 		{
-			name.setFillColor(sf::Color::White);
+			app.draw(continueText);
+			if (++counter % 30 == 0)
+			{
+				name.setFillColor(sf::Color::Green);
+			}
 		}
 		else
 		{
-			name.setFillColor(sf::Color::Green);
+			backNotPressed = false;
+			if (++counter % 30 == 0)
+			{
+				name.setFillColor(sf::Color::Red);
+			}
 		}
+
 		
+
+		app.draw(resultOfCatch);
+		app.draw(winner);
 		app.draw(name);
+		app.draw(backButton);
 		app.display();
 		
 	}
 
-	if (stav == 3)
-	{
-		backNotPressed = false;
-	}
+	
 
 	clock.restart();
-	
+	bool spacePressed = false;
 
 	while (backNotPressed)
 	{
+		// handle events
+		sf::Event event;
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				app.close();
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					std::cout << "Hod";
+					spacePressed = true;
+				}
+				if (event.key.code == sf::Keyboard::B)
+				{
+					std::cout << "Zpet";
+					backNotPressed = false;
+				}
+			}
+		}
+		
+		
 		app.clear();
 
 		// dodelat umisteni backbuttonu, eventy a hazeni pokebalu po stisknuti space
-
-		Frame += animSpeed;
-		if (Frame > frameCount) Frame -= frameCount;
-		mRight = int(Frame) * 16;
-		if (mRight > 110) {
-			mRight = 0;
-			Frame = 0.3;
+		if (spacePressed)
+		{
+			Frame += animSpeed;
+			if (Frame > frameCount) Frame -= frameCount;
+			mRight = int(Frame) * 16;
+			if (mRight > 110) {
+				mRight = 0;
+				Frame = 0.3;
+			}
+			pokeball.setTextureRect(sf::IntRect(mRight, 0, 16, 13));
+			pokeball.move(sf::Vector2f(0, 2));
 		}
-		pokeball.setTextureRect(sf::IntRect(mRight, 0, 16, 13));
-		pokeball.move(sf::Vector2f(0, 2));
 
 		if (loser.getSurroundings().intersects(pokeball.getGlobalBounds()))
 		{
 			std::cout << "DOPAD";
-			player.catchPok(app, loser.getPosition());
+			player.catchPok(app, loser.getPosition(), loser.getPokemon());
+			break;
 		}
 
-
+		app.draw(actionButton);
+		app.draw(backButton);
 		app.draw(pokeball);
 		app.draw(loser);
 

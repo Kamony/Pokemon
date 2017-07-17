@@ -20,6 +20,7 @@ private:
 
 	std::vector<sf::Text> items;
 public:
+	BackPack();
 	BackPack(float width, float height, Batoh& batoh, Trener* trener);
 	~BackPack();
 

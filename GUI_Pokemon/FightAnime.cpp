@@ -5,7 +5,7 @@
 #include "ResultAnime.h"
 
 
-FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon())
+FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon()),player(p)
 {
 	//hracuv pok
 	gPok1 = &pok1;
@@ -73,6 +73,10 @@ FightAnime::FightAnime(GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWin
 	damage.setFont(font);
 	damage.setFillColor(sf::Color::White);
 
+	Intro.setFont(font);
+	Intro.setString("VERSUS");
+	Intro.setFillColor(sf::Color::White);
+
 	// set battle status of both pokemons
 	souboj = new Arena(pokemon1, pokemon2);
 
@@ -134,7 +138,31 @@ void FightAnime::draw(sf::RenderWindow& app)
 	int mRightBatlle = 0;
 	float FrameB = 0;
 	int mRightB = 0;
-	
+
+	nameP2.setPosition(500,350);
+	nameP2.setCharacterSize(40);
+	nameP2.setFillColor(sf::Color::Red);
+
+	Intro.setPosition(510, 400);
+
+	nameP1.setPosition(500,450);
+	nameP1.setCharacterSize(40);
+	nameP1.setFillColor(sf::Color::Green);
+
+	while (clock.getElapsedTime().asSeconds() < 3)
+	{
+		nameP1.move(-1, -1);
+		nameP2.move(1, 1);
+		app.clear();
+		app.draw(nameP1);
+		app.draw(nameP2);
+		app.draw(Intro);
+		app.display();
+	}
+
+	clock.restart();
+	nameP2.setPosition(bottomPok.getPosition() + sf::Vector2f(0, -40));
+	nameP1.setPosition(upperPok.getPosition() + sf::Vector2f(0, -40));
 	while (app.isOpen())
 	{
 		sf::Event event;
@@ -157,14 +185,30 @@ void FightAnime::draw(sf::RenderWindow& app)
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
 		if( msec % 1000 <= 100 )
 		{
-			if (pokemon1.getHp()<=0 || pokemon2.getHp()<=0)
+			if (pokemon1.getHp()<=0 && pokemon2.getHp()<=0)
 			{
 				// victory screen + attempt to catch pokemon +  go back to wilderness
-				std::cout << "KONEC BOJE";
-				ResultAnime result(pokemon1.getJmeno(), *gPok1, app);
+				std::cout << "KONEC BOJE REMIZA";
+				ResultAnime result(player,pokemon1.getJmeno(), *gPok1, app, 2);
+				break;
 			}
 			else
 			{
+				if (pokemon1.getHp()<=0 && pokemon2.getHp()>0)
+				{
+					std::cout << "KONEC BOJE PROHRA";
+					ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 3);
+					break;
+				}
+				else
+				{
+					if (pokemon1.getHp()>0 && pokemon2.getHp()<=0)
+					{
+						std::cout << "KONEC BOJE VYHRA";
+						ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 1);
+						break;
+					}
+				}
 				counter++;
 				damageHolder = pok1Attack();
 	

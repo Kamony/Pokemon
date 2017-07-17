@@ -2,13 +2,26 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "SFML/Graphics.hpp"
 #include "Player.h"
+#include "BackPack.h"
+
 
 class Game
 {
+protected:
+	
 private:
 	float W, H;
-public:
+	// backend backPack instance
+	Batoh b;
+	// backend trener
+	Trener t;
 
+	// graphical backpack
+	BackPack batoh;
+
+	
+public:
+	
 	// Textures
 	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack;
 	// Sprites

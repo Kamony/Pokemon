@@ -1,12 +1,18 @@
 #include "Game.h"
 #include <iostream>
-#include "BackPack.h"
 #include "Wilderness.h"
-#include "Player.h"
-
 
 Game::Game()
 {
+	// backend backPack instance
+	b = Batoh();
+	// backend trener
+	t = Trener();
+
+	// graphical backpack
+	batoh = BackPack();
+
+
 }
 
 Game::Game(int& W, int& H)
@@ -36,6 +42,15 @@ Game::Game(int& W, int& H)
 	sBackPack.setTextureRect(sf::IntRect(113, 79, 670, 840));
 	sBackPack.scale(0.2, 0.2);
 	sBackPack.setPosition(1050, 0);
+
+	// backend backPack instance
+	b = Batoh(5, 4);
+	// backend trener
+	t = Trener(&b);
+
+	// graphical backpack
+	batoh = BackPack(W, H, b, &t);
+	// wilderness
 }
 
 
@@ -72,19 +87,11 @@ bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 
 void Game::Play(sf::RenderWindow& app)
 {
-	// backend backPack instance
-	Batoh b(5,4);
-	// backend trener
-	Trener t(&b);
+	Player player = Player(t);
 
-	// graphical backpack
-	BackPack batoh(W, H, b, &t);
 	// wilderness
-	Wilderness divocina(W,H);
-	// player
-	Player player;
-	
-	
+	Wilderness divocina = Wilderness(player,W, H);
+
 	float x = 300, y = 300;
 	float Frame = 0;
 	float animSpeed = 0.3;

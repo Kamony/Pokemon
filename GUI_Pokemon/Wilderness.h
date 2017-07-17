@@ -24,8 +24,11 @@ private:
 	// seed random generator
 	std::mt19937 rng;
 
+	Player& player;
+
 public:
-	Wilderness(float w, float h);
+	Wilderness();
+	Wilderness(Player& p ,float w, float h);
 	~Wilderness();
 
 	void draw(sf::RenderWindow &app);

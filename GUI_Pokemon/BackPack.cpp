@@ -4,7 +4,9 @@
 //#include "../../Pokemon/Pokemon/Trener.h"
 
 
-
+BackPack::BackPack()
+{
+}
 
 BackPack::BackPack(float width, float height, Batoh& batoh, Trener* trener)
 {
