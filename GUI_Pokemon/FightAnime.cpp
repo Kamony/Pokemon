@@ -190,6 +190,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE REMIZA";
 				ResultAnime result(player,pokemon1.getJmeno(), *gPok1, app, 2);
+				pokemonCaught = result.getResult();
 				break;
 			}
 			else
@@ -198,6 +199,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 				{
 					std::cout << "KONEC BOJE PROHRA";
 					ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 3);
+					pokemonCaught = result.getResult();
 					break;
 				}
 				else
@@ -206,6 +208,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					{
 						std::cout << "KONEC BOJE VYHRA";
 						ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 1);
+						pokemonCaught = result.getResult();
 						break;
 					}
 				}
@@ -310,5 +313,5 @@ void FightAnime::draw(sf::RenderWindow& app)
 		app.display();
 
 	}
-
+	
 }

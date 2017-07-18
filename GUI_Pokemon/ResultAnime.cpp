@@ -200,7 +200,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 		if (loser.getSurroundings().intersects(pokeball.getGlobalBounds()))
 		{
 			std::cout << "DOPAD";
-			player.catchPok(app, loser.getPosition(), loser.getPokemon());
+			pokemonCaught = player.catchPok(app, loser.getPosition(), loser.getPokemon());
 			break;
 		}
 

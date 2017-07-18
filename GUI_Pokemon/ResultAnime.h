@@ -13,6 +13,7 @@ class ResultAnime
 	sf::Sprite pokeball;
 	Player& player;
 	bool backNotPressed;
+	bool pokemonCaught;
 public:
 	/**
 	 * \brief 
@@ -23,6 +24,11 @@ public:
 	 */
 	ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app,int stav);
 	~ResultAnime();
+
+	bool getResult()
+	{
+		return pokemonCaught;
+	}
 
 	void draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav);
 };

@@ -7,6 +7,16 @@ Wilderness::Wilderness():Game(),player(Player())
 {
 }
 
+void Wilderness::initWilderness(std::uniform_int_distribution<> randomXcoordinate, std::uniform_int_distribution<> randomYcoordinate)
+{
+	for (Pokemon& pokemon : divocina->getVectorOfPokemon())
+	{
+		GraphicPokemon* item = new GraphicPokemon(&pokemon, randomXcoordinate(rng), randomYcoordinate(rng));
+		listOfGraphicsPokemon.push_back(*item);
+		
+	}
+}
+
 Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
 {
 	rng();
@@ -21,16 +31,22 @@ Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
 	sprite_.setTextureRect(sf::IntRect(0,0,W,H));
 	
 	this->divocina = new Divocina();
-	for (Pokemon& pokemon : divocina->getVectorOfPokemon())
-	{
-		GraphicPokemon* item = new GraphicPokemon(&pokemon, randomXcoordinate(rng), randomYcoordinate(rng));
-		listOfGraphicsPokemon.push_back(*item);
-		
-	}
+	initWilderness(randomXcoordinate, randomYcoordinate);
 }
 
 Wilderness::~Wilderness()
 {
+}
+
+void Wilderness::deletePokemon(Pokemon& p)
+{
+	// distributions that maps random coordinates 
+	std::uniform_int_distribution<> randomXcoordinate(1, 1200);
+	std::uniform_int_distribution<> randomYcoordinate(1, 800);
+	
+	divocina->odeberPokemona(p);
+	listOfGraphicsPokemon.clear();
+	initWilderness(randomXcoordinate, randomYcoordinate);
 }
 
 void Wilderness::draw(sf::RenderWindow& app)
@@ -158,7 +174,15 @@ void Wilderness::draw(sf::RenderWindow& app)
 					std::cout << "Souboj!";
 					//player.catchPok(app, pokemon.getPosition());
 					FightAnime fight(player,pokemon, listOfGraphicsPokemon[0], app);
-					
+					if (fight.getResult())
+					{
+						deletePokemon(pokemon.getPokemon());
+						break;
+					}
+					else
+					{
+						pokemon.setScale(1, 1);
+					}
 				}
 			}
 			app.draw(pokemon);

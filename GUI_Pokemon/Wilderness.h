@@ -28,9 +28,10 @@ private:
 
 public:
 	Wilderness();
+	void initWilderness(std::uniform_int_distribution<> randomXcoordinate, std::uniform_int_distribution<> randomYcoordinate);
 	Wilderness(Player& p ,float w, float h);
 	~Wilderness();
-
+	void deletePokemon(Pokemon& p);
 	void draw(sf::RenderWindow &app);
 };
 

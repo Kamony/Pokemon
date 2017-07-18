@@ -117,27 +117,30 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 	sf::Font font;
 	font.loadFromFile("../Fonts/arial.ttf");
 	sf::Text vysledek;
+
 	vysledek.setFont(font);
 	vysledek.setCharacterSize(40);
 	vysledek.setPosition(350, 300);
 
-	bool result = false;
+	bool result = trener.ChytPokemona(pokemon);
 
 	while (clock.getElapsedTime().asMilliseconds() < 2500)
 	{
-		if (trener.ChytPokemona(pokemon))
+		if (result)
 		{
+			vysledek.setFillColor(sf::Color::Green);
 			vysledek.setString("YOU DID IT! YOU CAUGHT " + pokemon.getJmeno() + " !");		
-			result = true;
 		} else
-		{
-			vysledek.setString("YOU DIDN'T CAUGHT " + pokemon.getJmeno());
-			result = false;
-		}
+			{
+				vysledek.setFillColor(sf::Color::Red);
+				vysledek.setString("YOU DIDN'T CAUGHT " + pokemon.getJmeno());
+			}
+
 		app.clear();
 		app.draw(vysledek);
 		app.display();
 	}
+
 	return result;
 }
 

@@ -30,6 +30,8 @@ class FightAnime
 	Player& player;
 	sf::Time time;
 
+	bool pokemonCaught;
+
 public:
 	FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app);
 	~FightAnime();
@@ -38,7 +40,10 @@ public:
 	float pok2Attack();
 	void animateBattle(float animSpeed, int frameCount, float& FrameB, int mRightB);
 
-
+	bool getResult()
+	{
+		return pokemonCaught;
+	}
 	void draw(sf::RenderWindow & app);
 };
 
