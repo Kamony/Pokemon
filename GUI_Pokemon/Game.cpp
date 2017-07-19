@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include "Wilderness.h"
+#include "PreGame.h"
 
 Game::Game()
 {
@@ -9,8 +10,6 @@ Game::Game()
 	// backend trener
 	t = Trener();
 
-	// graphical backpack
-	batoh = BackPack();
 
 
 }
@@ -48,9 +47,7 @@ Game::Game(int& W, int& H)
 	// backend trener
 	t = Trener(&b);
 
-	// graphical backpack
-	batoh = BackPack(W, H, b, &t);
-	// wilderness
+
 }
 
 
@@ -87,6 +84,35 @@ bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 
 void Game::Play(sf::RenderWindow& app)
 {
+	PreGame intro;
+	intro.draw(app);
+
+	switch (intro.getChosenPok())
+	{
+		case 1:
+		{
+			Pokemon *bulb = new Pokemon("bulbasaur", Pokemon::Travni, 20, 5);
+			t.pridejPokemona(*bulb);
+			break;
+		}
+		case 2:
+		{
+			Pokemon *charm = new Pokemon("charmander", Pokemon::Ohnivy, 30, 4);
+			t.pridejPokemona(*charm);
+			break;
+		}
+		case 3:
+		{
+			Pokemon *squirt = new Pokemon("squirtle", Pokemon::Vodni, 10, 6);
+			t.pridejPokemona(*squirt);
+			break;
+		}
+		default:
+			break;
+	}
+
+	
+	
 	Player player = Player(t);
 
 	// wilderness
@@ -127,6 +153,7 @@ void Game::Play(sf::RenderWindow& app)
 				if (event.mouseButton.button == sf::Mouse::Left && sBackPack.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 				{
 					std::cout << "BATOH" << std::endl;
+					BackPack batoh = BackPack(W, H, &t);
 					batoh.draw(app);
 				}
 			}
@@ -135,9 +162,12 @@ void Game::Play(sf::RenderWindow& app)
 				switch (event.key.code)
 				{
 				case sf::Keyboard::I:
+				{
 					std::cout << "BATOH" << std::endl;
+					BackPack batoh = BackPack(W, H, &t);
 					batoh.draw(app);
 					break;
+				}
 				case sf::Keyboard::W:
 					std::cout << "Wild" << std::endl;
 					divocina.draw(app);

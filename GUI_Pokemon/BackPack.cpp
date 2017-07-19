@@ -8,13 +8,13 @@ BackPack::BackPack()
 {
 }
 
-BackPack::BackPack(float width, float height, Batoh& batoh, Trener* trener)
+BackPack::BackPack(float width, float height, Trener* trener)
 {
 	
 	MenuGeneric();
 	this->w = width;
 	this->h = height;
-	this->batoh = batoh;
+
 	this->trener = trener;
 	
 	this->tItems.loadFromFile("../Images/Batoh.png");
@@ -32,15 +32,18 @@ BackPack::BackPack(float width, float height, Batoh& batoh, Trener* trener)
 	items.push_back(penize);
 	potiony.setFont(font);
 	potiony.setFillColor(sf::Color::White);
-	potiony.setString(std::to_string(this->batoh.getPotiony()));
+	potiony.setString(std::to_string(this->trener->getBatoh().getPotiony()));
 	potiony.setPosition(sf::Vector2f((w / 2), h / (max_items + 1) * 1.1));
 	items.push_back(potiony);
 	pokebaly.setFont(font);
 	pokebaly.setFillColor(sf::Color::White);
-	pokebaly.setString(std::to_string(this->batoh.GetPokebaly()));
 	pokebaly.setPosition(sf::Vector2f((w / 2), h / (max_items + 1) * 1.4));
+	pokebaly.setString(std::to_string(this->trener->getBatoh().GetPokebaly()));
 	items.push_back(pokebaly);
 
+	
+	
+	
 	// initialize menu
 	for (unsigned int i = 0; i<max_items; i++)
 	{
@@ -67,6 +70,8 @@ void BackPack::draw(sf::RenderWindow& window)
 	std::cout << "BAGL" << std::endl;
 	//initialization of pokemon list
 	ListOfPokemon list_of_pokemon(w, h, trener->getBatoh().pokemoni, trener);
+
+
 
 	bool endDraw = true;
 	while (endDraw)

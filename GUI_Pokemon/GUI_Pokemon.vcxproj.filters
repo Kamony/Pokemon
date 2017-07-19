@@ -84,6 +84,9 @@
     <ClCompile Include="ResultAnime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PreGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResultAnime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

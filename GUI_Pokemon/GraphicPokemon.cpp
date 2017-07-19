@@ -44,10 +44,10 @@ GraphicPokemon::~GraphicPokemon()
 void GraphicPokemon::refactorCoordinates()
 {
 	// check for boundaries
-	if (x > 1199) x = 1;
-	if (y > 799) y = 1;
-	if (x < 1) x = 1199;
-	if (y < 1) y = 799;
+	if (x > 1195) x = 1;
+	if (y > 795) y = 1;
+	if (x < 1) x = 1195;
+	if (y < 1) y = 795;
 }
 
 int GraphicPokemon::randomWalk(int& mRight, int mx, int my, int randNum)

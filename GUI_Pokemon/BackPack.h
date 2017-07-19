@@ -10,7 +10,6 @@
 class BackPack: public MenuGeneric
 {
 private:
-	Batoh batoh;
 	Trener *trener;
 		
 	sf::Texture tItems;
@@ -21,7 +20,7 @@ private:
 	std::vector<sf::Text> items;
 public:
 	BackPack();
-	BackPack(float width, float height, Batoh& batoh, Trener* trener);
+	BackPack(float width, float height, Trener* trener);
 	~BackPack();
 
 	void draw(sf::RenderWindow &window);

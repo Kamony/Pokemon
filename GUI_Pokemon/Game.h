@@ -16,9 +16,6 @@ private:
 	// backend trener
 	Trener t;
 
-	// graphical backpack
-	BackPack batoh;
-
 	
 public:
 	
