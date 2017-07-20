@@ -10,7 +10,7 @@ Player::Player():trener(Trener())
 
 Player::Player(Trener& trener):trener(trener)
 {
-	this->x = 10;
+	this->x = 600;
 	this->y = 400;
 	
 	if( !texture_.loadFromFile("../Images/Human.png") )
@@ -20,12 +20,12 @@ Player::Player(Trener& trener):trener(trener)
 	texture_.setSmooth(true);
 
 	setTexture(texture_);
-	setTextureRect(sf::IntRect(0, 0, 95, 158.75));
-	scale(0.5, 0.5);
+	setTextureRect(sf::IntRect(0, 0, 95, 159));
+	scale(0.3, 0.3);
 	
 	
 	surroundings.setSize(sf::Vector2f(101, 42));
-	surroundings.scale(0.5, 0.5);
+	surroundings.scale(0.3, 0.3);
 	surroundings.setFillColor(sf::Color::Green);
 
 	setPosition(x, y);
@@ -52,22 +52,22 @@ void Player::walk(int direction, int mRight, int mx, int my)
 		//up
 	case 1:
 		y -= my;
-		setTextureRect(sf::IntRect(mRight, 476.25, 95, 158.75));
+		setTextureRect(sf::IntRect(mRight, 477, 95, 159));
 		break;
 	//down
 	case 2:
 		y += my;
-		setTextureRect(sf::IntRect(mRight, 0, 95, 158.75));
+		setTextureRect(sf::IntRect(mRight, 0, 95, 159));
 		break;
 	//left
 	case 3:
 		x -= mx;
-		setTextureRect(sf::IntRect(mRight, 158.75, 95, 158.75));
+		setTextureRect(sf::IntRect(mRight, 159, 95, 159));
 		break;
 	//right
 	case 4:
 		x += mx;
-		setTextureRect(sf::IntRect(mRight, 317.5, 95, 158.75));
+		setTextureRect(sf::IntRect(mRight, 318, 95, 159));
 		break;
 	}
 	setPosition(x, y);

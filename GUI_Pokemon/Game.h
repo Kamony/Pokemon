@@ -31,6 +31,7 @@ public:
 	void movePlayer(Player& sPlayer, int& mRight, int mx, int my);
 	
 	bool Collide(sf::Sprite &s1, sf::Sprite &s2);
+	bool setViewCenter(Player& player, sf::View& view, float vx, float vy);
 	void Play(sf::RenderWindow &app);
 };
 

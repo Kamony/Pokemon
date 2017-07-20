@@ -20,7 +20,7 @@ Game::Game(int& W, int& H)
 	this->H = H;
 
 	//textures
-	tMainBG.loadFromFile("../Images/MainBG.jpg");
+	tMainBG.loadFromFile("../Images/MainBG.jpg.png");
 	tShopBG.loadFromFile("../Images/shopBG.png");
 	tBackPack.loadFromFile("../Images/backpack.png");
 	tBackPack.setSmooth(true);
@@ -82,6 +82,83 @@ bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 	//s1.getGlobalBounds().contains(s2.getOrigin());
 }
 
+bool Game::setViewCenter(Player& player, sf::View& view, float vx, float vy)
+{
+	bool zmena = false;
+	
+	if ( vx < 200)
+	{
+		if (vy > 650)
+		{
+			view.setCenter(200, 650);
+			return false;
+		}
+
+		if (vy < 150)
+		{
+			view.setCenter(200, 150);
+			return false;
+		}
+
+		view.setCenter(200,player.getPosition().y);
+		return false;
+	}
+
+	if (vx > 1000)
+	{
+		if (vy > 650)
+		{
+			view.setCenter(1000, 650);
+			return false;
+		}
+
+		if (vy < 150)
+		{
+			view.setCenter(1000, 150);
+			return false;
+		}
+		view.setCenter(1000, player.getPosition().y);
+		return false;
+	}
+
+	if (vy < 150)
+	{
+		if (vx > 1000)
+		{
+			view.setCenter(1000, 150);
+			return false;
+		}
+
+		if (vx < 200)
+		{
+			view.setCenter(200, 150);
+			return false;
+		}		
+		view.setCenter(player.getPosition().x, 150);
+		return false;
+	}
+
+	if (vy > 650)
+	{
+		if (vx > 1000)
+		{
+			view.setCenter(1000, 650);
+			return false;
+		}
+
+		if (vx < 200)
+		{
+			view.setCenter(200, 650);
+			return false;
+		}		
+		view.setCenter(player.getPosition().x,650);
+		return false;
+	}
+	view.setCenter(player.getPosition());
+	return true;
+	
+}
+
 void Game::Play(sf::RenderWindow& app)
 {
 	PreGame intro;
@@ -124,15 +201,33 @@ void Game::Play(sf::RenderWindow& app)
 	int frameCount = 20;
 	int mRight=0;
 	bool inShop = false;
+
+
+	sf::View view(sf::FloatRect(0, 0, 800, 600));
+	view.zoom(0.5f);
+	view.setCenter(W / 2, H / 2);
+	float vx = 0;
+	float vy = 0;
 	// game loop
 	while (app.isOpen())
-	{				
+	{
+		float vx = player.getPosition().x;
+		float vy = player.getPosition().y;
+
+		if(setViewCenter(player, view, vx, vy))
+		{
+			std::cout << "Posun kamery" << std::endl;
+		}
+		else { std::cout << "Kamera fix" << std::endl; }
 		
-		//sprite animation
+
+	
+
+		//player animation
 		Frame += animSpeed;
 		if (Frame>frameCount) Frame -= frameCount;
 		mRight = int(Frame) * 95;
-		if (mRight > 950) {
+		if (mRight > 1045) {
 			mRight = 0;
 			Frame = 0.3;
 		}
@@ -190,6 +285,8 @@ void Game::Play(sf::RenderWindow& app)
 		app.draw(player);
 		
 		app.draw(sBackPack);
+		app.setView(view);
 		app.display();
+	
 	}
 }
