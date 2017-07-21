@@ -5,6 +5,11 @@
 #include "ResultAnime.h"
 
 
+FightAnime::FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app):pokemon1(pok1), pokemon2(pok2), player(player)
+{
+
+}
+
 FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon()),player(p)
 {
 	//hracuv pok

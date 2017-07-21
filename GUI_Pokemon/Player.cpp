@@ -75,6 +75,8 @@ void Player::walk(int direction, int mRight, int mx, int my)
 
 void Player::setPosition(float x, float y)
 {
+	this->x = x;
+	this->y = y;
 	Transformable::setPosition(x, y);
 	surroundings.Transformable::setPosition(x - 3, y + 60);
 }

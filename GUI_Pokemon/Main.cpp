@@ -46,6 +46,7 @@ int main()
 					case 0:
 						std::cout << "PLAY BUTTON" << std::endl;
 						game.Play(app);
+						
 						break;
 					case 1:
 						std::cout << "ABOUT BUTTON" << std::endl;

@@ -33,6 +33,7 @@ class FightAnime
 	bool pokemonCaught;
 
 public:
+	FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app);
 	FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app);
 	~FightAnime();
 

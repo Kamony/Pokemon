@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Wilderness.h"
 #include "PreGame.h"
+#include "Stadium.h"
 
 Game::Game()
 {
@@ -161,6 +162,11 @@ bool Game::setViewCenter(Player& player, sf::View& view, float vx, float vy)
 
 void Game::Play(sf::RenderWindow& app)
 {
+	
+	
+	
+	
+	
 	PreGame intro;
 	intro.draw(app);
 
@@ -191,6 +197,9 @@ void Game::Play(sf::RenderWindow& app)
 	
 	
 	Player player = Player(t);
+
+	Stadium stadium(player);
+	stadium.draw(app);
 
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
