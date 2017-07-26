@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 #include "BackPack.h"
+#include "GraphicPokemon.h"
 
 
 class Game
@@ -33,5 +34,7 @@ public:
 	bool Collide(sf::Sprite &s1, sf::Sprite &s2);
 	bool setViewCenter(Player& player, sf::View& view, float vx, float vy);
 	void Play(sf::RenderWindow &app);
+	Trener& getTrener();
+
 };
 

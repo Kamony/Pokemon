@@ -16,19 +16,20 @@ Stadium::Stadium(Player& player):/*Game(),*/player(player)
 	victoryText.setFont(font);
 	victoryText.setString("AAAARGH! YOU HAVE BESTED ME!\nI PASS TITLE OF CHAMPION TO YOU!");
 
-	if (!articuno_texture.loadFromFile("../Images/stadium/articuno.png") ||
-		!zapdos_texture.loadFromFile("../Images/stadium/zapdos.png") ||
-		!moltres_texture.loadFromFile("../Images/stadium/moltres.png") ||
-		!champ_texture.loadFromFile("../Images/stadium/villain.png"))
+	if (!champ_texture.loadFromFile("../Images/stadium/villain.png"))
 		std::cerr << "texture not loaded";
 
-	articuno.setTexture(articuno_texture);
+	/*articuno.setTexture(articuno_texture);
 	zapdos.setTexture(zapdos_texture);
-	moltres.setTexture(moltres_texture);
+	moltres.setTexture(moltres_texture);*/
 	champ.setTexture(champ_texture);
 	champ.setScale(0.3, 0.3);
 
 	stadionBackEnd = Stadion();
+
+	articuno = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[1], 300, 250);
+	moltres = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[0], 500, 250);
+	zapdos = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[2], 700, 250);
 }
 
 
@@ -41,11 +42,11 @@ void Stadium::draw(sf::RenderWindow& app)
 	champ.setPosition(500, 100);
 	text.setPosition(champ.getPosition() + sf::Vector2f(-250, -40));
 	victoryText.setPosition(champ.getPosition() + sf::Vector2f(210, -200));
-	articuno.setPosition(champ.getPosition() + sf::Vector2f(-200, 150));
+	/*articuno.setPosition(champ.getPosition() + sf::Vector2f(-200, 150));
 	zapdos.setPosition(articuno.getPosition() + sf::Vector2f(200, 0));
 	moltres.setPosition(zapdos.getPosition() + sf::Vector2f(200, 0));
-
-
+*/
+	
 	float AFrame = 0;
 	float ZFrame = 0;
 	float MFrame = 0;
@@ -108,9 +109,9 @@ void Stadium::draw(sf::RenderWindow& app)
 			MFrame = 0.3;
 		}
 
-		articuno.setTextureRect(sf::IntRect(AmRight, 0, 172, 171));
-		zapdos.setTextureRect(sf::IntRect(ZmRight, 0, 145, 106));
-		moltres.setTextureRect(sf::IntRect(MmRight, 0, 217, 181));
+		articuno->setTextureRect(sf::IntRect(AmRight, 0, 172, 171));
+		zapdos->setTextureRect(sf::IntRect(ZmRight, 0, 145, 106));
+		moltres->setTextureRect(sf::IntRect(MmRight, 0, 217, 181));
 
 		//sprite animation of player
 		FramePlayer += animSpeed;
@@ -122,12 +123,28 @@ void Stadium::draw(sf::RenderWindow& app)
 		}
 		movePlayer(player, mRightPlayer, 2, 2);
 
-
-		if (Collide(player,articuno))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			FightAnime fight(player,articuno)
-		}
+			if (Collide(player, *articuno))
+			{
+				std::cout << "ARTICUNO KOLIZE" << std::endl;
+				//FightAnime fight(player,articuno)
+			}
 
+			if (Collide(player, *moltres))
+			{
+				std::cout << "MOLTRES KOLIZE" << std::endl;
+
+				//FightAnime fight(player,articuno)
+			}
+
+			if (Collide(player, *zapdos))
+			{
+				std::cout << "ZAPDOS KOLIZE" << std::endl;
+
+				//FightAnime fight(player,articuno)
+			}
+		}
 
 
 
@@ -146,9 +163,9 @@ void Stadium::draw(sf::RenderWindow& app)
 
 		app.draw(champ);
 		
-		app.draw(articuno);
-		app.draw(zapdos);
-		app.draw(moltres);
+		app.draw(*articuno);
+		app.draw(*zapdos);
+		app.draw(*moltres);
 		app.draw(player);
 
 		app.display();

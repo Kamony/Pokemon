@@ -170,36 +170,43 @@ void Game::Play(sf::RenderWindow& app)
 	PreGame intro;
 	intro.draw(app);
 
+	GraphicPokemon *chosenPok;
+
 	switch (intro.getChosenPok())
 	{
 		case 1:
 		{
 			Pokemon *bulb = new Pokemon("bulbasaur", Pokemon::Travni, 20, 5);
 			t.pridejPokemona(*bulb);
+			chosenPok = new GraphicPokemon(bulb, 0, 0);
 			break;
 		}
 		case 2:
 		{
 			Pokemon *charm = new Pokemon("charmander", Pokemon::Ohnivy, 30, 4);
 			t.pridejPokemona(*charm);
+			chosenPok = new GraphicPokemon(charm, 0, 0);
 			break;
 		}
 		case 3:
 		{
 			Pokemon *squirt = new Pokemon("squirtle", Pokemon::Vodni, 10, 6);
 			t.pridejPokemona(*squirt);
+			chosenPok = new GraphicPokemon(squirt, 0, 0);
 			break;
 		}
 		default:
+			chosenPok = new GraphicPokemon();
 			break;
 	}
 
 	
 	
 	Player player = Player(t);
+	player.addGraphicPokemon(*chosenPok);
 
-	Stadium stadium(player);
-	stadium.draw(app);
+//	Stadium stadium(player);
+	//stadium.draw(app);
 
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
@@ -257,7 +264,8 @@ void Game::Play(sf::RenderWindow& app)
 				if (event.mouseButton.button == sf::Mouse::Left && sBackPack.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 				{
 					std::cout << "BATOH" << std::endl;
-					BackPack batoh = BackPack(W, H, &t);
+					BackPack batoh = BackPack(W, H,player, &t);
+					app.setView(app.getDefaultView());
 					batoh.draw(app);
 				}
 			}
@@ -268,12 +276,14 @@ void Game::Play(sf::RenderWindow& app)
 				case sf::Keyboard::I:
 				{
 					std::cout << "BATOH" << std::endl;
-					BackPack batoh = BackPack(W, H, &t);
+					BackPack batoh = BackPack(W, H,player, &t);
+					app.setView(app.getDefaultView());
 					batoh.draw(app);
 					break;
 				}
 				case sf::Keyboard::W:
 					std::cout << "Wild" << std::endl;
+					app.setView(app.getDefaultView());
 					divocina.draw(app);
 					break;
 				default:
@@ -299,3 +309,10 @@ void Game::Play(sf::RenderWindow& app)
 	
 	}
 }
+
+Trener& Game::getTrener()
+{
+	return t;
+}
+
+

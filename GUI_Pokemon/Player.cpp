@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <iostream>
 #include <SFML/Graphics/Text.hpp>
+#include "ListOfPokemon.h"
 
 
 Player::Player():trener(Trener())
@@ -38,6 +39,8 @@ Player::Player(Trener& trener):trener(trener)
 	battle.setTexture(battleTexture);
 	battle.setTextureRect(sf::IntRect(0, 0, 128, 124));
 
+
+	list.clear();
 }
 
 
@@ -144,6 +147,17 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 	}
 
 	return result;
+}
+
+
+
+GraphicPokemon& Player::choosePokemon(sf::RenderWindow& app)
+{
+	ListOfPokemon CHooseList(1200,800,list,&trener);
+	
+	int index = CHooseList.drawForBattle(app);
+	std::cout << "pokemon Index: " << index << std::endl;
+	return	list[index];
 }
 
 

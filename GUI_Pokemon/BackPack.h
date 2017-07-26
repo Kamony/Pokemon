@@ -5,6 +5,7 @@
 
 #include <string>
 #include "MenuGeneric.h"
+#include "Player.h"
 
 
 class BackPack: public MenuGeneric
@@ -16,11 +17,11 @@ private:
 	sf::Sprite sItems;
 		
 	float w, h;
-
+	Player* player;
 	std::vector<sf::Text> items;
 public:
 	BackPack();
-	BackPack(float width, float height, Trener* trener);
+	BackPack(float width, float height, Player& player, Trener* trener);
 	~BackPack();
 
 	void draw(sf::RenderWindow &window);

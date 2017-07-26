@@ -33,18 +33,25 @@ class FightAnime
 	bool pokemonCaught;
 
 public:
+	
 	FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app);
+	
+	void initGraphics();
+	
 	FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app);
+	
 	~FightAnime();
 
 	float pok1Attack();
 	float pok2Attack();
 	void animateBattle(float animSpeed, int frameCount, float& FrameB, int mRightB);
+	void animateIntroOfFight(sf::RenderWindow& app, sf::Clock clock);
 
 	bool getResult()
 	{
 		return pokemonCaught;
 	}
 	void draw(sf::RenderWindow & app);
+	void drawForStadium(sf::RenderWindow& app);
 };
 

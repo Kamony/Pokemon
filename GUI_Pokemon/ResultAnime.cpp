@@ -5,6 +5,28 @@
 #include <SFML/Window/Event.hpp>
 
 
+void ResultAnime::initResult(int stav)
+{
+	resultOfCatch.setFont(font);
+	
+	switch (stav)
+	{
+	case 1:
+		resultOfCatch.setFillColor(sf::Color::Green);
+		resultOfCatch.setString("YOU WON THE BATTLE!");
+		break;
+	case 2:
+		resultOfCatch.setFillColor(sf::Color::Green);
+		resultOfCatch.setString("IT WAS a TIE.");
+		break;
+	case 3:
+		resultOfCatch.setFillColor(sf::Color::Red);
+		resultOfCatch.setString("YOU LOST!");
+		break;
+	}
+	resultOfCatch.setCharacterSize(65);
+}
+
 ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app, int stav):player(player)
 {
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
@@ -38,24 +60,7 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 	continueText.setFillColor(sf::Color::White);
 	continueText.setString("PRESS 'Space' TO TRY CATCH THE POKEMON ");
 	continueText.setPosition(5, 10);
-	resultOfCatch.setFont(font);
-	
-	switch (stav)
-	{
-	case 1:
-		resultOfCatch.setFillColor(sf::Color::Green);
-		resultOfCatch.setString("YOU WON THE BATTLE!");
-		break;
-	case 2:
-		resultOfCatch.setFillColor(sf::Color::Green);
-		resultOfCatch.setString("IT WAS a TIE.");
-		break;
-	case 3:
-		resultOfCatch.setFillColor(sf::Color::Red);
-		resultOfCatch.setString("YOU LOST!");
-		break;
-	}
-	resultOfCatch.setCharacterSize(65);
+	initResult(stav);
 	resultOfCatch.setPosition(winner.getPosition() + sf::Vector2f(0, -80));
 	//sprite and texture
 	if (!pokeball_t.loadFromFile("../Images/playerTools/pokeball.png"))
@@ -74,27 +79,30 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 
 }
 
+ResultAnime::ResultAnime(Player& player, sf::RenderWindow& app, int stav) :player(player)
+{
+	if (!font.loadFromFile("../Fonts/arial.ttf"))
+	{
+		std::cerr << "font not loaded";
+	}
+
+	initResult(stav);
+
+	backButton.setFont(font);
+	backButton.setFillColor(sf::Color::White);
+	backButton.setString("PRESS 'B' TO CONTINUE");
+	backButton.setPosition(500, 750);
+
+	backNotPressed = true;
+}
+
+
 ResultAnime::~ResultAnime()
 {
 }
 
-void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
+void ResultAnime::animateResult(sf::RenderWindow& app, int stav, int counter, bool choice)
 {
-	sf::Clock clock;
-	int counter = 0;
-
-	loser.setPosition(550, 350);
-	loser.setX(550);
-	loser.setY(350);
-	pokeball.setPosition(loser.getPosition()+sf::Vector2f(10,-300));
-
-	float Frame = 0;
-	float animSpeed = 0.2;
-	int frameCount = 20;
-	int mRight = 0;
-
-	
-	bool choice = true;
 	while (choice)
 	{
 		// handle events
@@ -149,6 +157,29 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 		app.display();
 		
 	}
+}
+
+
+
+
+void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
+{
+	sf::Clock clock;
+	int counter = 0;
+
+	loser.setPosition(550, 350);
+	loser.setX(550);
+	loser.setY(350);
+	pokeball.setPosition(loser.getPosition()+sf::Vector2f(10,-300));
+
+	float Frame = 0;
+	float animSpeed = 0.2;
+	int frameCount = 20;
+	int mRight = 0;
+
+	
+	bool choice = true;
+	animateResult(app, stav, counter, choice);
 
 	
 
@@ -183,7 +214,6 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 		
 		app.clear();
 
-		// dodelat umisteni backbuttonu, eventy a hazeni pokebalu po stisknuti space
 		if (spacePressed)
 		{
 			Frame += animSpeed;
@@ -210,5 +240,36 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 		app.draw(loser);
 
 		app.display();
+	}
+}
+
+void ResultAnime::drawOnlyResult(sf::RenderWindow& app)
+{
+	
+	while (backNotPressed)
+	{
+		// handle events
+		sf::Event event;
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				app.close();
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::B)
+				{
+					std::cout << "Zpet";
+					backNotPressed = false;
+				}
+			}
+		}
+		app.clear();
+
+		app.draw(resultOfCatch);
+		app.draw(backButton);
+		app.display();
+
 	}
 }

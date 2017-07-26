@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../../Pokemon/Pokemon/Trener.h"
+#include "GraphicPokemon.h"
 
 class Player: public sf::Sprite
 {
@@ -20,6 +21,9 @@ private:
 	int direction;
 
 	Trener& trener;
+
+
+	std::vector<GraphicPokemon> list;
 
 public:
 	Player();
@@ -55,5 +59,19 @@ public:
 		return surroundings;
 	}
 	bool catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pokemon);
+
+	void addGraphicPokemon(GraphicPokemon& pokemon)
+	{
+		list.push_back(pokemon);
+	}
+
+
+
+	std::vector<GraphicPokemon>& getGraphicPokemonList()
+	{
+		return list;
+	}
+
+	GraphicPokemon&	 choosePokemon(sf::RenderWindow& app);
 };
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "pokeballG.h"
 #include "FightAnime.h"
+#include "ListOfPokemon.h"
 
 Wilderness::Wilderness():Game(),player(Player())
 {
@@ -172,8 +173,9 @@ void Wilderness::draw(sf::RenderWindow& app)
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					std::cout << "Souboj!";
-					//player.catchPok(app, pokemon.getPosition());
-					FightAnime fight(player,pokemon, listOfGraphicsPokemon[0], app);
+					
+					
+					FightAnime fight(player,player.choosePokemon(app), pokemon, app);
 					if (fight.getResult())
 					{
 						deletePokemon(pokemon.getPokemon());

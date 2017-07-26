@@ -8,10 +8,12 @@ BackPack::BackPack()
 {
 }
 
-BackPack::BackPack(float width, float height, Trener* trener)
+BackPack::BackPack(float width, float height, Player& player, Trener* trener)
 {
 	
 	MenuGeneric();
+	this->player = &player;
+
 	this->w = width;
 	this->h = height;
 
@@ -69,7 +71,7 @@ void BackPack::draw(sf::RenderWindow& window)
 {
 	std::cout << "BAGL" << std::endl;
 	//initialization of pokemon list
-	ListOfPokemon list_of_pokemon(w, h, trener->getBatoh().pokemoni, trener);
+	ListOfPokemon list_of_pokemon(w, h, player->getGraphicPokemonList(), trener);
 
 
 

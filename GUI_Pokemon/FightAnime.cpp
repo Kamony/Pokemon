@@ -7,16 +7,17 @@
 
 FightAnime::FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app):pokemon1(pok1), pokemon2(pok2), player(player)
 {
+	// set battle status of both pokemons
+	souboj = new Arena(pokemon1, pokemon2);
+
+	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
+	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
+
 
 }
 
-FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon()),player(p)
+void FightAnime::initGraphics()
 {
-	//hracuv pok
-	gPok1 = &pok1;
-	//nepritel
-	gPok2 = &pok2;
-
 	// textures
 	if (!this->pokHealthBar.loadFromFile("../Images/playerTools/healthBar.png"))
 	{
@@ -81,15 +82,22 @@ FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf:
 	Intro.setFont(font);
 	Intro.setString("VERSUS");
 	Intro.setFillColor(sf::Color::White);
+}
+
+FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon()),player(p)
+{
+	//hracuv pok
+	gPok1 = &pok1;
+	//nepritel
+	gPok2 = &pok2;
+
+	initGraphics();
 
 	// set battle status of both pokemons
 	souboj = new Arena(pokemon1, pokemon2);
 
 	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
 	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
-
-	// time init in ms
-	time = sf::milliseconds(10);
 
 	draw(app);
 	
@@ -128,22 +136,8 @@ void FightAnime::animateBattle(float animSpeed, int frameCount, float& FrameB, i
 	battle.setTextureRect(sf::IntRect(mRightB, 0, 200, 150));
 }
 
-void FightAnime::draw(sf::RenderWindow& app)
+void FightAnime::animateIntroOfFight(sf::RenderWindow& app, sf::Clock clock)
 {
-	// start time measuring
-	sf::Clock clock;
-
-	float Frame = 0;
-	float animSpeed = 0.2;
-	int frameCount = 20;
-	int mRight = 0;
-	bool animeActive = false;
-	float damageHolder = 0;
-	int counter = 0;
-	int mRightBatlle = 0;
-	float FrameB = 0;
-	int mRightB = 0;
-
 	nameP2.setPosition(500,350);
 	nameP2.setCharacterSize(40);
 	nameP2.setFillColor(sf::Color::Red);
@@ -164,10 +158,31 @@ void FightAnime::draw(sf::RenderWindow& app)
 		app.draw(Intro);
 		app.display();
 	}
+}
+
+void FightAnime::draw(sf::RenderWindow& app)
+{
+	// start time measuring
+	sf::Clock clock;
+
+	float Frame = 0;
+	float animSpeed = 0.2;
+	int frameCount = 20;
+	int mRight = 0;
+	bool animeActive = false;
+	float damageHolder = 0;
+	int counter = 0;
+	int mRightBatlle = 0;
+	float FrameB = 0;
+	int mRightB = 0;
+
+	animateIntroOfFight(app, clock);
 
 	clock.restart();
+	
 	nameP2.setPosition(bottomPok.getPosition() + sf::Vector2f(0, -40));
 	nameP1.setPosition(upperPok.getPosition() + sf::Vector2f(0, -40));
+	
 	while (app.isOpen())
 	{
 		sf::Event event;
@@ -320,3 +335,180 @@ void FightAnime::draw(sf::RenderWindow& app)
 	}
 	
 }
+
+void FightAnime::drawForStadium(sf::RenderWindow& app)
+{
+	// start time measuring
+	sf::Clock clock;
+
+	float Frame = 0;
+	float animSpeed = 0.2;
+	int frameCount = 20;
+	int mRight = 0;
+	bool animeActive = false;
+	float damageHolder = 0;
+	int counter = 0;
+	int mRightBatlle = 0;
+	float FrameB = 0;
+	int mRightB = 0;
+
+	animateIntroOfFight(app, clock);
+
+	clock.restart();
+
+	nameP2.setPosition(bottomPok.getPosition() + sf::Vector2f(0, -40));
+	nameP1.setPosition(upperPok.getPosition() + sf::Vector2f(0, -40));
+
+	while (app.isOpen())
+	{
+		sf::Event event;
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				app.close();
+			}
+
+		}
+
+
+		animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
+
+
+
+
+		// every second do iteration
+		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
+		if (msec % 1000 <= 100)
+		{
+			if (pokemon1.getHp() <= 0 && pokemon2.getHp() <= 0)
+			{
+				// victory screen + attempt to catch pokemon +  go back to wilderness
+				std::cout << "KONEC BOJE REMIZA";
+				ResultAnime result(player, app, 2);
+				//pokemonCaught = result.getResult();
+				break;
+			}
+			else
+			{
+				if (pokemon1.getHp() <= 0 && pokemon2.getHp()>0)
+				{
+					std::cout << "KONEC BOJE PROHRA";
+					ResultAnime result(player, app, 3);
+					//pokemonCaught = result.getResult();
+					break;
+				}
+				else
+				{
+					if (pokemon1.getHp()>0 && pokemon2.getHp() <= 0)
+					{
+						std::cout << "KONEC BOJE VYHRA";
+						ResultAnime result(player, app, 1);
+						//pokemonCaught = result.getResult();
+						break;
+					}
+				}
+				counter++;
+				damageHolder = pok1Attack();
+
+				damage.setString("-" + std::to_string(damageHolder));
+				animeActive = true;
+				while (animeActive)
+				{
+					//sprite animation of pokemon
+					Frame += animSpeed;
+
+					if (Frame > frameCount) Frame -= frameCount;
+					mRight = int(Frame) * 83;
+					if (mRight > 300) {
+						mRight = 0;
+						Frame = 0.3;
+						animeActive = false;
+					}
+
+					animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
+
+					hit.setTextureRect(sf::IntRect(mRight, 17, 67, 69));
+					hit.setPosition(bottomPok.getPosition());
+					damage.setPosition(hit.getPosition());
+					damage.move(sf::Vector2f(10, 10));
+					int newc = 175 - (counter*damageHolder*1.75);
+					healthBot.setTextureRect(sf::IntRect(13, 36, newc, 53));
+
+					app.clear();
+
+
+					app.draw(nameP1);
+					app.draw(nameP2);
+					app.draw(healthUp);
+					app.draw(healthBot);
+					app.draw(upperPok);
+					app.draw(bottomPok);
+					app.draw(hit);
+					app.draw(damage);
+					app.draw(battle);
+					app.display();
+
+				}
+				damageHolder = pok2Attack();
+				damage.setString("-" + std::to_string(damageHolder));
+				animeActive = true;
+				while (animeActive)
+				{
+					//sprite animation of pokemon
+					Frame += animSpeed;
+
+					if (Frame > frameCount) Frame -= frameCount;
+					mRight = int(Frame) * 83;
+
+					if (mRight > 300) {
+						mRight = 0;
+						Frame = 0.3;
+						animeActive = false;
+					}
+
+					animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
+
+					hit.setTextureRect(sf::IntRect(mRight, 17, 67, 69));
+					hit.setPosition(upperPok.getPosition());
+					damage.setPosition(hit.getPosition());
+					damage.move(sf::Vector2f(10, 10));
+					int newc = 175 - (counter*damageHolder*1.75);
+					healthUp.setTextureRect(sf::IntRect(13, 36, newc, 53));
+
+					app.clear();
+
+
+					app.draw(nameP1);
+					app.draw(nameP2);
+					app.draw(healthUp);
+					app.draw(healthBot);
+					app.draw(upperPok);
+					app.draw(bottomPok);
+					app.draw(hit);
+					app.draw(damage);
+					app.draw(battle);
+
+					app.display();
+				}
+			}
+		}
+
+
+
+		app.clear();
+
+		app.draw(nameP1);
+		app.draw(nameP2);
+		app.draw(healthUp);
+		app.draw(healthBot);
+		app.draw(upperPok);
+		app.draw(bottomPok);
+		app.draw(battle);
+
+		app.display();
+
+	}
+}
+
+

@@ -15,15 +15,26 @@ class ResultAnime
 	bool backNotPressed;
 	bool pokemonCaught;
 public:
+	void initResult(int stav);
 	/**
-	 * \brief 
+	 * \brief result animation without option to caught pokemon
 	 * \param nameOfWinner winner pokemons name
 	 * \param loserPok defeated pokemon
 	 * \param app window
 	 * \param stav 1 - player win; 2 - tie; 3 - player lost 
 	 */
 	ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon& loserPok, sf::RenderWindow& app,int stav);
+	/**
+	 * \brief basic result animation without option to caught pokemon
+	 * \param player 
+	 * \param app 
+	 * \param stav 
+	 */
+	ResultAnime(Player& player, sf::RenderWindow& app, int stav);
+
 	~ResultAnime();
+
+	void animateResult(sf::RenderWindow& app, int stav, int counter, bool choice);
 
 	bool getResult()
 	{
@@ -31,5 +42,6 @@ public:
 	}
 
 	void draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav);
+	void drawOnlyResult(sf::RenderWindow& app);
 };
 

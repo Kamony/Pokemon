@@ -23,7 +23,9 @@ private:
 	float utok;
 	
 public:
+
 	GraphicPokemon(Pokemon* pokemon, float x, float y);
+	GraphicPokemon();
 	~GraphicPokemon();
 	
 	/**

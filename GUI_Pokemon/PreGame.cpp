@@ -13,8 +13,8 @@ PreGame::PreGame()
 	}
 
 	intro.setFont(font);
-	intro.setString("Welcome trainer, you are about to go to a journey to the world of POKEMON.\n Before you proceed, choose one pokemon below to help you on your journey.\n  Choose wisely, each pokemon is of some type and is strong against different enemies,\n  just like in real world, where water is stronger than fire.");
-	intro.setPosition(130, 50);
+	intro.setString("Welcome trainer, you are about to go to a journey to the world of POKEMON.\n Before you proceed, choose one pokemon below to help you on your journey.\n  Choose wisely,\n each pokemon is of some type and is strong against different enemies,\n  just like in real world, where water is stronger than fire.");
+	intro.setPosition(135, 50);
 
 	enterButton.setFont(font);
 	enterButton.setString("PRESS 'Space' TO CHOOSE");
