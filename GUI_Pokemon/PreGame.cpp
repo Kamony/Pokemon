@@ -29,21 +29,21 @@ PreGame::PreGame()
 	oak.setPosition(5, 5);
 
 
-	if (!bulbT.loadFromFile("../Images/stadium/bulbasaur.png"))
+	if (!bulbT.loadFromFile("../Images/pokemons/bulbasaur.png"))
 	{
 		std::cerr << "texture error";
 	}
 	bulbasaur.setTexture(bulbT);
 
 	
-	if (!charT.loadFromFile("../Images/stadium/Charmander.png"))
+	if (!charT.loadFromFile("../Images/pokemons/charmander.png"))
 	{
 		std::cerr << "texture error";
 	}
 	charmander.setTexture(charT);
 
 	
-	if (!squirT.loadFromFile("../Images/stadium/squirtle.png"))
+	if (!squirT.loadFromFile("../Images/pokemons/squirtle.png"))
 	{
 		std::cerr << "texture error";
 	}

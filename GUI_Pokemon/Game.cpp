@@ -160,6 +160,15 @@ bool Game::setViewCenter(Player& player, sf::View& view, float vx, float vy)
 	
 }
 
+void Game::initView(sf::View& view)
+{
+	//view = sf::FloatRect(0, 0, 800, 600);
+	
+	view.setSize(800, 600);
+	view.zoom(0.5f);
+	view.setCenter(W / 2, H / 2);
+}
+
 void Game::Play(sf::RenderWindow& app)
 {
 	
@@ -219,11 +228,11 @@ void Game::Play(sf::RenderWindow& app)
 	bool inShop = false;
 
 
-	sf::View view(sf::FloatRect(0, 0, 800, 600));
-	view.zoom(0.5f);
-	view.setCenter(W / 2, H / 2);
-	float vx = 0;
-	float vy = 0;
+	sf::View view;
+	initView(view);
+
+	
+	
 	// game loop
 	while (app.isOpen())
 	{

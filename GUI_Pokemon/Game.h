@@ -33,6 +33,7 @@ public:
 	
 	bool Collide(sf::Sprite &s1, sf::Sprite &s2);
 	bool setViewCenter(Player& player, sf::View& view, float vx, float vy);
+	void initView(sf::View& view);
 	void Play(sf::RenderWindow &app);
 	Trener& getTrener();
 

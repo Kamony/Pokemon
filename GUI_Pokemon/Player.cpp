@@ -151,13 +151,17 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 
 
 
-GraphicPokemon& Player::choosePokemon(sf::RenderWindow& app)
+GraphicPokemon* Player::choosePokemon(sf::RenderWindow& app)
 {
 	ListOfPokemon CHooseList(1200,800,list,&trener);
 	
 	int index = CHooseList.drawForBattle(app);
 	std::cout << "pokemon Index: " << index << std::endl;
-	return	list[index];
+	if (index == -1)
+	{
+		return nullptr;
+	}
+	return &list[index];
 }
 
 

@@ -27,7 +27,7 @@ Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
 	std::uniform_int_distribution<> randomYcoordinate(1, 800);
 	
 
-	texture_.loadFromFile("../Images/wilderness.jpg");
+	texture_.loadFromFile("../Images/wildernessBG.png");
 	sprite_.setTexture(texture_);
 	sprite_.setTextureRect(sf::IntRect(0,0,W,H));
 	
@@ -68,7 +68,10 @@ void Wilderness::draw(sf::RenderWindow& app)
 	std::uniform_int_distribution<> five(1, 5);
 
 	pokeballG pokeball;
+	sf::View view;
+	initView(view);
 
+	player.setPosition(30, 580);
 
 	// game loop
 	while (app.isOpen())
@@ -84,13 +87,19 @@ void Wilderness::draw(sf::RenderWindow& app)
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (event.key.code == sf::Keyboard::Space)
-				{
+				{/*
 					std::cout << "Hod";
 					pokeball.isTrown();
 					pokeball.setInitPosition(player.getPosition());
-				}
+				*/}
 			}
 		}
+
+
+		float vx = player.getPosition().x;
+		float vy = player.getPosition().y;
+
+		setViewCenter(player, view, vx, vy);
 
 
 		//sprite animation of pokemon
@@ -130,23 +139,24 @@ void Wilderness::draw(sf::RenderWindow& app)
 		sprite_.setPosition(0, 0);
 		
 		app.clear();
-		//app.draw(sprite_);
 
+		app.draw(sprite_);
+		app.setView(view);
 
-		// handle pokeball
-		if (pokeball.getState())
-		{
-			pokCounter++;
-			int xc = pokeball.getX();
-			int yc = pokeball.getYThrowCoordinate();
-			pokeball.setPosition(xc, yc);
-			app.draw(pokeball);
+		//// handle pokeball
+		//if (pokeball.getState())
+		//{
+		//	pokCounter++;
+		//	int xc = pokeball.getX();
+		//	int yc = pokeball.getYThrowCoordinate();
+		//	pokeball.setPosition(xc, yc);
+		//	app.draw(pokeball);
 
-			if (pokCounter > 100)
-			{
-				pokeball.reset();
-			}
-		}
+		//	if (pokCounter > 100)
+		//	{
+		//		pokeball.reset();
+		//	}
+		//}
 
 
 		// handle collisions
@@ -173,18 +183,22 @@ void Wilderness::draw(sf::RenderWindow& app)
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					std::cout << "Souboj!";
-					
-					
-					FightAnime fight(player,player.choosePokemon(app), pokemon, app);
-					if (fight.getResult())
+					app.setView(app.getDefaultView());
+					GraphicPokemon* chosenFromPlayer = player.choosePokemon(app);
+					if (chosenFromPlayer != nullptr)
 					{
-						deletePokemon(pokemon.getPokemon());
-						break;
+						app.setView(app.getDefaultView());
+						FightAnime fight(player, *chosenFromPlayer, pokemon, app);
+						if (fight.getResult())
+						{
+							deletePokemon(pokemon.getPokemon());
+							break;
+						}else
+							{
+								pokemon.setScale(1, 1);
+							}
 					}
-					else
-					{
-						pokemon.setScale(1, 1);
-					}
+					
 				}
 			}
 			app.draw(pokemon);

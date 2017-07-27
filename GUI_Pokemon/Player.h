@@ -72,6 +72,6 @@ public:
 		return list;
 	}
 
-	GraphicPokemon&	 choosePokemon(sf::RenderWindow& app);
+	GraphicPokemon* choosePokemon(sf::RenderWindow& app);
 };
 

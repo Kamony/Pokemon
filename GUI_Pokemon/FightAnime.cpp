@@ -109,15 +109,15 @@ FightAnime::~FightAnime()
 
 float FightAnime::pok1Attack()
 {
-	float damage = pokemon1.getUtok();
-	pokemon2.setHp(-damage);
+	float damage = gPok1->getPokemon().getUtok();
+	gPok2->getPokemon().setHp(-damage);
 	return damage;
 }
 
 float FightAnime::pok2Attack()
 {
-	float damage = pokemon2.getUtok();
-	pokemon1.setHp(-damage);
+	float damage = gPok2->getPokemon().getUtok();
+	gPok1->getPokemon().setHp(-damage);
 	return damage;
 }
 
@@ -209,7 +209,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 			{
 				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE REMIZA";
-				ResultAnime result(player,pokemon1.getJmeno(), *gPok1, app, 2);
+				ResultAnime result(player,pokemon1.getJmeno(), *gPok2, app, 2);
 				pokemonCaught = result.getResult();
 				break;
 			}
@@ -227,7 +227,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					if (pokemon1.getHp()>0 && pokemon2.getHp()<=0)
 					{
 						std::cout << "KONEC BOJE VYHRA";
-						ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 1);
+						ResultAnime result(player, pokemon1.getJmeno(), *gPok2, app, 1);
 						pokemonCaught = result.getResult();
 						break;
 					}
