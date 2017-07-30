@@ -187,4 +187,5 @@ void Stadium::draw(sf::RenderWindow& app)
 		app.display();
 
 	}
+	player.setPosition(630, 100);
 }

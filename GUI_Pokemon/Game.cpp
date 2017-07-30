@@ -191,40 +191,41 @@ void Game::Play(sf::RenderWindow& app)
 	PreGame intro;
 	intro.draw(app);
 
-	GraphicPokemon *chosenPok;
+	//GraphicPokemon *chosenPok;
 
 	switch (intro.getChosenPok())
 	{
 		case 1:
 		{
-			Pokemon *bulb = new Pokemon("bulbasaur", Pokemon::Travni, 20, 5);
+			Pokemon *bulb = new Pokemon("Bulbasaur", Pokemon::Travni, 20, 5);
 			t.pridejPokemona(*bulb);
-			chosenPok = new GraphicPokemon(bulb, 0, 0);
+			//chosenPok = new GraphicPokemon(bulb, 0, 0);
 			break;
 		}
 		case 2:
 		{
-			Pokemon *charm = new Pokemon("charmander", Pokemon::Ohnivy, 30, 4);
+			Pokemon *charm = new Pokemon("Charmander", Pokemon::Ohnivy, 30, 4);
 			t.pridejPokemona(*charm);
-			chosenPok = new GraphicPokemon(charm, 0, 0);
+			//chosenPok = new GraphicPokemon(charm, 0, 0);
 			break;
 		}
 		case 3:
 		{
-			Pokemon *squirt = new Pokemon("squirtle", Pokemon::Vodni, 10, 6);
+			Pokemon *squirt = new Pokemon("Squirtle", Pokemon::Vodni, 10, 6);
 			t.pridejPokemona(*squirt);
-			chosenPok = new GraphicPokemon(squirt, 0, 0);
+			//chosenPok = new GraphicPokemon(squirt, 0, 0);
 			break;
 		}
 		default:
-			chosenPok = new GraphicPokemon();
+			//chosenPok = new GraphicPokemon();
 			break;
 	}
 
 	
 	
 	Player player = Player(t);
-	player.addGraphicPokemon(*chosenPok);
+	player.synchronizeFrontAndBackEnd();
+	//player.addGraphicPokemon(*chosenPok);
 	int lastDirectionOfMovement = 0;
 
 
@@ -322,14 +323,14 @@ void Game::Play(sf::RenderWindow& app)
 			std::cout << "Wild" << std::endl;
 			app.setView(app.getDefaultView());
 			divocina.draw(app);
-			player.setPosition(140, 100);
+//			player.setPosition(140, 100);
 		}else
 			if (exits[1].intersects(player.getSurroundings()))
 			{
 				std::cout << "Stadium" << std::endl;
 				app.setView(app.getDefaultView());
 				stadium.draw(app);
-				player.setPosition(630, 100);
+				
 			} else //shop
 			{ }
 

@@ -3,20 +3,33 @@
 
 
 
-ListOfPokemon::ListOfPokemon(float w, float h, Player &player/* std::vector<GraphicPokemon>& list*//*, Trener* trener*/)/*:list(list)*/
+ListOfPokemon::ListOfPokemon(float w, float h, Player &player)
 {
 	this->trener = player.getBackEndTrener();
 	this->sum = player.getGraphicPokemonList().size();
 	this->list = player.getGraphicPokemonList();
-
+	std::string nameOfPok;
 	for (unsigned int i = 0; i<sum; i++)
 	{
 		sf::Text item;
 
 		item.setFont(font);
 		item.setFillColor(sf::Color::White);
-		item.setPosition(sf::Vector2f(w / 5, h / (sum + 1) * i / 10));
-		this->list[i].setPosition(item.getPosition() + sf::Vector2f(-10, 0));
+		item.setPosition(sf::Vector2f(w / 4.5, h / (sum + 1) * i / 8));
+		this->list[i].setPosition(item.getPosition() + sf::Vector2f(-50, 0));
+		
+		nameOfPok = list[i].getPokemon().getJmeno();
+		if (  nameOfPok == "Bulbasaur" || nameOfPok == "Charmander" || nameOfPok == "Squirtle")
+		{
+			this->list[i].setTextureRect(sf::IntRect(61, 105, 70, 65));
+			this->list[i].setScale(0.6,0.6);
+		}
+		else
+		{
+			this->list[i].setTextureRect(sf::IntRect(0, 0, 32, 32));
+			this->list[i].setScale(1.5, 1.5);
+		}
+		
 		item.setString(list[i].getPokemon().getInfo());
 
 		menu.push_back(item);

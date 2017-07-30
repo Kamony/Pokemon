@@ -232,6 +232,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 
 		app.display();
 	}
+	player.setPosition(140, 100);
 }
 
 
