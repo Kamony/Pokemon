@@ -134,18 +134,12 @@ void ResultAnime::animateResult(sf::RenderWindow& app, int stav, int counter, bo
 		if (stav != 3)
 		{
 			app.draw(continueText);
-			if (++counter % 30 == 0)
-			{
-				name.setFillColor(sf::Color::Green);
-			}
+			name.setFillColor(sf::Color::Green);
 		}
 		else
 		{
 			backNotPressed = false;
-			if (++counter % 30 == 0)
-			{
-				name.setFillColor(sf::Color::Red);
-			}
+			name.setFillColor(sf::Color::Red);
 		}
 
 		

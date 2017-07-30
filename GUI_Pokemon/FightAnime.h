@@ -23,8 +23,8 @@ class FightAnime
 	GraphicPokemon * gPok1;
 	GraphicPokemon * gPok2;
 
-	Pokemon& pokemon1;
-	Pokemon& pokemon2;
+	//Pokemon& pokemon1;
+	//Pokemon& pokemon2;
 
 	Arena* souboj;
 	Player& player;

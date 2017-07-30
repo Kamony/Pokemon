@@ -63,6 +63,7 @@ public:
 	void addGraphicPokemon(GraphicPokemon& pokemon)
 	{
 		list.push_back(pokemon);
+		
 	}
 
 

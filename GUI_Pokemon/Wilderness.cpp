@@ -191,6 +191,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 						FightAnime fight(player, *chosenFromPlayer, pokemon, app);
 						if (fight.getResult())
 						{
+							player.addGraphicPokemon(pokemon);
 							deletePokemon(pokemon.getPokemon());
 							break;
 						}else

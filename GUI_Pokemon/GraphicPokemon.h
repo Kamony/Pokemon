@@ -76,7 +76,7 @@ public:
 		return y;
 	}
 
-	Pokemon getPokemon()
+	Pokemon& getPokemon()
 	{
 		return *pokemon_;
 	}

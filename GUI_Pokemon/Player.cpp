@@ -134,7 +134,8 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 		if (result)
 		{
 			vysledek.setFillColor(sf::Color::Green);
-			vysledek.setString("YOU DID IT! YOU CAUGHT " + pokemon.getJmeno() + " !");		
+			vysledek.setString("YOU DID IT! YOU CAUGHT " + pokemon.getJmeno() + " !");	
+			
 		} else
 			{
 				vysledek.setFillColor(sf::Color::Red);

@@ -5,16 +5,16 @@
 #include "ResultAnime.h"
 
 
-FightAnime::FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app):pokemon1(pok1), pokemon2(pok2), player(player)
-{
-	// set battle status of both pokemons
-	souboj = new Arena(pokemon1, pokemon2);
-
-	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
-	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
-
-
-}
+//FightAnime::FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app):pokemon1(pok1), pokemon2(pok2), player(player)
+//{
+//	// set battle status of both pokemons
+//	souboj = new Arena(pokemon1, pokemon2);
+//
+//	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
+//	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
+//
+//
+//}
 
 void FightAnime::initGraphics()
 {
@@ -66,13 +66,13 @@ void FightAnime::initGraphics()
 	}
 
 	nameP1.setFont(font);
-	nameP1.setString(pokemon1.getJmeno());
+	nameP1.setString(gPok1->getPokemon().getJmeno());
 	nameP1.setFillColor(sf::Color::White);
 	nameP1.setPosition(upperPok.getPosition()+sf::Vector2f(0, -40));
 	
 
 	nameP2.setFont(font);
-	nameP2.setString(pokemon2.getJmeno());
+	nameP2.setString(gPok2->getPokemon().getJmeno());
 	nameP2.setFillColor(sf::Color::White);
 	nameP2.setPosition(bottomPok.getPosition()+sf::Vector2f(0, -40));
 
@@ -84,7 +84,7 @@ void FightAnime::initGraphics()
 	Intro.setFillColor(sf::Color::White);
 }
 
-FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):pokemon1(pok1.getPokemon()),pokemon2(pok2.getPokemon()),player(p)
+FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):player(p)
 {
 	//hracuv pok
 	gPok1 = &pok1;
@@ -94,10 +94,10 @@ FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf:
 	initGraphics();
 
 	// set battle status of both pokemons
-	souboj = new Arena(pokemon1, pokemon2);
+	souboj = new Arena(gPok1->getPokemon(), gPok2->getPokemon());
 
-	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
-	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
+	gPok1->getPokemon().setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
+	gPok2->getPokemon().setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
 
 	draw(app);
 	
@@ -205,29 +205,29 @@ void FightAnime::draw(sf::RenderWindow& app)
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
 		if( msec % 1000 <= 100 )
 		{
-			if (pokemon1.getHp()<=0 && pokemon2.getHp()<=0)
+			if (gPok1->getPokemon().getHp()<=0 && gPok2->getPokemon().getHp()<=0)
 			{
 				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE REMIZA";
-				ResultAnime result(player,pokemon1.getJmeno(), *gPok2, app, 2);
+				ResultAnime result(player, gPok1->getPokemon().getJmeno(), *gPok2, app, 2);
 				pokemonCaught = result.getResult();
 				break;
 			}
 			else
 			{
-				if (pokemon1.getHp()<=0 && pokemon2.getHp()>0)
+				if (gPok1->getPokemon().getHp()<=0 && gPok2->getPokemon().getHp()>0)
 				{
 					std::cout << "KONEC BOJE PROHRA";
-					ResultAnime result(player, pokemon1.getJmeno(), *gPok1, app, 3);
+					ResultAnime result(player, gPok2->getPokemon().getJmeno(), *gPok1, app, 3);
 					pokemonCaught = result.getResult();
 					break;
 				}
 				else
 				{
-					if (pokemon1.getHp()>0 && pokemon2.getHp()<=0)
+					if (gPok1->getPokemon().getHp()>0 && gPok2->getPokemon().getHp()<=0)
 					{
 						std::cout << "KONEC BOJE VYHRA";
-						ResultAnime result(player, pokemon1.getJmeno(), *gPok2, app, 1);
+						ResultAnime result(player, gPok1->getPokemon().getJmeno(), *gPok2, app, 1);
 						pokemonCaught = result.getResult();
 						break;
 					}
@@ -381,7 +381,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
 		if (msec % 1000 <= 100)
 		{
-			if (pokemon1.getHp() <= 0 && pokemon2.getHp() <= 0)
+			if (gPok1->getPokemon().getHp() <= 0 && gPok2->getPokemon().getHp() <= 0)
 			{
 				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE REMIZA";
@@ -391,7 +391,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 			}
 			else
 			{
-				if (pokemon1.getHp() <= 0 && pokemon2.getHp()>0)
+				if (gPok1->getPokemon().getHp() <= 0 && gPok2->getPokemon().getHp()>0)
 				{
 					std::cout << "KONEC BOJE PROHRA";
 					ResultAnime result(player, app, 3);
@@ -400,7 +400,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 				}
 				else
 				{
-					if (pokemon1.getHp()>0 && pokemon2.getHp() <= 0)
+					if (gPok1->getPokemon().getHp()>0 && gPok2->getPokemon().getHp() <= 0)
 					{
 						std::cout << "KONEC BOJE VYHRA";
 						ResultAnime result(player, app, 1);
