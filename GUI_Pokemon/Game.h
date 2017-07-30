@@ -17,7 +17,9 @@ private:
 	// backend trener
 	Trener t;
 
-	
+	sf::FloatRect exits[3];
+	sf::FloatRect movingArea;
+
 public:
 	
 	// Textures
@@ -29,7 +31,7 @@ public:
 	Game();
 	Game(int& W, int& H);
 	~Game();
-	void movePlayer(Player& sPlayer, int& mRight, int mx, int my);
+	int movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledDirection);
 	
 	bool Collide(sf::Sprite &s1, sf::Sprite &s2);
 	bool setViewCenter(Player& player, sf::View& view, float vx, float vy);

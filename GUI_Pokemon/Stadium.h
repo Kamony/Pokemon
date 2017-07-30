@@ -15,6 +15,8 @@ class Stadium : public Game
 	sf::Text text, victoryText;
 	sf::Font font;
 
+	bool art_alive, zap_alive, molt_alive;
+
 	Player& player;
 	Stadion stadionBackEnd;
 	

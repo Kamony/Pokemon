@@ -86,6 +86,8 @@ void FightAnime::initGraphics()
 
 FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf::RenderWindow& app):player(p)
 {
+	pokemonCaught = false;
+	
 	//hracuv pok
 	gPok1 = &pok1;
 	//nepritel
@@ -98,8 +100,15 @@ FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf:
 
 	gPok1->getPokemon().setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
 	gPok2->getPokemon().setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
+	
+	std::string name = gPok2->getID();
+	if (name != "articuno" || name != "moltres" || name != "zapdos")
+	{
+		draw(app);
+	}
+	else drawForStadium(app);
 
-	draw(app);
+	
 	
 }
 
@@ -383,7 +392,6 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 		{
 			if (gPok1->getPokemon().getHp() <= 0 && gPok2->getPokemon().getHp() <= 0)
 			{
-				// victory screen + attempt to catch pokemon +  go back to wilderness
 				std::cout << "KONEC BOJE REMIZA";
 				ResultAnime result(player, app, 2);
 				//pokemonCaught = result.getResult();

@@ -26,6 +26,8 @@ private:
 
 	Player& player;
 
+	sf::FloatRect exit, movingArea;
+
 public:
 	Wilderness();
 	void initWilderness(std::uniform_int_distribution<> randomXcoordinate, std::uniform_int_distribution<> randomYcoordinate);

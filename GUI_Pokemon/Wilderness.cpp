@@ -33,6 +33,9 @@ Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
 	
 	this->divocina = new Divocina();
 	initWilderness(randomXcoordinate, randomYcoordinate);
+
+	exit = sf::FloatRect(0, 547, 38, 80);
+	movingArea = sf::FloatRect(8, 16, 1158, 754);
 }
 
 Wilderness::~Wilderness()
@@ -71,10 +74,13 @@ void Wilderness::draw(sf::RenderWindow& app)
 	sf::View view;
 	initView(view);
 
-	player.setPosition(30, 580);
+	player.setPosition(50, 550);
+
+	bool exitNotPressed = true;
+	int lastDirectionOfMovement = 0;
 
 	// game loop
-	while (app.isOpen())
+	while (exitNotPressed)
 	{
 		// handle events
 		sf::Event event;
@@ -134,10 +140,20 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}
 		counter++;
 
-		Game::movePlayer(player, mRightPlayer, 2, 2);
+		if (movingArea.intersects(player.getSurroundings()))
+		{
+			lastDirectionOfMovement = movePlayer(player, mRightPlayer, 2.5, 2.5, 0);
+		}
+		else { movePlayer(player, mRightPlayer, 2.5, 2.5, lastDirectionOfMovement); }
 
 		sprite_.setPosition(0, 0);
-		
+
+		// go back to main bg
+		if (exit.intersects(player.getSurroundings()))
+		{
+			exitNotPressed = false;
+		}
+
 		app.clear();
 
 		app.draw(sprite_);
@@ -191,8 +207,13 @@ void Wilderness::draw(sf::RenderWindow& app)
 						FightAnime fight(player, *chosenFromPlayer, pokemon, app);
 						if (fight.getResult())
 						{
-							player.addGraphicPokemon(pokemon);
+							// copy caught pokemon into variable to not be lost when refactoring pointers
+							Pokemon caught = pokemon.getPokemon();
+							caught.setJmeno(pokemon.getPokemon().getJmeno());
+
 							deletePokemon(pokemon.getPokemon());
+							player.synchronizeFrontAndBackEnd();
+							//player.addGraphicPokemon(GraphicPokemon(&caught,0,0));
 							break;
 						}else
 							{

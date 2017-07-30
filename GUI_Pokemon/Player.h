@@ -63,10 +63,14 @@ public:
 	void addGraphicPokemon(GraphicPokemon& pokemon)
 	{
 		list.push_back(pokemon);
-		
 	}
 
+	void synchronizeFrontAndBackEnd();
 
+	Trener* getBackEndTrener()
+	{
+		return &trener;
+	}
 
 	std::vector<GraphicPokemon>& getGraphicPokemonList()
 	{

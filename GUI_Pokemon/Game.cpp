@@ -47,8 +47,16 @@ Game::Game(int& W, int& H)
 	b = Batoh(5, 4);
 	// backend trener
 	t = Trener(&b);
+	
 
+	movingArea = sf::FloatRect(130, 106, 1029, 638);
 
+	//wild
+	exits[0] = sf::FloatRect(132, 39, 45, 60);
+	//stadium
+	exits[1] = sf::FloatRect(619, 56, 45, 50);
+	//shop
+	exits[2] = sf::FloatRect(1093, 700, 45, 50);
 }
 
 
@@ -56,24 +64,28 @@ Game::~Game()
 {
 }
 
-void Game::movePlayer(Player& sPlayer, int& mRight, int mx, int my)
+int Game::movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledDirection)
 {
 	//set movement
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && disabledDirection != 4)
 	{
 		sPlayer.walk(4, mRight, mx, my);
+		return 4;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && disabledDirection != 3)
 	{
 		sPlayer.walk(3, mRight, mx, my);
+		return 3;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && disabledDirection != 1)
 	{
 		sPlayer.walk(1, mRight, mx, my);
+		return 1;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && disabledDirection != 2)
 	{
 		sPlayer.walk(2, mRight, mx, my);
+		return 2;
 	}
 }
 
@@ -213,9 +225,11 @@ void Game::Play(sf::RenderWindow& app)
 	
 	Player player = Player(t);
 	player.addGraphicPokemon(*chosenPok);
+	int lastDirectionOfMovement = 0;
 
-//	Stadium stadium(player);
-	//stadium.draw(app);
+
+	Stadium stadium(player);
+
 
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
@@ -239,15 +253,8 @@ void Game::Play(sf::RenderWindow& app)
 		float vx = player.getPosition().x;
 		float vy = player.getPosition().y;
 
-		if(setViewCenter(player, view, vx, vy))
-		{
-			std::cout << "Posun kamery" << std::endl;
-		}
-		else { std::cout << "Kamera fix" << std::endl; }
+		setViewCenter(player, view, vx, vy);
 		
-
-	
-
 		//player animation
 		Frame += animSpeed;
 		if (Frame>frameCount) Frame -= frameCount;
@@ -300,11 +307,33 @@ void Game::Play(sf::RenderWindow& app)
 				}
 			}
 		}
-
-		movePlayer(player, mRight, 2.5, 2.5);
+		if (movingArea.intersects(player.getSurroundings()))
+		{
+			lastDirectionOfMovement = movePlayer(player, mRight, 2.5, 2.5, 0);
+		}
+		else { movePlayer(player, mRight, 2.5, 2.5, lastDirectionOfMovement); }
 		
 		sShop.setPosition(257, 14);
 		sMainBG.setPosition(0, 0);
+
+		// handle shifts of places
+		if (exits[0].intersects(player.getSurroundings()))
+		{
+			std::cout << "Wild" << std::endl;
+			app.setView(app.getDefaultView());
+			divocina.draw(app);
+			player.setPosition(140, 100);
+		}else
+			if (exits[1].intersects(player.getSurroundings()))
+			{
+				std::cout << "Stadium" << std::endl;
+				app.setView(app.getDefaultView());
+				stadium.draw(app);
+				player.setPosition(630, 100);
+			} else //shop
+			{ }
+
+		
 		//draw
 		app.clear();
 		app.draw(sMainBG);

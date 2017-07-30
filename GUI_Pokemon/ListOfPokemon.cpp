@@ -3,10 +3,11 @@
 
 
 
-ListOfPokemon::ListOfPokemon(float w, float h, std::vector<GraphicPokemon>& list, Trener* trener):list(list)
+ListOfPokemon::ListOfPokemon(float w, float h, Player &player/* std::vector<GraphicPokemon>& list*//*, Trener* trener*/)/*:list(list)*/
 {
-	this->trener = trener;
-	this->sum = list.size();
+	this->trener = player.getBackEndTrener();
+	this->sum = player.getGraphicPokemonList().size();
+	this->list = player.getGraphicPokemonList();
 
 	for (unsigned int i = 0; i<sum; i++)
 	{
@@ -78,12 +79,12 @@ void ListOfPokemon::draw(sf::RenderWindow& window)
 		}
 
 		window.clear();
-		for (unsigned int i = 0; i < sum+1; i++)
+		for (unsigned int i = 0; i < sum; i++)
 		{
 			window.draw(menu[i]);
 			window.draw(list[i]);
 		}
-		
+		window.draw(menu.back());
 		window.display();
 	}
 }

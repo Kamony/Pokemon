@@ -74,6 +74,7 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 	pokeball.setScale(2, 2);
 
 	backNotPressed = true;
+	pokemonCaught = false;
 
 	draw(app, loserPok, stav);
 
@@ -92,7 +93,8 @@ ResultAnime::ResultAnime(Player& player, sf::RenderWindow& app, int stav) :playe
 	backButton.setFillColor(sf::Color::White);
 	backButton.setString("PRESS 'B' TO CONTINUE");
 	backButton.setPosition(500, 750);
-
+	
+	pokemonCaught = false;
 	backNotPressed = true;
 }
 
@@ -153,9 +155,6 @@ void ResultAnime::animateResult(sf::RenderWindow& app, int stav, int counter, bo
 	}
 }
 
-
-
-
 void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 {
 	sf::Clock clock;
@@ -164,7 +163,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 	loser.setPosition(550, 350);
 	loser.setX(550);
 	loser.setY(350);
-	pokeball.setPosition(loser.getPosition()+sf::Vector2f(10,-300));
+	pokeball.setPosition(loser.getPosition()+sf::Vector2f(20,-300));
 
 	float Frame = 0;
 	float animSpeed = 0.2;

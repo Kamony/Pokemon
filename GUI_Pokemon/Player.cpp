@@ -81,7 +81,7 @@ void Player::setPosition(float x, float y)
 	this->x = x;
 	this->y = y;
 	Transformable::setPosition(x, y);
-	surroundings.Transformable::setPosition(x - 3, y + 60);
+	surroundings.Transformable::setPosition(x - 3, y + 40);
 }
 
 sf::FloatRect Player::getSurroundings()
@@ -150,11 +150,20 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 	return result;
 }
 
+void Player::synchronizeFrontAndBackEnd()
+{
+	list.clear();
+	for (Pokemon& pokemon : trener.getBatoh().pokemoni)
+	{
+		GraphicPokemon* item = new GraphicPokemon(&pokemon, 0, 0);
+		list.push_back(*item);
+	}
+}
 
 
 GraphicPokemon* Player::choosePokemon(sf::RenderWindow& app)
 {
-	ListOfPokemon CHooseList(1200,800,list,&trener);
+	ListOfPokemon CHooseList(1200,800,*this);
 	
 	int index = CHooseList.drawForBattle(app);
 	std::cout << "pokemon Index: " << index << std::endl;

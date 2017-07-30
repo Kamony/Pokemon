@@ -71,7 +71,7 @@ void BackPack::draw(sf::RenderWindow& window)
 {
 	std::cout << "BAGL" << std::endl;
 	//initialization of pokemon list
-	ListOfPokemon list_of_pokemon(w, h, player->getGraphicPokemonList(), trener);
+	ListOfPokemon list_of_pokemon(w, h, *player);
 
 
 

@@ -16,20 +16,22 @@ Stadium::Stadium(Player& player):/*Game(),*/player(player)
 	victoryText.setFont(font);
 	victoryText.setString("AAAARGH! YOU HAVE BESTED ME!\nI PASS TITLE OF CHAMPION TO YOU!");
 
-	if (!champ_texture.loadFromFile("../Images/stadium/villain.png"))
+	if (!champ_texture.loadFromFile("../Images/stadium/villain.png") ||
+		bg_texture.loadFromFile("../Images/stadiumBG.png"))
 		std::cerr << "texture not loaded";
 
-	/*articuno.setTexture(articuno_texture);
-	zapdos.setTexture(zapdos_texture);
-	moltres.setTexture(moltres_texture);*/
 	champ.setTexture(champ_texture);
 	champ.setScale(0.3, 0.3);
+
+	bg.setTexture(bg_texture);
 
 	stadionBackEnd = Stadion();
 
 	articuno = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[1], 300, 250);
 	moltres = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[0], 500, 250);
 	zapdos = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[2], 700, 250);
+
+	art_alive = zap_alive = molt_alive = true;
 }
 
 
@@ -42,10 +44,7 @@ void Stadium::draw(sf::RenderWindow& app)
 	champ.setPosition(500, 100);
 	text.setPosition(champ.getPosition() + sf::Vector2f(-250, -40));
 	victoryText.setPosition(champ.getPosition() + sf::Vector2f(210, -200));
-	/*articuno.setPosition(champ.getPosition() + sf::Vector2f(-200, 150));
-	zapdos.setPosition(articuno.getPosition() + sf::Vector2f(200, 0));
-	moltres.setPosition(zapdos.getPosition() + sf::Vector2f(200, 0));
-*/
+
 	
 	float AFrame = 0;
 	float ZFrame = 0;
@@ -121,51 +120,68 @@ void Stadium::draw(sf::RenderWindow& app)
 			mRightPlayer = 0;
 			FramePlayer = 0.3;
 		}
-		movePlayer(player, mRightPlayer, 2, 2);
+//		movePlayer(player, mRightPlayer, 2, 2);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			if (Collide(player, *articuno))
 			{
 				std::cout << "ARTICUNO KOLIZE" << std::endl;
-				//FightAnime fight(player,articuno)
+				GraphicPokemon* chosenFromPlayer = player.choosePokemon(app);
+				if (chosenFromPlayer != nullptr)
+				{
+					FightAnime fight(player, *chosenFromPlayer, *articuno, app);
+					if (fight.getResult())
+					{
+						art_alive = false;
+					}
+				}
 			}
 
 			if (Collide(player, *moltres))
 			{
 				std::cout << "MOLTRES KOLIZE" << std::endl;
-
-				//FightAnime fight(player,articuno)
+				GraphicPokemon* chosenFromPlayer = player.choosePokemon(app);
+				if (chosenFromPlayer != nullptr)
+				{
+					FightAnime fight(player, *chosenFromPlayer, *moltres, app);
+					if (fight.getResult())
+					{
+						molt_alive = false;
+					}
+				}
 			}
 
 			if (Collide(player, *zapdos))
 			{
 				std::cout << "ZAPDOS KOLIZE" << std::endl;
-
-				//FightAnime fight(player,articuno)
+				GraphicPokemon* chosenFromPlayer = player.choosePokemon(app);
+				if (chosenFromPlayer != nullptr)
+				{
+					FightAnime fight(player, *chosenFromPlayer, *zapdos, app);
+					if (fight.getResult())
+					{
+						zap_alive = false;
+					}
+				}
 			}
 		}
-
-
-
-
-
-
-
-
-
-		app.clear();
-
-		if (clock.getElapsedTime().asSeconds() < 5) app.draw(text);
-
-
 		
-
+		app.clear();
+		
+		app.draw(bg);
+		
+		if (clock.getElapsedTime().asSeconds() < 5) app.draw(text);
+		if (!(art_alive && zap_alive && molt_alive))
+		{
+			app.draw(victoryText);
+		}
 		app.draw(champ);
 		
-		app.draw(*articuno);
-		app.draw(*zapdos);
-		app.draw(*moltres);
+		if (art_alive) app.draw(*articuno);
+		if (zap_alive) app.draw(*zapdos);
+		if (molt_alive) app.draw(*moltres);
+		
 		app.draw(player);
 
 		app.display();

@@ -34,7 +34,7 @@ class FightAnime
 
 public:
 	
-	FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app);
+	//FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app);
 	
 	void initGraphics();
 	
