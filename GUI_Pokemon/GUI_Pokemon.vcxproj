@@ -184,6 +184,7 @@
     <ClCompile Include="PreGame.cpp" />
     <ClCompile Include="ResultAnime.cpp" />
     <ClCompile Include="Stadium.cpp" />
+    <ClCompile Include="Store.cpp" />
     <ClCompile Include="Wilderness.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +211,7 @@
     <ClInclude Include="PreGame.h" />
     <ClInclude Include="ResultAnime.h" />
     <ClInclude Include="Stadium.h" />
+    <ClInclude Include="Store.h" />
     <ClInclude Include="Wilderness.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

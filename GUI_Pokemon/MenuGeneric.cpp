@@ -1,10 +1,11 @@
 #include "MenuGeneric.h"
+#include <iostream>
 
 MenuGeneric::MenuGeneric()
 {
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
 	{
-		//error
+		std::cout << "font not loaded" << std::endl;
 	}
 	menu.clear();
 	selectedItemId = 0;

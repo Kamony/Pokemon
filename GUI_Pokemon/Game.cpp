@@ -3,6 +3,7 @@
 #include "Wilderness.h"
 #include "PreGame.h"
 #include "Stadium.h"
+#include "Store.h"
 
 Game::Game()
 {
@@ -22,7 +23,7 @@ Game::Game(int& W, int& H)
 
 	//textures
 	tMainBG.loadFromFile("../Images/MainBG.jpg.png");
-	tShopBG.loadFromFile("../Images/shopBG.png");
+	//tShopBG.loadFromFile("../Images/shopBG.png");
 	tBackPack.loadFromFile("../Images/backpack.png");
 	tBackPack.setSmooth(true);
 
@@ -41,7 +42,7 @@ Game::Game(int& W, int& H)
 	sBackPack.setTexture(tBackPack);
 	sBackPack.setTextureRect(sf::IntRect(113, 79, 670, 840));
 	sBackPack.scale(0.2, 0.2);
-	sBackPack.setPosition(1050, 0);
+	//sBackPack.setPosition(1050, 0);
 
 	// backend backPack instance
 	b = Batoh(5, 4);
@@ -174,8 +175,7 @@ bool Game::setViewCenter(Player& player, sf::View& view, float vx, float vy)
 
 void Game::initView(sf::View& view)
 {
-	//view = sf::FloatRect(0, 0, 800, 600);
-	
+		
 	view.setSize(800, 600);
 	view.zoom(0.5f);
 	view.setCenter(W / 2, H / 2);
@@ -183,55 +183,46 @@ void Game::initView(sf::View& view)
 
 void Game::Play(sf::RenderWindow& app)
 {
-	
-	
-	
-	
-	
 	PreGame intro;
 	intro.draw(app);
-
-	//GraphicPokemon *chosenPok;
-
+		
 	switch (intro.getChosenPok())
 	{
 		case 1:
 		{
 			Pokemon *bulb = new Pokemon("Bulbasaur", Pokemon::Travni, 20, 5);
 			t.pridejPokemona(*bulb);
-			//chosenPok = new GraphicPokemon(bulb, 0, 0);
+			
 			break;
 		}
 		case 2:
 		{
 			Pokemon *charm = new Pokemon("Charmander", Pokemon::Ohnivy, 30, 4);
 			t.pridejPokemona(*charm);
-			//chosenPok = new GraphicPokemon(charm, 0, 0);
+			
 			break;
 		}
 		case 3:
 		{
 			Pokemon *squirt = new Pokemon("Squirtle", Pokemon::Vodni, 10, 6);
 			t.pridejPokemona(*squirt);
-			//chosenPok = new GraphicPokemon(squirt, 0, 0);
+			
 			break;
 		}
 		default:
-			//chosenPok = new GraphicPokemon();
+			
 			break;
 	}
-
-	
-	
+		
 	Player player = Player(t);
 	player.synchronizeFrontAndBackEnd();
-	//player.addGraphicPokemon(*chosenPok);
+	
 	int lastDirectionOfMovement = 0;
-
-
+	
+	//stadium
 	Stadium stadium(player);
-
-
+	// store
+	Store store(player);
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
 
@@ -296,6 +287,13 @@ void Game::Play(sf::RenderWindow& app)
 					BackPack batoh = BackPack(W, H,player, &t);
 					app.setView(app.getDefaultView());
 					batoh.draw(app);
+					break;
+				}
+				case sf::Keyboard::S:
+				{
+					std::cout << "SHOP" << std::endl;
+					app.setView(app.getDefaultView());
+					store.draw(app);
 					break;
 				}
 				case sf::Keyboard::W:
