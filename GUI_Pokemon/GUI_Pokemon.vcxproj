@@ -211,6 +211,7 @@
     <ClInclude Include="PreGame.h" />
     <ClInclude Include="ResultAnime.h" />
     <ClInclude Include="Stadium.h" />
+    <ClInclude Include="Statistic.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="Wilderness.h" />
   </ItemGroup>

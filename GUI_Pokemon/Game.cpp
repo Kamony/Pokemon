@@ -23,10 +23,9 @@ Game::Game(int& W, int& H)
 
 	//textures
 	
-	//tShopBG.loadFromFile("../Images/shopBG.png");
-	
 	if (!tControls.loadFromFile("../Images/playerTools/controls.png") ||
 		!tMainBG.loadFromFile("../Images/MainBG.jpg.png") ||
+		!tStatistic.loadFromFile("../Images/playerTools/statistic.png") ||
 		!tBackPack.loadFromFile("../Images/backpack.png"))
 	{
 		std::cerr << "textury nenacteny - GAME" << std::endl;
@@ -53,6 +52,8 @@ Game::Game(int& W, int& H)
 	
 	sControls.setTexture(tControls);
 	sControls.setScale(0.6, 0.6);
+
+	sStatistic.setTexture(tStatistic);
 
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
 	{
@@ -109,6 +110,8 @@ int Game::movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledD
 		return 2;
 	}
 }
+
+
 
 bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 {
@@ -201,6 +204,15 @@ void Game::initView(sf::View& view)
 	view.setCenter(W / 2, H / 2);
 }
 
+void Game::handlePlayerMovement(Player& player, int& lastDirectionOfMovement, int mRight, sf::FloatRect movingArea)
+{
+	if (movingArea.intersects(player.getSurroundings()))
+	{
+		lastDirectionOfMovement = movePlayer(player, mRight, 2.5, 2.5, 0);
+	}
+	else { movePlayer(player, mRight, 2.5, 2.5, lastDirectionOfMovement); }
+}
+
 void Game::Play(sf::RenderWindow& app)
 {
 	PreGame intro;
@@ -236,7 +248,10 @@ void Game::Play(sf::RenderWindow& app)
 		
 	Player player = Player(t);
 	player.synchronizeFrontAndBackEnd();
-	
+
+	// statistic of Player - status bar
+	Statistic statOfPlayer = Statistic(player);
+		
 	int lastDirectionOfMovement = 0;
 	
 	//stadium
@@ -246,7 +261,7 @@ void Game::Play(sf::RenderWindow& app)
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
 
-	float x = 300, y = 300;
+	//float x = 300, y = 300;
 	float Frame = 0;
 	float animSpeed = 0.3;
 	int frameCount = 20;
@@ -266,9 +281,10 @@ void Game::Play(sf::RenderWindow& app)
 		float vy = player.getPosition().y;
 
 		setViewCenter(player, view, vx, vy);
-		sBackPack.setPosition(view.getCenter() + sf::Vector2f(170, -145));
+		//sBackPack.setPosition(view.getCenter() + sf::Vector2f(170, -145));
 		
 		help.setPosition(view.getCenter() + sf::Vector2f(-190, -145));
+
 		//player animation
 		Frame += animSpeed;
 		if (Frame>frameCount) Frame -= frameCount;
@@ -333,11 +349,8 @@ void Game::Play(sf::RenderWindow& app)
 				}
 			}
 		}
-		if (movingArea.intersects(player.getSurroundings()))
-		{
-			lastDirectionOfMovement = movePlayer(player, mRight, 2.5, 2.5, 0);
-		}
-		else { movePlayer(player, mRight, 2.5, 2.5, lastDirectionOfMovement); }
+
+		handlePlayerMovement(player, lastDirectionOfMovement, mRight, movingArea);
 		
 		sShop.setPosition(257, 14);
 		sMainBG.setPosition(0, 0);
@@ -348,7 +361,7 @@ void Game::Play(sf::RenderWindow& app)
 			std::cout << "Wild" << std::endl;
 			app.setView(app.getDefaultView());
 			divocina.draw(app);
-//			player.setPosition(140, 100);
+
 		}else
 			if (exits[1].intersects(player.getSurroundings()))
 			{
@@ -357,7 +370,14 @@ void Game::Play(sf::RenderWindow& app)
 				stadium.draw(app);
 				
 			} else //shop
-			{ }
+			{
+				if (exits[2].intersects(player.getSurroundings()))
+				{
+					std::cout << "shop" << std::endl;
+					app.setView(app.getDefaultView());
+					store.draw(app);
+				}
+			}
 
 		
 		//draw
@@ -372,6 +392,10 @@ void Game::Play(sf::RenderWindow& app)
 		
 		app.setView(view);
 		app.draw(help);
+
+		statOfPlayer.drawStatistic(app, view.getCenter());
+		
+
 		app.draw(sBackPack);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 		{
@@ -381,10 +405,3 @@ void Game::Play(sf::RenderWindow& app)
 	
 	}
 }
-
-Trener& Game::getTrener()
-{
-	return t;
-}
-
-

@@ -78,5 +78,6 @@ public:
 	}
 
 	GraphicPokemon* choosePokemon(sf::RenderWindow& app);
+
 };
 

@@ -70,8 +70,7 @@ BackPack::~BackPack()
 void BackPack::draw(sf::RenderWindow& window)
 {
 	std::cout << "BAGL" << std::endl;
-	//initialization of pokemon list
-	ListOfPokemon list_of_pokemon(w, h, *player);
+	
 
 
 
@@ -96,10 +95,12 @@ void BackPack::draw(sf::RenderWindow& window)
 				case sf::Keyboard::Return:
 					switch (getPressedItem())
 					{
-					case 0:
+					case 0: {
 						std::cout << "Heal" << std::endl;
+						//re-initialization of pokemon list
+						ListOfPokemon list_of_pokemon(w, h, *player);
 						list_of_pokemon.draw(window);
-						break;
+						break; }
 					case 1:
 						std::cout << "Back" << std::endl;
 						endDraw = false;
