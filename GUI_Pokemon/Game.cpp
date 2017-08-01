@@ -22,9 +22,16 @@ Game::Game(int& W, int& H)
 	this->H = H;
 
 	//textures
-	tMainBG.loadFromFile("../Images/MainBG.jpg.png");
+	
 	//tShopBG.loadFromFile("../Images/shopBG.png");
-	tBackPack.loadFromFile("../Images/backpack.png");
+	
+	if (!tControls.loadFromFile("../Images/playerTools/controls.png") ||
+		!tMainBG.loadFromFile("../Images/MainBG.jpg.png") ||
+		!tBackPack.loadFromFile("../Images/backpack.png"))
+	{
+		std::cerr << "textury nenacteny - GAME" << std::endl;
+	}
+
 	tBackPack.setSmooth(true);
 
 	// Main background
@@ -32,18 +39,31 @@ Game::Game(int& W, int& H)
 	sMainBG.setTextureRect(sf::IntRect(0, 0, W, H));
 	sMainBG.setOrigin(0, 0);
 
-	// shopBG
-	sShopBG.setTexture(tShopBG);
-	sShopBG.setTextureRect(sf::IntRect(0, 0, W, H));
+	//// shopBG
+	//sShopBG.setTexture(tShopBG);
+	//sShopBG.setTextureRect(sf::IntRect(0, 0, W, H));
 
 	// Shop
-	sShop.setTextureRect(sf::IntRect(2, 20, 228, 218));
+//	sShop.setTextureRect(sf::IntRect(2, 20, 228, 218));
+	
 	// backpack
 	sBackPack.setTexture(tBackPack);
 	sBackPack.setTextureRect(sf::IntRect(113, 79, 670, 840));
-	sBackPack.scale(0.2, 0.2);
-	//sBackPack.setPosition(1050, 0);
+	sBackPack.setScale(0.05, 0.05);
+	
+	sControls.setTexture(tControls);
+	sControls.setScale(0.6, 0.6);
 
+	if (!font.loadFromFile("../Fonts/arial.ttf"))
+	{
+		std::cerr << "font nenacten" << std::endl;
+	}
+
+	help.setFont(font);
+	help.setString("Hold 'C' to show controls");
+	help.setFillColor(sf::Color::Black);
+
+	help.setCharacterSize(11);
 	// backend backPack instance
 	b = Batoh(5, 4);
 	// backend trener
@@ -232,7 +252,7 @@ void Game::Play(sf::RenderWindow& app)
 	int frameCount = 20;
 	int mRight=0;
 	bool inShop = false;
-
+	int countOfC = 0;
 
 	sf::View view;
 	initView(view);
@@ -246,7 +266,9 @@ void Game::Play(sf::RenderWindow& app)
 		float vy = player.getPosition().y;
 
 		setViewCenter(player, view, vx, vy);
+		sBackPack.setPosition(view.getCenter() + sf::Vector2f(170, -145));
 		
+		help.setPosition(view.getCenter() + sf::Vector2f(-190, -145));
 		//player animation
 		Frame += animSpeed;
 		if (Frame>frameCount) Frame -= frameCount;
@@ -301,6 +323,11 @@ void Game::Play(sf::RenderWindow& app)
 					app.setView(app.getDefaultView());
 					divocina.draw(app);
 					break;
+				case sf::Keyboard::C:
+					{
+				    sControls.setPosition(view.getCenter() + sf::Vector2f(-130, -135));
+					break;
+					}
 				default:
 					break;
 				}
@@ -335,13 +362,21 @@ void Game::Play(sf::RenderWindow& app)
 		
 		//draw
 		app.clear();
+
+	
 		app.draw(sMainBG);
 		app.draw(sShop);
 		app.draw(player.getCollideArea());
 		app.draw(player);
 		
-		app.draw(sBackPack);
+		
 		app.setView(view);
+		app.draw(help);
+		app.draw(sBackPack);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		{
+			app.draw(sControls);
+		}
 		app.display();
 	
 	}

@@ -20,12 +20,14 @@ private:
 	sf::FloatRect exits[3];
 	sf::FloatRect movingArea;
 
-public:
-	
 	// Textures
-	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack;
+	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack, tControls;
 	// Sprites
-	sf::Sprite sShop, sMainBG, sShopBG, sBackPack;
+	sf::Sprite sShop, sMainBG, sShopBG, sBackPack, sControls;
+	sf::Text help;
+	sf::Font font;
+public:
+
 	
 
 	Game();
