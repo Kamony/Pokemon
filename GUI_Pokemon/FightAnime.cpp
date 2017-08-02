@@ -102,7 +102,7 @@ FightAnime::FightAnime(Player& p,GraphicPokemon& pok1, GraphicPokemon& pok2, sf:
 	gPok2->getPokemon().setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
 	
 	std::string name = gPok2->getID();
-	if (name != "articuno" || name != "moltres" || name != "zapdos")
+	if (name != "Articuno" || name != "Moltres" || name != "Zapdos")
 	{
 		draw(app);
 	}
@@ -382,9 +382,6 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 
 
 		animateBattle(animSpeed - 0.05, frameCount, FrameB, mRightB);
-
-
-
 
 		// every second do iteration
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();

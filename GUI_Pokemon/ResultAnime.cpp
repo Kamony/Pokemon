@@ -76,7 +76,16 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 	backNotPressed = true;
 	pokemonCaught = false;
 
-	draw(app, loserPok, stav);
+	
+
+	if (loserPok.getID() == "Articuno" || loserPok.getID() == "Moltres" || loserPok.getID() == "Zapdos")
+	{
+		drawOnlyResult(app);
+	}
+	else
+	{
+		draw(app, loserPok, stav);
+	}
 
 }
 
@@ -238,7 +247,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 
 void ResultAnime::drawOnlyResult(sf::RenderWindow& app)
 {
-	
+	resultOfCatch.setPosition(sf::Vector2f(300, 340));
 	while (backNotPressed)
 	{
 		// handle events

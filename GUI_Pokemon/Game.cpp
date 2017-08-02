@@ -249,11 +249,11 @@ void Game::Play(sf::RenderWindow& app)
 	
 	
 	//test
-	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 30, 2));
-	t.pridejPokemona(Pokemon("b321321aba", Pokemon::Elektricky, 30, 2));
-	t.pridejPokemona(Pokemon("bababfdsfa", Pokemon::Elektricky, 30, 2));
-	t.pridejPokemona(Pokemon("babahhba", Pokemon::Elektricky, 30, 2));
-	t.pridejPokemona(Pokemon("babadfsdba", Pokemon::Elektricky, 30, 2));
+	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 50, 30));
+	t.pridejPokemona(Pokemon("b321321aba", Pokemon::Elektricky, 50, 30));
+	t.pridejPokemona(Pokemon("bababfdsfa", Pokemon::Elektricky, 50, 30));
+	t.pridejPokemona(Pokemon("babahhba", Pokemon::Elektricky, 50, 30));
+	t.pridejPokemona(Pokemon("babadfsdba", Pokemon::Elektricky, 50, 30));
 
 	//konec test
 

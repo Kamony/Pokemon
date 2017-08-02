@@ -4,7 +4,7 @@
 #include "FightAnime.h"
 
 
-Stadium::Stadium(Player& player):/*Game(),*/player(player)
+Stadium::Stadium(Player& player):player(player)
 {
 	if (!font.loadFromFile("../Fonts/arial.ttf"))
 	{
@@ -13,17 +13,29 @@ Stadium::Stadium(Player& player):/*Game(),*/player(player)
 	text.setFont(font);
 	text.setString("YOU HAVE TO DEFEAT ME AND MY LEGENDARY POKEMONS!\nHAHAHAHA!!!");
 	text.setFillColor(sf::Color::Red);
+	text.setOutlineColor(sf::Color(157, 175, 192));
+	text.setOutlineThickness(16);
+
 	victoryText.setFont(font);
-	victoryText.setString("AAAARGH! YOU HAVE BESTED ME!\nI PASS TITLE OF CHAMPION TO YOU!");
+	victoryText.setString("AAAARGH! YOU HAVE BESTED ME!\nI PASS TITLE OF THE CHAMPION TO YOU!");
+	victoryText.setFillColor(sf::Color::Red);
+	victoryText.setOutlineColor(sf::Color(157,175,192));
+	victoryText.setOutlineThickness(16);
 
 	if (!champ_texture.loadFromFile("../Images/stadium/villain.png") ||
-		bg_texture.loadFromFile("../Images/stadiumBG.png"))
-		std::cerr << "texture not loaded";
+		!bg_texture.loadFromFile("../Images/stadiumBG.png") ||
+		!crown_texture.loadFromFile("../Images/stadium/crown.png"))
+		std::cerr << "texture not loaded - STADIUM" << std::endl;
 
 	champ.setTexture(champ_texture);
 	champ.setScale(0.3, 0.3);
 
 	bg.setTexture(bg_texture);
+	crown.setTexture(crown_texture);
+	crown.setPosition(573, 350);
+	crown.setScale(2,2);
+
+	movingArea = sf::FloatRect(95, 90, 1007, 628);
 
 	stadionBackEnd = Stadion();
 
@@ -39,27 +51,100 @@ Stadium::~Stadium()
 {
 }
 
+void Stadium::disablePokemon(GraphicPokemon& pok)
+{
+	pok.setScale(0.001, 0.001);
+	pok.setX(0);
+	pok.setY(0);
+}
+void Stadium::drawEndOfGame(sf::RenderWindow& app)
+{
+	bool end = true;
+
+	sf::Text endText("That's all Folks!\nThank you for playing.\nI hope you enjoyed the game\n\nJiri Hauser\n2017\n\n\n\nPress 'B' to exit", font, 30);
+	endText.setPosition(200, 200);
+	endText.setFillColor(sf::Color::White);
+
+	while (end)
+	{
+		sf::Event event;
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				app.close();
+			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::B)
+				{
+					app.close();
+				}
+			}
+		}
+		
+		app.clear();
+		app.draw(endText);
+		app.display();
+	}
+}
+
+void Stadium::drawAfterVictory(sf::RenderWindow& app,float& FrameCrown, int& CmRight)
+{
+		//sprite animation of champ
+		FrameCrown += 0.1;
+		CmRight = int(FrameCrown) * 25;
+		if (CmRight > 475) {
+			CmRight = 0;
+			FrameCrown = 0.3;
+		}
+		crown.setTextureRect(sf::IntRect(CmRight, 0, 25, 27));
+
+		if (Collide(player,crown))
+		{
+			drawEndOfGame(app);
+		}
+	
+	app.draw(crown);
+}
+
 void Stadium::draw(sf::RenderWindow& app)
 {
 	champ.setPosition(500, 100);
 	text.setPosition(champ.getPosition() + sf::Vector2f(-250, -40));
-	victoryText.setPosition(champ.getPosition() + sf::Vector2f(210, -200));
+	victoryText.setPosition(champ.getPosition() + sf::Vector2f(-250, -55));
 
-	
+
 	float AFrame = 0;
 	float ZFrame = 0;
 	float MFrame = 0;
 	float animSpeed = 0.3;
 	int frameCount = 12;
-	int CHmRight = 0;
-	int mRightPlayer = 0;
+
 	float FramePlayer = 0;
 	float FrameChamp = 0;
-	int  AmRight = 0;
-	int  ZmRight = 0;
-	int  MmRight = 0;
+	
+	int	CHmRight = 0;
+	int	mRightPlayer = 0;
+	int AmRight = 0;
+	int ZmRight = 0;
+	int MmRight = 0;
 
-	player.setScale(0.8, 0.8);
+
+	float FrameCrown = 0;
+	int CmRight = 0;
+	int lastMovP = 0;
+
+
+	////test
+	//zap_alive = false;
+	//art_alive = false;
+	////konec tetsu
+
+	int lastDirectionOfMovement = 0;
+
+
+	player.setScale(0.6, 0.6);
 	player.setPosition(550, 650);
 
 	sf::Clock clock;
@@ -120,7 +205,7 @@ void Stadium::draw(sf::RenderWindow& app)
 			mRightPlayer = 0;
 			FramePlayer = 0.3;
 		}
-//		movePlayer(player, mRightPlayer, 2, 2);
+		handlePlayerMovement(player, lastDirectionOfMovement, mRightPlayer, movingArea);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
@@ -131,9 +216,11 @@ void Stadium::draw(sf::RenderWindow& app)
 				if (chosenFromPlayer != nullptr)
 				{
 					FightAnime fight(player, *chosenFromPlayer, *articuno, app);
-					if (fight.getResult())
+					if (articuno->getPokemon().getHp() <= 0)
 					{
 						art_alive = false;
+						disablePokemon(*articuno);
+						player.setPosition(550, 650);
 					}
 				}
 			}
@@ -145,9 +232,11 @@ void Stadium::draw(sf::RenderWindow& app)
 				if (chosenFromPlayer != nullptr)
 				{
 					FightAnime fight(player, *chosenFromPlayer, *moltres, app);
-					if (fight.getResult())
+					if (moltres->getPokemon().getHp() <= 0)
 					{
 						molt_alive = false;
+						disablePokemon(*moltres);
+						player.setPosition(550, 650);
 					}
 				}
 			}
@@ -159,9 +248,11 @@ void Stadium::draw(sf::RenderWindow& app)
 				if (chosenFromPlayer != nullptr)
 				{
 					FightAnime fight(player, *chosenFromPlayer, *zapdos, app);
-					if (fight.getResult())
+					if (zapdos->getPokemon().getHp() <= 0)
 					{
 						zap_alive = false;
+						disablePokemon(*zapdos);
+						player.setPosition(550, 650);
 					}
 				}
 			}
@@ -172,9 +263,10 @@ void Stadium::draw(sf::RenderWindow& app)
 		app.draw(bg);
 		
 		if (clock.getElapsedTime().asSeconds() < 5) app.draw(text);
-		if (!(art_alive && zap_alive && molt_alive))
+		if (art_alive == false && zap_alive == false && molt_alive == false)
 		{
 			app.draw(victoryText);
+			drawAfterVictory(app,FrameCrown,CmRight);
 		}
 		app.draw(champ);
 		
@@ -183,7 +275,7 @@ void Stadium::draw(sf::RenderWindow& app)
 		if (molt_alive) app.draw(*moltres);
 		
 		app.draw(player);
-
+		
 		app.display();
 
 	}
