@@ -10,13 +10,14 @@
 class ListOfPokemon: public MenuGeneric
 {
 private:
+	sf::Texture bg_texture;
+	sf::Sprite bg;
+
 	unsigned int sum;
 	Trener* trener;
 	std::vector<GraphicPokemon> list;
 public:
-
-//	ListOfPokemon(float w, float h, std::vector<Pokemon>& list, Trener* trener);
-	ListOfPokemon(float w, float h, Player &player/*std::vector<GraphicPokemon>& list*//*, Trener* trener*/);
+	ListOfPokemon(float w, float h, Player &player);
 	~ListOfPokemon();
 
 	void draw(sf::RenderWindow &window);

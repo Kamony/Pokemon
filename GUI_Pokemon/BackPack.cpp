@@ -1,12 +1,13 @@
 #include "BackPack.h"
 #include <iostream>
 #include "ListOfPokemon.h"
-//#include "../../Pokemon/Pokemon/Trener.h"
+
 
 
 BackPack::BackPack()
 {
 }
+
 
 BackPack::BackPack(float width, float height, Player& player, Trener* trener)
 {
@@ -44,6 +45,12 @@ BackPack::BackPack(float width, float height, Player& player, Trener* trener)
 	items.push_back(pokebaly);
 
 	
+
+	if (!bg_texture.loadFromFile("../Images/backPackBG.png"))
+	{
+		std::cerr << "texture not loaded - BackPack" << std::endl;
+	}
+	bg.setTexture(bg_texture);
 	
 	
 	// initialize menu
@@ -112,7 +119,7 @@ void BackPack::draw(sf::RenderWindow& window)
 		}
 
 		window.clear();
-
+		window.draw(bg);
 		for (unsigned int i = 0; i < items.size(); i++)
 		{
 			window.draw(items[i]);

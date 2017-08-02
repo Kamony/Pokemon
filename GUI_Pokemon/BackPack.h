@@ -13,8 +13,8 @@ class BackPack: public MenuGeneric
 private:
 	Trener *trener;
 		
-	sf::Texture tItems;
-	sf::Sprite sItems;
+	sf::Texture tItems,bg_texture;
+	sf::Sprite sItems,bg;
 		
 	float w, h;
 	Player* player;

@@ -10,7 +10,11 @@ ListOfPokemon::ListOfPokemon(float w, float h, Player &player)
 	this->list = player.getGraphicPokemonList();
 	std::string nameOfPok;
 
-	
+	if (!bg_texture.loadFromFile("../Images/pokeListBG.png"))
+	{
+		std::cerr << "texture not loaded - STORE" << std::endl;
+	}
+	bg.setTexture(bg_texture);
 
 	for (unsigned int i = 0; i<sum; i++)
 	{
@@ -95,6 +99,7 @@ void ListOfPokemon::draw(sf::RenderWindow& window)
 		}
 
 		window.clear();
+		window.draw(bg);
 		for (unsigned int i = 0; i < sum; i++)
 		{
 			window.draw(menu[i]);
@@ -143,6 +148,7 @@ int ListOfPokemon::drawForBattle(sf::RenderWindow& window)
 		}
 
 		window.clear();
+		window.draw(bg);
 		for (unsigned int i = 0; i < sum; i++)
 		{
 			window.draw(menu[i]);
