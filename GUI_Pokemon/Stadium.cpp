@@ -36,7 +36,7 @@ Stadium::Stadium(Player& player):player(player)
 	crown.setScale(2,2);
 
 	movingArea = sf::FloatRect(95, 90, 1007, 628);
-
+	exit = sf::FloatRect(454, 732, 274, 71);
 	stadionBackEnd = Stadion();
 
 	articuno = new GraphicPokemon(&stadionBackEnd.getVectorOfPokemon()[1], 300, 250);
@@ -145,11 +145,14 @@ void Stadium::draw(sf::RenderWindow& app)
 
 
 	player.setScale(0.6, 0.6);
-	player.setPosition(550, 650);
+	player.setPosition(555, 610);
+
+	bool exitNotPressed = true;
 
 	sf::Clock clock;
 
-	while (app.isOpen())
+	
+	while (exitNotPressed)
 	{
 		sf::Event event;
 		while (app.pollEvent(event))
@@ -220,7 +223,7 @@ void Stadium::draw(sf::RenderWindow& app)
 					{
 						art_alive = false;
 						disablePokemon(*articuno);
-						player.setPosition(550, 650);
+						player.setPosition(555, 610);
 					}
 				}
 			}
@@ -236,7 +239,7 @@ void Stadium::draw(sf::RenderWindow& app)
 					{
 						molt_alive = false;
 						disablePokemon(*moltres);
-						player.setPosition(550, 650);
+						player.setPosition(555, 610);
 					}
 				}
 			}
@@ -252,12 +255,17 @@ void Stadium::draw(sf::RenderWindow& app)
 					{
 						zap_alive = false;
 						disablePokemon(*zapdos);
-						player.setPosition(550, 650);
+						player.setPosition(555, 610);
 					}
 				}
 			}
 		}
-		
+
+		if (exit.intersects(player.getGlobalBounds()))
+		{
+			exitNotPressed = false;
+		}
+
 		app.clear();
 		
 		app.draw(bg);
@@ -280,4 +288,5 @@ void Stadium::draw(sf::RenderWindow& app)
 
 	}
 	player.setPosition(630, 100);
+	player.setScale(0.3, 0.3);
 }

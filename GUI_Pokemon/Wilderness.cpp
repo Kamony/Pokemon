@@ -150,28 +150,10 @@ void Wilderness::draw(sf::RenderWindow& app)
 			FramePlayer = 0.3;
 		}
 
-		if (counter % 20 == 0)
-		{
-			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
-				pokemon.randomWalk(mRight, 1, 1, five(rng));
-
-			}
-		}
-		else
-			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
-				pokemon.walk(mRight, 1, 1);
-
-			}
-		counter++;
+	
 
 		handlePlayerMovement(player, lastDirectionOfMovement, mRightPlayer, movingArea);
 
-		/*if (movingArea.intersects(player.getSurroundings()))
-		{
-			lastDirectionOfMovement = movePlayer(player, mRightPlayer, 2.5, 2.5, 0);
-		}
-		else { movePlayer(player, mRightPlayer, 2.5, 2.5, lastDirectionOfMovement); }
-*/
 		sprite_.setPosition(0, 0);
 
 		// go back to main bg
@@ -237,6 +219,22 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}
 			app.draw(pokemon);
 		}
+
+		// move pokemon
+		if (counter % 20 == 0)
+		{
+			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
+				pokemon.randomWalk(mRight, 1, 1, five(rng));
+
+			}
+		}
+		else
+			for (GraphicPokemon& pokemon : listOfGraphicsPokemon) {
+				pokemon.walk(mRight, 1, 1);
+
+			}
+		counter++;
+
 		app.draw(player.getCollideArea());
 		app.draw(player);
 		statOfPlayer.drawStatistic(app, view.getCenter());

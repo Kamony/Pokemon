@@ -374,6 +374,7 @@ void Game::Play(sf::RenderWindow& app)
 					std::cout << "shop" << std::endl;
 					app.setView(app.getDefaultView());
 					store.draw(app);
+					player.setPosition(1000,600);
 				}
 			}
 

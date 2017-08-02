@@ -16,7 +16,7 @@ class Stadium : public Game
 	sf::Font font;
 
 	bool art_alive, zap_alive, molt_alive;
-	sf::FloatRect movingArea;
+	sf::FloatRect movingArea,exit;
 
 	Player& player;
 	Stadion stadionBackEnd;
