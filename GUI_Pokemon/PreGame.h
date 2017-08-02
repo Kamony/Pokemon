@@ -10,8 +10,8 @@ class PreGame
 	int chosenPok;
 	sf::Font font;
 	sf::Text intro, enterButton;
-	sf::Texture oakT, bulbT, charT, squirT;
-	sf::Sprite oak, bulbasaur,charmander,squirtle;
+	sf::Texture oakT, bulbT, charT, squirT, bg_texture;
+	sf::Sprite oak, bulbasaur,charmander,squirtle, bg;
 	sf::RectangleShape area;
 	
 public:

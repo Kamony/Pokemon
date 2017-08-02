@@ -23,7 +23,7 @@ private:
 	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack,  tStatistic;
 	// Sprites
 	sf::Sprite sShop, sMainBG, sShopBG, sBackPack,sStatistic;
-	sf::Text help;
+	sf::Text help, about;
 	sf::Font font;
 protected:
 	sf::Texture tControls;
@@ -36,6 +36,9 @@ public:
 	Game(int& W, int& H);
 	~Game();
 	
+
+	void initAbout();
+
 	int movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledDirection);
 	
 	bool Collide(sf::Sprite &s1, sf::Sprite &s2);
@@ -45,7 +48,7 @@ public:
 	void newGameInit(sf::RenderWindow& app);
 	
 	void Play(sf::RenderWindow &app);
-	
+	void showAbout(sf::RenderWindow& app);
 
 };
 

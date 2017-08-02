@@ -136,7 +136,7 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 	vysledek.setCharacterSize(40);
 	vysledek.setPosition(350, 300);
 	vysledek.setOutlineColor(sf::Color::Black);
-	vysledek.setOutlineThickness(20);
+	vysledek.setOutlineThickness(10);
 	// chyceni na backendu
 	bool result = trener.ChytPokemona(pokemon);
 

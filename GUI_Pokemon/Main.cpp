@@ -50,12 +50,13 @@ int main()
 						break;
 					case 1:
 						std::cout << "ABOUT BUTTON" << std::endl;
+						game.showAbout(app);
 						break;
 					case 2:
 						std::cout << "EXIT BUTTON" << std::endl;
 						app.close();
+						break;
 					}
-					break;
 				}
 				break;
 			case Event::Closed:

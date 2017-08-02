@@ -58,7 +58,10 @@ Game::Game(int& W, int& H)
 	help.setString("Hold 'C' to show controls");
 	help.setFillColor(sf::Color::Black);
 
-	help.setCharacterSize(11);
+
+
+	help.setCharacterSize(11);	
+	
 	// backend backPack instance
 	b = Batoh(5, 4);
 	// backend trener
@@ -78,6 +81,13 @@ Game::Game(int& W, int& H)
 
 Game::~Game()
 {
+}
+
+void Game::initAbout()
+{
+	about = sf::Text("Pokemon game was created as a final work in c++.\nIt uses amateur graphics with help of graphical library - SFML\nJiri Hauser - 2nd term 2017\nthe University of South Bohemia\n\n\nPress 'B' to go back", font, 20);
+	about.setFillColor(sf::Color::White);
+	about.setPosition(100, 100);
 }
 
 int Game::movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledDirection)
@@ -216,7 +226,7 @@ void Game::newGameInit(sf::RenderWindow& app)
 	{
 	case 1:
 		{
-			Pokemon *bulb = new Pokemon("Bulbasaur", Pokemon::Travni, 20, 5);
+			Pokemon *bulb = new Pokemon("Bulbasaur", Pokemon::Travni, 23, 5);
 			t.pridejPokemona(*bulb);
 			
 			break;
@@ -230,7 +240,7 @@ void Game::newGameInit(sf::RenderWindow& app)
 		}
 	case 3:
 		{
-			Pokemon *squirt = new Pokemon("Squirtle", Pokemon::Vodni, 10, 6);
+			Pokemon *squirt = new Pokemon("Squirtle", Pokemon::Vodni, 14, 6);
 			t.pridejPokemona(*squirt);
 			
 			break;
@@ -396,6 +406,25 @@ void Game::Play(sf::RenderWindow& app)
 		{
 			app.draw(sControls);
 		}
+		app.display();
+	}
+}
+
+void Game::showAbout(sf::RenderWindow& app)
+{
+	initAbout();	
+	bool backNotPressed = true;
+	
+	while (backNotPressed)
+	{
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+		{
+			backNotPressed = false;
+		}
+
+		app.clear();
+		app.draw(about);
 		app.display();
 	}
 }

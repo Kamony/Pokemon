@@ -13,8 +13,11 @@ PreGame::PreGame()
 	}
 
 	intro.setFont(font);
-	intro.setString("Welcome trainer, you are about to go to a journey to the world of POKEMON.\n Before you proceed, choose one pokemon below to help you on your journey.\n  Choose wisely,\n each pokemon is of some type and is strong against different enemies,\n  just like in real world, where water is stronger than fire.");
-	intro.setPosition(135, 50);
+	intro.setCharacterSize(25);
+	intro.setOutlineColor(sf::Color::Black);
+	intro.setOutlineThickness(3);
+	intro.setString("Welcome trainer, you are about to go to a journey to the world of POKEMON.\nBefore you proceed, choose one pokemon below to help you on your journey.\nChoose wisely,\neach pokemon is of some type and is strong against different enemies,\njust like in real world, where water is stronger than fire.\nTo win you have to defeat local champion of the gym, but his pokemons are strong,\nso you should first go into the wild to catch some reinforcements.");
+	intro.setPosition(145, 50);
 
 	enterButton.setFont(font);
 	enterButton.setString("PRESS 'Space' TO CHOOSE");
@@ -27,6 +30,14 @@ PreGame::PreGame()
 
 	oak.setTexture(oakT);
 	oak.setPosition(5, 5);
+
+	if (!bg_texture.loadFromFile("../Images/catchBG.png"))
+	{
+		std::cerr << "texture not loaded - Battle" << std::endl;
+	}
+
+	// sprites
+	bg.setTexture(bg_texture);
 
 
 	if (!bulbT.loadFromFile("../Images/pokemons/bulbasaur.png"))
@@ -48,10 +59,6 @@ PreGame::PreGame()
 		std::cerr << "texture error";
 	}
 	squirtle.setTexture(squirT);
-
-	/*bulbasaur.setTextureRect(sf::IntRect(0, 0, 192, 192));
-	charmander.setTextureRect(sf::IntRect(0, 0, 192, 192));
-	squirtle.setTextureRect(sf::IntRect(0, 0, 192, 192));*/
 
 	bulbasaur.setPosition(intro.getPosition() + sf::Vector2f(150, 300));
 	charmander.setPosition(bulbasaur.getPosition() + sf::Vector2f(200, 0));
@@ -157,9 +164,7 @@ void PreGame::draw(sf::RenderWindow& app)
 
 		app.clear();
 		
-
-
-
+		app.draw(bg);
 		app.draw(oak);
 		app.draw(intro);
 		app.draw(area);
