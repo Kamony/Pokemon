@@ -34,6 +34,14 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 		std::cerr << "font not loaded";
 	}
 
+	if (!bg_texture.loadFromFile("../Images/resultBG.png"))
+	{
+		std::cerr << "texture not loaded - Battle" << std::endl;
+	}
+
+	// sprites
+	bg.setTexture(bg_texture);
+
 	winner.setFont(font);
 	winner.setFillColor(sf::Color::White);
 	winner.setCharacterSize(40);
@@ -141,6 +149,7 @@ void ResultAnime::animateResult(sf::RenderWindow& app, int stav, int counter, bo
 		}
 
 		app.clear();
+		app.draw(bg);
 
 		if (stav != 3)
 		{
@@ -154,7 +163,7 @@ void ResultAnime::animateResult(sf::RenderWindow& app, int stav, int counter, bo
 		}
 
 		
-
+		
 		app.draw(resultOfCatch);
 		app.draw(winner);
 		app.draw(name);
@@ -235,7 +244,7 @@ void ResultAnime::draw(sf::RenderWindow& app, GraphicPokemon& loser, int stav)
 			pokemonCaught = player.catchPok(app, loser.getPosition(), loser.getPokemon());
 			break;
 		}
-
+		app.draw(bg);
 		app.draw(actionButton);
 		app.draw(backButton);
 		app.draw(pokeball);
@@ -268,7 +277,7 @@ void ResultAnime::drawOnlyResult(sf::RenderWindow& app)
 			}
 		}
 		app.clear();
-
+		app.draw(bg);
 		app.draw(resultOfCatch);
 		app.draw(backButton);
 		app.display();

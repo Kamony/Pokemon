@@ -9,8 +9,8 @@ class ResultAnime
 {
 	sf::Text winner, name, backButton, resultOfCatch, actionButton, continueText;
 	sf::Font font;
-	sf::Texture pokeball_t;
-	sf::Sprite pokeball;
+	sf::Texture pokeball_t, bg_texture;
+	sf::Sprite pokeball, bg;
 	Player& player;
 	bool backNotPressed;
 	bool pokemonCaught;

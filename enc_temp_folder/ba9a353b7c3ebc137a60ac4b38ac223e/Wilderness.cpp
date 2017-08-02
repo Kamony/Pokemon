@@ -168,6 +168,11 @@ void Wilderness::draw(sf::RenderWindow& app)
 
 
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		{
+			app.draw(sControls);
+		}
+
 
 		// handle collisions
 		for (GraphicPokemon& pokemon : listOfGraphicsPokemon)
@@ -229,16 +234,14 @@ void Wilderness::draw(sf::RenderWindow& app)
 
 			}
 		counter++;
-		
+
+
+
 		app.setView(view);
 		
 		app.draw(player);
 		statOfPlayer.drawStatistic(app, view.getCenter());
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-		{
-			app.draw(sControls);
-		}
 
 		app.display();
 	}
