@@ -9,6 +9,14 @@ Store::Store(Player &player)
 	this->player = &player;
 	this->obchod = Obchod();
 
+
+	if (!bg_texture.loadFromFile("../Images/playerTools/Pokedex.png"))
+	{
+		std::cerr << "texture not loaded - STORE" << std::endl;
+	}
+	bg.setTexture(bg_texture);
+
+
 	money.setFont(font);
 	money.setString("Your money: " + std::to_string(player.getBackEndTrener()->getPenize()));
 	money.setPosition(sf::Vector2f(450, 100));
@@ -114,7 +122,7 @@ void Store::draw(sf::RenderWindow& app)
 				app.close();
 		}
 
-	
+		app.draw(bg);
 
 		for (unsigned int i = 0; i < menu.size(); i++)
 		{

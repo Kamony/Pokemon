@@ -7,6 +7,8 @@
 class Store : public MenuGeneric
 {
 	Obchod obchod;
+	sf::Texture bg_texture;
+	sf::Sprite bg;
 	sf::Text money, buyPokebal, buyPotion, stav, returnButton;
 
 	Player* player;
