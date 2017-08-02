@@ -20,9 +20,9 @@ private:
 	sf::FloatRect movingArea;
 
 	// Textures
-	sf::Texture tHuman, tShop, tMainBG, tShopBG, tBackPack,  tStatistic;
+	sf::Texture tMainBG,  tStatistic;
 	// Sprites
-	sf::Sprite sShop, sMainBG, sShopBG, sBackPack,sStatistic;
+	sf::Sprite sMainBG, sStatistic;
 	sf::Text help, about;
 	sf::Font font;
 protected:

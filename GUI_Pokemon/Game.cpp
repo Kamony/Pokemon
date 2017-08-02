@@ -26,24 +26,20 @@ Game::Game(int& W, int& H)
 	
 	if (!tControls.loadFromFile("../Images/playerTools/controls.png") ||
 		!tMainBG.loadFromFile("../Images/MainBG.jpg.png") ||
-		!tStatistic.loadFromFile("../Images/playerTools/statistic.png") ||
-		!tBackPack.loadFromFile("../Images/backpack.png"))
+		!tStatistic.loadFromFile("../Images/playerTools/statistic.png")
+		)
 	{
 		std::cerr << "textury nenacteny - GAME" << std::endl;
 	}
 
-	tBackPack.setSmooth(true);
+	
 
 	// Main background
 	sMainBG.setTexture(tMainBG);
 	sMainBG.setTextureRect(sf::IntRect(0, 0, W, H));
 	sMainBG.setOrigin(0, 0);
 	
-	// backpack
-	sBackPack.setTexture(tBackPack);
-	sBackPack.setTextureRect(sf::IntRect(113, 79, 670, 840));
-	sBackPack.setScale(0.05, 0.05);
-	
+		
 	sControls.setTexture(tControls);
 	sControls.setScale(0.6, 0.6);
 
@@ -259,12 +255,7 @@ void Game::Play(sf::RenderWindow& app)
 	
 	
 	//test
-	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 50, 30));
-	t.pridejPokemona(Pokemon("b321321aba", Pokemon::Elektricky, 50, 30));
-	t.pridejPokemona(Pokemon("bababfdsfa", Pokemon::Elektricky, 50, 30));
-	t.pridejPokemona(Pokemon("babahhba", Pokemon::Elektricky, 50, 30));
-	t.pridejPokemona(Pokemon("babadfsdba", Pokemon::Elektricky, 50, 30));
-
+	//	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 50, 30));
 	//konec test
 
 
@@ -401,7 +392,6 @@ void Game::Play(sf::RenderWindow& app)
 
 		statOfPlayer.drawStatistic(app, view.getCenter());
 		
-		app.draw(sBackPack);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 		{
 			app.draw(sControls);

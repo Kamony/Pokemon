@@ -22,7 +22,7 @@ ListOfPokemon::ListOfPokemon(float w, float h, Player &player)
 
 		item.setFont(font);
 		item.setFillColor(sf::Color::White);
-		item.setPosition(sf::Vector2f(w / 4.5, 25*(i+1)));
+		item.setPosition(sf::Vector2f(w / 4.5, 30*(i+1)));
 				
 		this->list[i].setPosition(item.getPosition() + sf::Vector2f(-60, 0));
 		nameOfPok = list[i].getPokemon().getJmeno();
