@@ -161,6 +161,30 @@ void Stadium::draw(sf::RenderWindow& app)
 			{
 				app.close();
 			}
+			if (event.type == sf::Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+				case sf::Keyboard::I:
+				{
+					std::cout << "BATOH" << std::endl;
+					BackPack batoh = BackPack(1200, 800, player, player.getBackEndTrener());
+
+					batoh.draw(app);
+					break;
+				}
+				case sf::Keyboard::S:
+				{
+					std::cout << "SHOP" << std::endl;
+
+					Store store(player);
+					store.draw(app);
+					break;
+				}
+				default:
+					break;
+				}
+			}
 		}
 
 

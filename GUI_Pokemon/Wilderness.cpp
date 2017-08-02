@@ -15,7 +15,6 @@ void Wilderness::initWilderness(std::uniform_int_distribution<> randomXcoordinat
 	{
 		GraphicPokemon* item = new GraphicPokemon(&pokemon, randomXcoordinate(rng), randomYcoordinate(rng));
 		listOfGraphicsPokemon.push_back(*item);
-		
 	}
 }
 
@@ -58,7 +57,8 @@ void Wilderness::draw(sf::RenderWindow& app)
 {
 	
 	float Frame = 0;
-	float animSpeed = 0.15;
+	float animSpeed = 0.3;
+	float animSpeedPOK = 0.15;
 	int frameCount = 20;
 	int mRight = 0;
 	int mRightPlayer = 0;
@@ -70,7 +70,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 	Statistic statOfPlayer = Statistic(player);
 	Store store(player);
 
-	
+
 	// distribution that maps 1 - 5
 	std::uniform_int_distribution<> five(1, 5);
 
@@ -133,7 +133,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 
 
 		//sprite animation of pokemon
-		Frame += animSpeed;
+		Frame += animSpeedPOK;
 		if (Frame > frameCount) Frame -= frameCount;
 		mRight = int(Frame) * 32;
 		if (mRight > 70) {

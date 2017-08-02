@@ -53,6 +53,8 @@ ResultAnime::ResultAnime(Player& player,std::string nameOfWinner, GraphicPokemon
 	name.setCharacterSize(60);
 	name.setString(nameOfWinner);
 	name.setPosition(winner.getPosition() + sf::Vector2f(5, 50));
+	name.setOutlineColor(sf::Color::Black);
+	name.setOutlineThickness(2);
 
 	backButton.setFont(font);
 	backButton.setFillColor(sf::Color::White);

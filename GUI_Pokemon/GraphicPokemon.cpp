@@ -1,7 +1,4 @@
 #include "GraphicPokemon.h"
-#include <ctime>
-#include <random>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
 
@@ -33,8 +30,6 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 	surroundings.setRadius(35);
 	surroundings.setFillColor(sf::Color::Green);
 
-	//utok = 0;
-
 	setPosition(this->x, this->y);
 
 }
@@ -50,8 +45,8 @@ GraphicPokemon::~GraphicPokemon()
 void GraphicPokemon::refactorCoordinates()
 {
 	// check for boundaries
-	if (x > 1168) x = 1168;
-	if (y > 775) y = 775;
+	if (x > 1130) x = 1129;
+	if (y > 750) y = 749;
 	if (x < 10) x = 10;
 	if (y < 16) y = 16;
 }

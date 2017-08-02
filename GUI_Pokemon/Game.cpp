@@ -111,8 +111,6 @@ int Game::movePlayer(Player& sPlayer, int& mRight, int mx, int my, int disabledD
 	}
 }
 
-
-
 bool Game::Collide(sf::Sprite &s1, sf::Sprite &s2)
 {
 	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
@@ -252,14 +250,11 @@ void Game::newGameInit(sf::RenderWindow& app)
 void Game::Play(sf::RenderWindow& app)
 {
 	newGameInit(app);
-	
-	
+		
 	//test
 	//	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 50, 30));
 	//konec test
-
-
-
+	
 	Player player = Player(t);
 	player.synchronizeFrontAndBackEnd();
 	// statistic of Player - status bar
@@ -270,21 +265,18 @@ void Game::Play(sf::RenderWindow& app)
 	Store store(player);
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
-
-
+	
 	float Frame = 0;
 	float animSpeed = 0.3;
 	int frameCount = 20;
-	int mRight=0;
+	int mRight = 0;
 	bool inShop = false;
 	int countOfC = 0;
 	int lastDirectionOfMovement = 0;
 
 	sf::View view;
 	initView(view);
-
-	
-	
+		
 	// game loop
 	while (app.isOpen())
 	{
@@ -384,7 +376,7 @@ void Game::Play(sf::RenderWindow& app)
 			
 		app.draw(sMainBG);
 
-		app.draw(player.getCollideArea());
+		//app.draw(player.getCollideArea());
 		app.draw(player);
 				
 		app.setView(view);
