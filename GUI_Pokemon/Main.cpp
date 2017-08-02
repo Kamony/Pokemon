@@ -11,7 +11,7 @@ int H = 800;
 
 int main()
 {
-	// gmae window 60 fps
+	// game window 60 fps
 	RenderWindow app(VideoMode(W, H), "Pokemon!");
 	app.setFramerateLimit(60);
 	

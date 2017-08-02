@@ -148,18 +148,22 @@ void FightAnime::animateIntroOfFight(sf::RenderWindow& app, sf::Clock clock)
 	nameP2.setPosition(500,350);
 	nameP2.setCharacterSize(40);
 	nameP2.setFillColor(sf::Color::Red);
-
+	
+	//versus
 	Intro.setPosition(510, 400);
+	Intro.setOutlineColor(sf::Color::Black);
+	Intro.setOutlineThickness(10);
 
 	nameP1.setPosition(500,450);
 	nameP1.setCharacterSize(40);
 	nameP1.setFillColor(sf::Color::Green);
 
-	while (clock.getElapsedTime().asSeconds() < 3)
+	while (clock.getElapsedTime().asSeconds() < 4)
 	{
 		nameP1.move(-1, -1);
 		nameP2.move(1, 1);
 		app.clear();
+		app.draw(bg);
 		app.draw(nameP1);
 		app.draw(nameP2);
 		app.draw(Intro);
@@ -386,7 +390,6 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 			{
 				std::cout << "KONEC BOJE REMIZA";
 				ResultAnime result(player, app, 2);
-				//pokemonCaught = result.getResult();
 				break;
 			}
 			else
@@ -395,7 +398,6 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 				{
 					std::cout << "KONEC BOJE PROHRA";
 					ResultAnime result(player, app, 3);
-					//pokemonCaught = result.getResult();
 					break;
 				}
 				else
@@ -404,7 +406,6 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 					{
 						std::cout << "KONEC BOJE VYHRA";
 						ResultAnime result(player, app, 1);
-						//pokemonCaught = result.getResult();
 						break;
 					}
 				}

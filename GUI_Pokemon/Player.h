@@ -10,9 +10,9 @@ class Player: public sf::Sprite
 {
 private:
 	// textures
-	sf::Texture texture_, battleTexture;
+	sf::Texture texture_, battleTexture, bg_texture;
 	// sprite
-	Sprite battle;
+	Sprite battle,bg;
 	/// position coordinates
 	float x, y;
 	/// collision area;

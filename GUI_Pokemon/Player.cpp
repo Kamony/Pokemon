@@ -16,9 +16,17 @@ Player::Player(Trener& trener):trener(trener)
 	
 	if( !texture_.loadFromFile("../Images/Human.png") )
 	{
-		std::cerr << "Texture was not loaded";
+		std::cerr << "texture not loaded - Player" << std::endl;
 	}
 	texture_.setSmooth(true);
+
+	if (!bg_texture.loadFromFile("../Images/catchBG.png"))
+	{
+		std::cerr << "texture not loaded - Player" << std::endl;
+	}
+
+	// sprites
+	bg.setTexture(bg_texture);
 
 	setTexture(texture_);
 	setTextureRect(sf::IntRect(0, 0, 95, 159));
@@ -113,6 +121,7 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 		battle.setPosition(position);
 		battle.move(sf::Vector2f(-35, -55));
 		app.clear();
+		app.draw(bg);
 		app.draw(battle);
 		app.display();
 	}
@@ -126,7 +135,9 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 	vysledek.setFont(font);
 	vysledek.setCharacterSize(40);
 	vysledek.setPosition(350, 300);
-
+	vysledek.setOutlineColor(sf::Color::Black);
+	vysledek.setOutlineThickness(20);
+	// chyceni na backendu
 	bool result = trener.ChytPokemona(pokemon);
 
 	while (clock.getElapsedTime().asMilliseconds() < 2500)
@@ -143,6 +154,7 @@ bool Player::catchPok(sf::RenderWindow& app, sf::Vector2f position, Pokemon& pok
 			}
 
 		app.clear();
+		app.draw(bg);
 		app.draw(vysledek);
 		app.display();
 	}
