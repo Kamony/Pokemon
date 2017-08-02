@@ -165,7 +165,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 		app.clear();
 
 		app.draw(sprite_);
-		app.setView(view);
+
 
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
@@ -235,7 +235,10 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}
 		counter++;
 
-		app.draw(player.getCollideArea());
+
+
+		app.setView(view);
+		
 		app.draw(player);
 		statOfPlayer.drawStatistic(app, view.getCenter());
 		

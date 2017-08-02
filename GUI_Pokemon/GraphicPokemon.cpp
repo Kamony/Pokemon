@@ -26,7 +26,7 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 	texture_.setSmooth(true);
 	// sprite
 	setTexture(texture_);
-	//setTextureRect(sf::IntRect(0, 0, 32, 32));
+	setTextureRect(sf::IntRect(0, 0, 32, 32));
 	// direction of last move
 	lastDirection = 0;
 	// initialize circle shaped surrounding area

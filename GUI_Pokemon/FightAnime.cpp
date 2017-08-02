@@ -5,17 +5,6 @@
 #include "ResultAnime.h"
 
 
-//FightAnime::FightAnime(Player& p, Pokemon& pok1, Pokemon& pok2, sf::RenderWindow& app):pokemon1(pok1), pokemon2(pok2), player(player)
-//{
-//	// set battle status of both pokemons
-//	souboj = new Arena(pokemon1, pokemon2);
-//
-//	pokemon1.setForBattle(souboj->getUtokPok1(), souboj->getObranaPok1());
-//	pokemon2.setForBattle(souboj->getUtokPok2(), souboj->getObranaPok2());
-//
-//
-//}
-
 void FightAnime::initGraphics()
 {
 	// textures
@@ -31,7 +20,16 @@ void FightAnime::initGraphics()
 	{
 		std::cerr << "texture not loaded";
 	}
+
+
+	if (!bg_texture.loadFromFile("../Images/battleBG.png"))
+	{
+		std::cerr << "texture not loaded - Battle" << std::endl;
+	}
+	
 	// sprites
+	bg.setTexture(bg_texture);
+
 	upperPok.setTexture(pokHealthBar);
 	upperPok.setTextureRect(sf::IntRect(0, 0, 179, 32));
 	healthUp.setTexture(pokHealthBar);
@@ -45,7 +43,7 @@ void FightAnime::initGraphics()
 	healthBot.setScale(1, 0.35);
 
 	upperPok.setPosition(50, 80);
-	bottomPok.setPosition(900, 600);
+	bottomPok.setPosition(950, 700);
 	healthUp.setPosition(upperPok.getPosition()+ sf::Vector2f(12, 6));
 	
 	healthBot.setPosition(bottomPok.getPosition()+ sf::Vector2f(12, 6));
@@ -56,7 +54,7 @@ void FightAnime::initGraphics()
 
 	battle.setTexture(battle_t);
 	battle.setTextureRect(sf::IntRect(0, 0, 200, 150));
-	battle.setPosition(250, 150);
+	battle.setPosition(300, 200);
 	battle.setScale(3, 3);
 
 	//texts
@@ -206,10 +204,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 
 	
 		animateBattle(animSpeed-0.05, frameCount, FrameB, mRightB);
-
-		
-
-
+				
 		// every second do iteration
 		sf::Int32 msec = clock.getElapsedTime().asMilliseconds();
 		if( msec % 1000 <= 100 )
@@ -270,7 +265,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					
 					app.clear();
 
-					
+					app.draw(bg);
 					app.draw(nameP1);
 					app.draw(nameP2);
 					app.draw(healthUp);
@@ -311,7 +306,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 					
 					app.clear();
 
-
+					app.draw(bg);
 					app.draw(nameP1);
 					app.draw(nameP2);
 					app.draw(healthUp);
@@ -330,7 +325,7 @@ void FightAnime::draw(sf::RenderWindow& app)
 
 
 		app.clear();
-
+		app.draw(bg);
 		app.draw(nameP1);
 		app.draw(nameP2);
 		app.draw(healthUp);
@@ -442,7 +437,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 
 					app.clear();
 
-
+					app.draw(bg);
 					app.draw(nameP1);
 					app.draw(nameP2);
 					app.draw(healthUp);
@@ -483,7 +478,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 
 					app.clear();
 
-
+					app.draw(bg);
 					app.draw(nameP1);
 					app.draw(nameP2);
 					app.draw(healthUp);
@@ -502,7 +497,7 @@ void FightAnime::drawForStadium(sf::RenderWindow& app)
 
 
 		app.clear();
-
+		app.draw(bg);
 		app.draw(nameP1);
 		app.draw(nameP2);
 		app.draw(healthUp);
