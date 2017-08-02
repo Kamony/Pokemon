@@ -3,6 +3,7 @@
 #include "pokeballG.h"
 #include "FightAnime.h"
 #include "ListOfPokemon.h"
+#include "Statistic.h"
 
 Wilderness::Wilderness():Game(),player(Player())
 {
@@ -18,7 +19,7 @@ void Wilderness::initWilderness(std::uniform_int_distribution<> randomXcoordinat
 	}
 }
 
-Wilderness::Wilderness(Player& p,float w, float h) :Game(), W(w), H(h),player(p)
+Wilderness::Wilderness(Player& p,float w, float h) :W(w), H(h),player(p)
 {
 	rng();
 	
@@ -55,7 +56,7 @@ void Wilderness::deletePokemon(Pokemon& p)
 
 void Wilderness::draw(sf::RenderWindow& app)
 {
-	float x = 300, y = 300;
+	
 	float Frame = 0;
 	float animSpeed = 0.15;
 	int frameCount = 20;
@@ -65,12 +66,15 @@ void Wilderness::draw(sf::RenderWindow& app)
 	int counter = 0;
 	int pokCounter = 0;
 
-	/*Player player;*/
+
+	Statistic statOfPlayer = Statistic(player);
+	Store store(player);
+
 	
 	// distribution that maps 1 - 5
 	std::uniform_int_distribution<> five(1, 5);
 
-	pokeballG pokeball;
+
 	sf::View view;
 	initView(view);
 
@@ -92,12 +96,32 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}
 			if (event.type == sf::Event::KeyPressed)
 			{
-				if (event.key.code == sf::Keyboard::Space)
-				{/*
-					std::cout << "Hod";
-					pokeball.isTrown();
-					pokeball.setInitPosition(player.getPosition());
-				*/}
+				switch (event.key.code)
+				{
+				case sf::Keyboard::I:
+				{
+					std::cout << "BATOH" << std::endl;
+					BackPack batoh = BackPack(W, H, player, player.getBackEndTrener());
+					app.setView(app.getDefaultView());
+					batoh.draw(app);
+					break;
+				}
+				case sf::Keyboard::S:
+				{
+					std::cout << "SHOP" << std::endl;
+					app.setView(app.getDefaultView());
+					store.draw(app);
+					break;
+				}
+				
+				case sf::Keyboard::C:
+				{
+					sControls.setPosition(view.getCenter() + sf::Vector2f(-130, -135));
+					break;
+				}
+				default:
+					break;
+				}
 			}
 		}
 
@@ -159,20 +183,11 @@ void Wilderness::draw(sf::RenderWindow& app)
 		app.draw(sprite_);
 		app.setView(view);
 
-		//// handle pokeball
-		//if (pokeball.getState())
-		//{
-		//	pokCounter++;
-		//	int xc = pokeball.getX();
-		//	int yc = pokeball.getYThrowCoordinate();
-		//	pokeball.setPosition(xc, yc);
-		//	app.draw(pokeball);
 
-		//	if (pokCounter > 100)
-		//	{
-		//		pokeball.reset();
-		//	}
-		//}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		{
+			app.draw(sControls);
+		}
 
 
 		// handle collisions
@@ -187,8 +202,8 @@ void Wilderness::draw(sf::RenderWindow& app)
 					sf::FloatRect pok2 = oPokemon.getSurroundings();
 					if (pok1.intersects(pok2))
 					{
-						oPokemon.avoidNeighbours(mRight, 2, 2);
-						pokemon.avoidNeighbours(mRight, 2, 2);
+						oPokemon.avoidNeighbours(mRight, 1, 1);
+						pokemon.avoidNeighbours(mRight, 1, 1);
 					}
 				}
 			}
@@ -207,13 +222,8 @@ void Wilderness::draw(sf::RenderWindow& app)
 						FightAnime fight(player, *chosenFromPlayer, pokemon, app);
 						if (fight.getResult())
 						{
-							// copy caught pokemon into variable to not be lost when refactoring pointers
-							Pokemon caught = pokemon.getPokemon();
-							caught.setJmeno(pokemon.getPokemon().getJmeno());
-
 							deletePokemon(pokemon.getPokemon());
 							player.synchronizeFrontAndBackEnd();
-							//player.addGraphicPokemon(GraphicPokemon(&caught,0,0));
 							break;
 						}else
 							{
@@ -227,7 +237,7 @@ void Wilderness::draw(sf::RenderWindow& app)
 		}
 		app.draw(player.getCollideArea());
 		app.draw(player);
-
+		statOfPlayer.drawStatistic(app, view.getCenter());
 		
 
 		app.display();

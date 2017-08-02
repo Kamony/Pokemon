@@ -9,15 +9,18 @@ ListOfPokemon::ListOfPokemon(float w, float h, Player &player)
 	this->sum = player.getGraphicPokemonList().size();
 	this->list = player.getGraphicPokemonList();
 	std::string nameOfPok;
+
+	
+
 	for (unsigned int i = 0; i<sum; i++)
 	{
 		sf::Text item;
 
 		item.setFont(font);
 		item.setFillColor(sf::Color::White);
-		item.setPosition(sf::Vector2f(w / 4.5, h / (sum + 1) * i / 8));
-		this->list[i].setPosition(item.getPosition() + sf::Vector2f(-50, 0));
-		
+		item.setPosition(sf::Vector2f(w / 4.5, 25*(i+1)));
+				
+		this->list[i].setPosition(item.getPosition() + sf::Vector2f(-60, 0));
 		nameOfPok = list[i].getPokemon().getJmeno();
 		if (  nameOfPok == "Bulbasaur" || nameOfPok == "Charmander" || nameOfPok == "Squirtle")
 		{

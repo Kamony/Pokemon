@@ -11,7 +11,7 @@ class GraphicPokemon : public sf::Sprite
 {
 private:
 	//texture
-	sf::Texture texture_, battle;
+	sf::Texture texture_;
 	// pointer to object pokemon
 	Pokemon *pokemon_;
 	// position coordinates
@@ -19,8 +19,6 @@ private:
 	int lastDirection;
 	// area for colision avoidance
 	sf::CircleShape surroundings;
-
-	float utok;
 	
 public:
 
@@ -88,6 +86,5 @@ public:
 	 */
 	sf::FloatRect getSurroundings();
 
-	void setForBattle(float utok);
 };
 

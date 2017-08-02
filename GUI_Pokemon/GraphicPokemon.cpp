@@ -29,11 +29,11 @@ GraphicPokemon::GraphicPokemon(Pokemon* pokemon, float x, float y)
 	//setTextureRect(sf::IntRect(0, 0, 32, 32));
 	// direction of last move
 	lastDirection = 0;
-	// initialize ciscle shaped surrounding area
+	// initialize circle shaped surrounding area
 	surroundings.setRadius(35);
 	surroundings.setFillColor(sf::Color::Green);
 
-	utok = 0;
+	//utok = 0;
 
 	setPosition(this->x, this->y);
 
@@ -50,10 +50,10 @@ GraphicPokemon::~GraphicPokemon()
 void GraphicPokemon::refactorCoordinates()
 {
 	// check for boundaries
-	if (x > 1195) x = 1;
-	if (y > 795) y = 1;
-	if (x < 1) x = 1195;
-	if (y < 1) y = 795;
+	if (x > 1168) x = 1168;
+	if (y > 775) y = 775;
+	if (x < 10) x = 10;
+	if (y < 16) y = 16;
 }
 
 int GraphicPokemon::randomWalk(int& mRight, int mx, int my, int randNum)
@@ -155,6 +155,7 @@ void GraphicPokemon::avoidNeighbours(int mRight, int mx, int my)
 		default:
 			break;
 		}
+	refactorCoordinates();
 }
 
 sf::String GraphicPokemon::getID()
@@ -164,12 +165,7 @@ sf::String GraphicPokemon::getID()
 
 sf::FloatRect GraphicPokemon::getSurroundings()
 {
-	// ReSharper disable once CppMsExtBindingRValueToLvalueReference
 	surroundings.setPosition(x - 24, y - 24);
 	return surroundings.getGlobalBounds();
 }
 
-void GraphicPokemon::setForBattle(float utok)
-{
-	this->utok = utok;
-}

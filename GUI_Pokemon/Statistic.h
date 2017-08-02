@@ -56,8 +56,8 @@ public:
 		
 		statBar.setPosition(position + sf::Vector2f(120, -145));
 		penizeT.setPosition(statBar.getPosition() + sf::Vector2f(13, 3));
-		pokebalyT.setPosition(statBar.getPosition() + sf::Vector2f(46, 3));
-		potionyT.setPosition(statBar.getPosition() + sf::Vector2f(74, 3));
+		potionyT.setPosition(statBar.getPosition() + sf::Vector2f(46, 3));
+		pokebalyT.setPosition(statBar.getPosition() + sf::Vector2f(74, 3));
 
 		app.draw(statBar);
 		app.draw(penizeT);

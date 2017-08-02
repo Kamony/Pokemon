@@ -4,6 +4,7 @@
 #include "PreGame.h"
 #include "Stadium.h"
 #include "Store.h"
+#include "Statistic.h"
 
 Game::Game()
 {
@@ -11,9 +12,9 @@ Game::Game()
 	b = Batoh();
 	// backend trener
 	t = Trener();
-
-
-
+	tControls.loadFromFile("../Images/playerTools/controls.png");
+	sControls.setTexture(tControls);
+	sControls.setScale(0.6, 0.6);
 }
 
 Game::Game(int& W, int& H)
@@ -37,13 +38,6 @@ Game::Game(int& W, int& H)
 	sMainBG.setTexture(tMainBG);
 	sMainBG.setTextureRect(sf::IntRect(0, 0, W, H));
 	sMainBG.setOrigin(0, 0);
-
-	//// shopBG
-	//sShopBG.setTexture(tShopBG);
-	//sShopBG.setTextureRect(sf::IntRect(0, 0, W, H));
-
-	// Shop
-//	sShop.setTextureRect(sf::IntRect(2, 20, 228, 218));
 	
 	// backpack
 	sBackPack.setTexture(tBackPack);
@@ -213,47 +207,62 @@ void Game::handlePlayerMovement(Player& player, int& lastDirectionOfMovement, in
 	else { movePlayer(player, mRight, 2.5, 2.5, lastDirectionOfMovement); }
 }
 
-void Game::Play(sf::RenderWindow& app)
+void Game::newGameInit(sf::RenderWindow& app)
 {
 	PreGame intro;
 	intro.draw(app);
 		
 	switch (intro.getChosenPok())
 	{
-		case 1:
+	case 1:
 		{
 			Pokemon *bulb = new Pokemon("Bulbasaur", Pokemon::Travni, 20, 5);
 			t.pridejPokemona(*bulb);
 			
 			break;
 		}
-		case 2:
+	case 2:
 		{
 			Pokemon *charm = new Pokemon("Charmander", Pokemon::Ohnivy, 30, 4);
 			t.pridejPokemona(*charm);
 			
 			break;
 		}
-		case 3:
+	case 3:
 		{
 			Pokemon *squirt = new Pokemon("Squirtle", Pokemon::Vodni, 10, 6);
 			t.pridejPokemona(*squirt);
 			
 			break;
 		}
-		default:
+	default:
 			
-			break;
+		break;
 	}
-		
+}
+
+
+
+void Game::Play(sf::RenderWindow& app)
+{
+	newGameInit(app);
+	
+	
+	//test
+	t.pridejPokemona(Pokemon("bababa", Pokemon::Elektricky, 30, 2));
+	t.pridejPokemona(Pokemon("b321321aba", Pokemon::Elektricky, 30, 2));
+	t.pridejPokemona(Pokemon("bababfdsfa", Pokemon::Elektricky, 30, 2));
+	t.pridejPokemona(Pokemon("babahhba", Pokemon::Elektricky, 30, 2));
+	t.pridejPokemona(Pokemon("babadfsdba", Pokemon::Elektricky, 30, 2));
+
+	//konec test
+
+
+
 	Player player = Player(t);
 	player.synchronizeFrontAndBackEnd();
-
 	// statistic of Player - status bar
-	Statistic statOfPlayer = Statistic(player);
-		
-	int lastDirectionOfMovement = 0;
-	
+	Statistic statOfPlayer = Statistic(player);	
 	//stadium
 	Stadium stadium(player);
 	// store
@@ -261,13 +270,14 @@ void Game::Play(sf::RenderWindow& app)
 	// wilderness
 	Wilderness divocina = Wilderness(player,W, H);
 
-	//float x = 300, y = 300;
+
 	float Frame = 0;
 	float animSpeed = 0.3;
 	int frameCount = 20;
 	int mRight=0;
 	bool inShop = false;
 	int countOfC = 0;
+	int lastDirectionOfMovement = 0;
 
 	sf::View view;
 	initView(view);
@@ -277,44 +287,16 @@ void Game::Play(sf::RenderWindow& app)
 	// game loop
 	while (app.isOpen())
 	{
-		float vx = player.getPosition().x;
-		float vy = player.getPosition().y;
-
-		setViewCenter(player, view, vx, vy);
-		//sBackPack.setPosition(view.getCenter() + sf::Vector2f(170, -145));
-		
-		help.setPosition(view.getCenter() + sf::Vector2f(-190, -145));
-
-		//player animation
-		Frame += animSpeed;
-		if (Frame>frameCount) Frame -= frameCount;
-		mRight = int(Frame) * 95;
-		if (mRight > 1045) {
-			mRight = 0;
-			Frame = 0.3;
-		}
-		
-		
 		
 		// handle events
 		sf::Event event;
 		while (app.pollEvent(event))
 		{
-			if(event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed)
 			{
 				app.close();
 			}
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				std::cout << "KLICK!";
-				if (event.mouseButton.button == sf::Mouse::Left && sBackPack.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-				{
-					std::cout << "BATOH" << std::endl;
-					BackPack batoh = BackPack(W, H,player, &t);
-					app.setView(app.getDefaultView());
-					batoh.draw(app);
-				}
-			}
+
 			if (event.type == sf::Event::KeyPressed)
 			{
 				switch (event.key.code)
@@ -322,7 +304,7 @@ void Game::Play(sf::RenderWindow& app)
 				case sf::Keyboard::I:
 				{
 					std::cout << "BATOH" << std::endl;
-					BackPack batoh = BackPack(W, H,player, &t);
+					BackPack batoh = BackPack(W, H, player, &t);
 					app.setView(app.getDefaultView());
 					batoh.draw(app);
 					break;
@@ -340,19 +322,35 @@ void Game::Play(sf::RenderWindow& app)
 					divocina.draw(app);
 					break;
 				case sf::Keyboard::C:
-					{
-				    sControls.setPosition(view.getCenter() + sf::Vector2f(-130, -135));
+				{
+					sControls.setPosition(view.getCenter() + sf::Vector2f(-130, -135));
 					break;
-					}
+				}
 				default:
 					break;
 				}
 			}
 		}
+				
+		float vx = player.getPosition().x;
+		float vy = player.getPosition().y;
 
+		setViewCenter(player, view, vx, vy);
+				
+		help.setPosition(view.getCenter() + sf::Vector2f(-190, -145));
+
+		//player animation
+		Frame += animSpeed;
+		if (Frame>frameCount) Frame -= frameCount;
+		mRight = int(Frame) * 95;
+		if (mRight > 1045) {
+			mRight = 0;
+			Frame = 0.3;
+		}
+		
 		handlePlayerMovement(player, lastDirectionOfMovement, mRight, movingArea);
 		
-		sShop.setPosition(257, 14);
+		
 		sMainBG.setPosition(0, 0);
 
 		// handle shifts of places
@@ -379,29 +377,24 @@ void Game::Play(sf::RenderWindow& app)
 				}
 			}
 
-		
 		//draw
 		app.clear();
-
-	
+			
 		app.draw(sMainBG);
-		app.draw(sShop);
+
 		app.draw(player.getCollideArea());
 		app.draw(player);
-		
-		
+				
 		app.setView(view);
 		app.draw(help);
 
 		statOfPlayer.drawStatistic(app, view.getCenter());
 		
-
 		app.draw(sBackPack);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 		{
 			app.draw(sControls);
 		}
 		app.display();
-	
 	}
 }

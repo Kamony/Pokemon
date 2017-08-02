@@ -71,9 +71,6 @@ void BackPack::draw(sf::RenderWindow& window)
 {
 	std::cout << "BAGL" << std::endl;
 	
-
-
-
 	bool endDraw = true;
 	while (endDraw)
 	{
@@ -100,6 +97,7 @@ void BackPack::draw(sf::RenderWindow& window)
 						//re-initialization of pokemon list
 						ListOfPokemon list_of_pokemon(w, h, *player);
 						list_of_pokemon.draw(window);
+						items[1].setString(std::to_string(this->trener->getBatoh().getPotiony()));
 						break; }
 					case 1:
 						std::cout << "Back" << std::endl;
