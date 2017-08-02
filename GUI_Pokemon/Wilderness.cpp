@@ -36,7 +36,7 @@ Wilderness::Wilderness(Player& p,float w, float h) :W(w), H(h),player(p)
 	initWilderness(randomXcoordinate, randomYcoordinate);
 
 	exit = sf::FloatRect(0, 547, 38, 80);
-	movingArea = sf::FloatRect(8, 16, 1158, 754);
+	movingArea = sf::FloatRect(25, 30, 1125, 735);
 }
 
 Wilderness::~Wilderness()
@@ -164,12 +164,14 @@ void Wilderness::draw(sf::RenderWindow& app)
 			}
 		counter++;
 
-		if (movingArea.intersects(player.getSurroundings()))
+		handlePlayerMovement(player, lastDirectionOfMovement, mRightPlayer, movingArea);
+
+		/*if (movingArea.intersects(player.getSurroundings()))
 		{
 			lastDirectionOfMovement = movePlayer(player, mRightPlayer, 2.5, 2.5, 0);
 		}
 		else { movePlayer(player, mRightPlayer, 2.5, 2.5, lastDirectionOfMovement); }
-
+*/
 		sprite_.setPosition(0, 0);
 
 		// go back to main bg
